@@ -242,6 +242,36 @@ class Utility{
         }
         return result
     }
+    
+    // XOR
+    func xor(Data1: String,Data2:String) -> String {
+        var result:[String] = []
+        var d1str = Data1.hexaToBinary
+        var d2str = Data2.hexaToBinary
+        for i in 0..<d1str.count {
+            if d1str == d2str {
+                result[i] = "1"
+            }else{
+                result[i] = "0"
+            }
+        }
+        return binToHex(result.joined())!
+    }
+    
+    // Calculate Key
+    func CalculateKey(Kseed:String)->[String?]{
+        // Step 2 : Calculate Kenc and Kmac from Kseed
+        let c1:String = Kseed + "00000001"
+        let c2:String = Kseed + "00000002"
+        let Kenc = sha1HashData(data: c1.hexadecimal!).prefix(32)
+        let Kmac = sha1HashData(data: c2.hexadecimal!).prefix(32)
+        
+        // Step 3 : Adjust key parity
+        let KencA = AdjustParity(key: String(Kenc))
+        let KmacA = AdjustParity(key: String(Kmac))
+        
+        return [KencA,KmacA]
+    }
 
 }
 
@@ -303,9 +333,6 @@ extension Data {
     }
 
 
-    public func checkSum() -> Int {
-        return self.map { Int($0) }.reduce(0, +) & 0xff
-    }
 }
 
 // Hex to binary

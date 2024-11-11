@@ -29,19 +29,21 @@ class PassportLib
     
     func startReadDGData(mrz:String){
         
+        
         // Step 1 : Hash MRZ Data with SHA1 Algorithm
         let mrzData = mrz.data(using: .utf8)
         let Kseed = util?.sha1HashData(data: mrzData!).prefix(32)
         
-        // Step 2 : Calculate Kenc and Kmac from Kseed
-        let c1 = Kseed! + "00000001"
-        let c2 = Kseed! + "00000002"
-        let Kenc = util?.sha1HashData(data: c1.data(using: .utf8)!).prefix(32)
-        let Kmac = util?.sha1HashData(data: c2.data(using: .utf8)!).prefix(32)
+        // MARK: Step 2 / 3 : Calculate Kenc and Kmac from Kseed and adjust Parity
+        let Key1 = util?.CalculateKey(Kseed: String(Kseed!))
+        let c1:String = Kseed! + "00000001"
+        let c2:String = Kseed! + "00000002"
+        let Kenc = util?.sha1HashData(data: c1.hexadecimal!).prefix(32)
+        let Kmac = util?.sha1HashData(data: c2.hexadecimal!).prefix(32)
         
         // Step 3 : Adjust key parity
-        let KencA = util?.AdjustParity(key: String(Kenc!))
-        let KmacA = util?.AdjustParity(key: String(Kmac!))
+        let KencA = Key1![0]
+        let KmacA = Key1![1]
         
         print("Kenc : " + KencA!)
         print("Kmac : " + KmacA!)
@@ -67,32 +69,44 @@ class PassportLib
                                 print("error : ",error!)
                             }else{
                                 print("response : ",data?.hexadecimal ?? "nil")
-                                // Step 5 : Request 8 byte random number from Passport
+                                
+                                // MARK: Step 5 : Request 8 byte random number from Passport
                                 /*
                                  Send APDU Command : 0084000008
                                  */
+                                
                                 let data2 = NSData(bytes: self.GETCHALLENGESTR.hexaBytes, length: self.GETCHALLENGESTR.hexaData.count)
                                 card?.transmit(data2 as Data, reply: {
                                     (data:Data?,error:Error?) in
                                     if error != nil {
                                         print("error : ",error!)
                                     }else{
-                                        // Step 4 : Generate random 8 byte hex and 16 byte hex
+                                        
+                                        // MARK: Step 4 : Generate random 8 byte hex and 16 byte hex
+                                        
                                         let Kifd = self.util?.RandomHex(numDigit: 32)
                                         let RNDIFD = self.util?.RandomHex(numDigit: 16)
                                         let RNDIC = data?.hexadecimal.dropLast(4)
                                         print("response : ",data?.hexadecimal ?? "nil")
                                         print("RNDIC : " + RNDIC!)
-                                        // Step 5 : Concat RNDIFD + RNDIC + Kifd
+                                        
+                                        // MARK: Step 5 : Concat RNDIFD + RNDIC + Kifd
+                                        
                                         let S = RNDIFD! + RNDIC! + Kifd!
                                         print("S : " + S)
-                                        // Step 6 : Encrypt S with 3DES KencA
+                                        
+                                        // MARK: Step 6 : Encrypt S with 3DES KencA
+                                        
                                         let Eifd = self.util?.TripleDesEncCBC(input: S, key: KencA!)
                                         print("Eifd : " + Eifd!)
-                                        // Step 7 : Calculate MAC over Eifd with KmacA
+                                        
+                                        // MARK: Step 7 : Calculate MAC over Eifd with KmacA
+                                        
                                         let Mifd = self.util?.MessageAuthenticationCodeMethodTwo(input: Eifd!, key: KmacA!)
                                         print("Mifd : " + Mifd!)
-                                        // Step 8 : Construct cmd for EXTERNAL AUTHENTICATION : cmd_data = Eifd + Mifd
+                                        
+                                        // MARK: Step 8 : Construct cmd for EXTERNAL AUTHENTICATION : cmd_data = Eifd + Mifd
+                                        
                                         let cmd_data = Eifd! + Mifd!
                                         let EXAuthenticationAPDU = "0082000028" + cmd_data + "28"
                                         print("EXauthen cmd : " + EXAuthenticationAPDU)
@@ -103,21 +117,48 @@ class PassportLib
                                                 print("error : ",error!)
                                             }else{
                                                 
-                                                // Step 9 : Decrypt Response
+                                                // MARK: Step 9 : Decrypt Response
+                                                
                                                 let Eic = data?.hexadecimal.dropLast(20)
                                                 if (data?.hexadecimal.count)! > 4 {
                                                     let R = self.util?.TripleDesDecCBC(input: String(Eic!), key: KencA!)
                                                     print("Eic : " + Eic!)
                                                     
-                                                    // Step 10 : Calculate Kic and SSC
-                                                    let Kic = R?.dropFirst(32)
-                                                    print("Kic : " + Kic!)
+                                                    // MARK: Step 10 : Calculate Kic and SSC
+                                                    
+                                                    let Kic = String((R?.dropFirst(32))!)
+                                                    print("Kic : " + Kic)
                                                     let a = R?.dropLast(32)
                                                     let b = a?.dropFirst(16)
                                                     let c = a?.dropLast(16)
                                                     let SSC = (b?.dropFirst(8))! + (c?.dropFirst(8))!
                                                     print("SSC : " + SSC)
-                                                    // Step 11 : Calculate Kseed from XOR of Kic and Kifd
+                                                    
+                                                    // MARK: Step 11 : Calculate Kseed from XOR of Kic and Kifd
+                                                    
+                                                    let SKseed = self.util?.xor(Data1: Kic, Data2: Kifd!)
+                                                    print("SKseed : " + SKseed!)
+                                                    
+                                                    // MARK: Step 12 : Calculate KSenc and KSmac from SKeed
+                                                    
+                                                    let Key2 = self.util?.CalculateKey(Kseed: SKseed!)
+                                                    let SKenc = Key2![0]
+                                                    let SKmac = Key2![1]
+                                                    print("SKenc : " + SKenc!)
+                                                    print("SKmac : " + SKmac!)
+                                                    
+                                                    // MARK: Step 13 : Generate APDU for SELECT DG1
+                                                    
+                                                    let CmdHead = "0CA4020C80000000"
+                                                    let data = "0101800000000000"
+                                                    let EncData = self.util?.TripleDesEncCBC(input: data, key: SKenc!)
+                                                    let DO87 = "870901" + EncData!
+                                                    let M = CmdHead + DO87
+                                                    print("M : " + M)
+                                                    
+                                                    
+                                                    
+                                                    
                                                 }else{
                                                     print("Res : " + data!.hexadecimal)
                                                 }
