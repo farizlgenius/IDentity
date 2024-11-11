@@ -244,18 +244,26 @@ class Utility{
     }
     
     // XOR
-    func xor(Data1: String,Data2:String) -> String {
+    func XOR(Data1: String,Data2:String) -> String {
         var result:[String] = []
-        var d1str = Data1.hexaToBinary
-        var d2str = Data2.hexaToBinary
+        let d1str = Data1.hexaToBinary.map{ String($0) }
+        let d2str = Data2.hexaToBinary.map{ String($0) }
         for i in 0..<d1str.count {
-            if d1str == d2str {
-                result[i] = "1"
+            if d1str[i] == d2str[i] {
+                result.append("0")
             }else{
-                result[i] = "0"
+                result.append("1")
             }
         }
-        return binToHex(result.joined())!
+        let result2 = result.joined()
+        let result3 = result2.split(by: 8)
+        var result4:[String] = []
+        result3.forEach{
+            data in
+            result4.append(binToHex(data)!)
+        }
+        
+        return result4.joined()
     }
     
     // Calculate Key
@@ -272,7 +280,12 @@ class Utility{
         
         return [KencA,KmacA]
     }
-
+    
+    func IncrementHex(Hex:String,Increment:Int)->String{
+        let num2 = Int(Hex,radix: 16)! + Increment
+        let newStr = String(format: "%02X", num2)
+        return newStr
+    }
 }
 
 

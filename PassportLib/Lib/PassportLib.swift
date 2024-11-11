@@ -136,7 +136,7 @@ class PassportLib
                                                     
                                                     // MARK: Step 11 : Calculate Kseed from XOR of Kic and Kifd
                                                     
-                                                    let SKseed = self.util?.xor(Data1: Kic, Data2: Kifd!)
+                                                    let SKseed = self.util?.XOR(Data1: Kic, Data2: Kifd!)
                                                     print("SKseed : " + SKseed!)
                                                     
                                                     // MARK: Step 12 : Calculate KSenc and KSmac from SKeed
@@ -155,6 +155,9 @@ class PassportLib
                                                     let DO87 = "870901" + EncData!
                                                     let M = CmdHead + DO87
                                                     print("M : " + M)
+                                                    
+                                                    let SSC1 = self.util?.IncrementHex(Hex: String(SSC), Increment: 1)
+                                                    print("SSC + 1 : " + SSC1!)
                                                     
                                                     
                                                     
