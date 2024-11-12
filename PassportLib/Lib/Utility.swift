@@ -281,10 +281,12 @@ class Utility{
         return [KencA,KmacA]
     }
     
-    func IncrementHex(Hex:String,Increment:Int)->String{
-        let num2 = Int(Hex,radix: 16)! + Increment
-        let newStr = String(format: "%02X", num2)
-        return newStr
+    func IncrementHex(Hex:String,Increment:UInt64)->String{
+        let p1 = Hex.dropLast(8)
+        let p2 = Hex.dropFirst(8)
+        let num2 = UInt64(p2,radix: 16)! + Increment
+        let newStr = String(format: "%08X", num2)
+        return p1 + newStr
     }
 }
 

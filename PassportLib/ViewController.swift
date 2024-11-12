@@ -20,11 +20,10 @@ class ViewController: UIViewController {
     }
 
     @IBAction func startPress(_ sender: UIButton) {
-        if inputField.text == "" {
-            textArea.text = "Input can't be empty"
-        }else{
-            lib?.startReadDGData(mrz: inputField.text!)
-        }
+        
+        lib?.startReadDGData(mrz:"AA9689232973063092301309")
+//        "AA9689232973063092301309"
+//        "AA1078844274061171803138"
         
     }
     
