@@ -288,6 +288,22 @@ class Utility{
         let newStr = String(format: "%08X", num2)
         return p1 + newStr
     }
+    
+    func FindIndexOf(inputString:String,target:String)->Int{
+        if let range = inputString.range(of: target) {
+           let startingIndex = inputString.distance(from: inputString.startIndex, to: range.lowerBound)
+//           let endingIndex = inputString.distance(from: inputString.startIndex, to: range.upperBound)
+//           print("Input string: \(inputString)")
+//           print("Starting index of '\(target)' is: \(startingIndex)")
+//           print("Ending index of '\(target)' is: \(endingIndex)")
+            return startingIndex
+        } else {
+           print("Character not found")
+            return -1
+        }
+    }
+    
+    
 }
 
 

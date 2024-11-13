@@ -56,12 +56,78 @@ class PassportLib
         
         print("SKmac : " + SKmac)
 
-        var CC = self.util?.MessageAuthenticationCodeMethodOne(input: N, key: SKmac)
+        let CC = self.util?.MessageAuthenticationCodeMethodOne(input: N, key: SKmac)
         
         let DO8E = "8E08" + CC!
         
         return "0CA4020C15" + DO87 + DO8E + "00"
     }
+    
+    func VerifySelectRAPDU(APDU:String,SSC:String,Key:String)->Bool{
+        let RAPDU = APDU.dropLast(4).uppercased()
+        let DropIndex = RAPDU.count - (self.util?.FindIndexOf(inputString: String(RAPDU), target: "8E08"))!
+        let K = SSC + RAPDU.dropLast(DropIndex) + "80000000"
+        let CC = self.util?.MessageAuthenticationCodeMethodOne(input: K, key: Key)
+        let DO8E = RAPDU.dropFirst((self.util?.FindIndexOf(inputString: String(RAPDU), target: "8E08"))!+4)
+        if CC! == DO8E {
+            return true
+        }else{
+            return false
+        }
+    }
+    
+    func ConstructAPDUforReadBinary(HexBlock:String,HexOffset:String,HexLength:String,SSC:String,SKmac:String)->String{
+        let CmdHeader = "0CB0\(HexBlock)\(HexOffset)80000000"
+        let DO97 = "9701\(HexLength)"
+        let M = CmdHeader + DO97
+        let N = SSC + M + "8000000000"
+        let CC = self.util?.MessageAuthenticationCodeMethodOne(input: N, key: SKmac)
+        let DO8E = "8E08" + CC!
+        let ProtectedAPDU = "0CB0\(HexBlock)\(HexOffset)0D" + DO97 + DO8E + "00"
+        return ProtectedAPDU
+    }
+    
+    func VerifyReadBinaryRAPDU(APDU:String,SSC:String,Key:String)->Bool{
+        let RAPDU = APDU.dropLast(4).uppercased()
+        let DropIndex = RAPDU.count - (self.util?.FindIndexOf(inputString: String(RAPDU), target: "8E08"))!
+        let K = SSC + RAPDU.dropLast(DropIndex) + "80"
+        let CC = self.util?.MessageAuthenticationCodeMethodOne(input: K, key: Key)
+        let DO8E = RAPDU.dropFirst((self.util?.FindIndexOf(inputString: String(RAPDU), target: "8E08"))!+4)
+        if CC! == DO8E {
+            return true
+        }else{
+            return false
+        }
+    }
+    
+    func GetLengthOfData(APDU:String,SKenc:String)->String{
+        var result = APDU.dropFirst(6)
+        result = result.dropLast(result.count - (self.util?.FindIndexOf(inputString: String(result), target: "99029000"))!)
+        result = (util?.TripleDesDecCBC(input: String(result), key: SKenc).dropFirst(2))!
+        let index = result.count - (util?.FindIndexOf(inputString: String(result), target: "5F1F"))!
+        let length = result.dropLast(index)
+        return String(length)
+    }
+    
+    func GetData(APDU:String,SKenc:String)->String{
+        let result = APDU.dropFirst(6).uppercased()
+        let result2 = result.dropLast(result.count - (self.util?.FindIndexOf(inputString: String(result), target: "9902"))!)
+        let result3 = util?.TripleDesDecCBC(input: String(result2), key: SKenc)
+        return hexStringtoAscii(result3!)
+    }
+    
+    func hexStringtoAscii(_ hexString : String) -> String {
+
+        let pattern = "(0x)?([0-9a-f]{2})"
+        let regex = try! NSRegularExpression(pattern: pattern, options: .caseInsensitive)
+        let nsString = hexString as NSString
+        let matches = regex.matches(in: hexString, options: [], range: NSMakeRange(0, nsString.length))
+        let characters = matches.map {
+            Character(UnicodeScalar(UInt32(nsString.substring(with: $0.range(at: 2)), radix: 16)!)!)
+        }
+        return String(characters)
+    }
+    
     
     
     func startReadDGData(mrz:String){
@@ -201,49 +267,104 @@ class PassportLib
                                                                 print("error : ",error!)
                                                             }else{
                                                                 print("RAPDU : " + data!.hexadecimal)
-                                                                let RAPDU = data?.hexadecimal.dropLast(4)
-                                                                let DO99 = RAPDU?.dropLast(20)
-                                                                let DO8E = RAPDU?.dropFirst(12).uppercased()
-                                                                print("RAPDU : " + RAPDU!)
-                                                                print("DO99 : " + DO99!)
-                                                                print("DO8E : " + DO8E!)
-                                                                
                                                                 SSC1 = self.util?.IncrementHex(Hex: SSC1!, Increment: 1)
-                                                                let K = SSC1! + DO99! + "80000000"
-                                                                var CC = self.util?.MessageAuthenticationCodeMethodOne(input: K, key: SKmac!)
-                                                                print("CC : " + CC!)
-                                                                if CC! == DO8E! {
+                                                                var re = self.VerifySelectRAPDU(APDU: data!.hexadecimal, SSC: SSC1!, Key: SKmac!)
+                            
+                                                                if re {
                                                                     print("Compare CC success")
                                                                     
                                                                     // MARK: Read Binary to find length of data inside DG1
                                                                     
                                                                     SSC1 = self.util?.IncrementHex(Hex: SSC1!, Increment: 1)
                                                                     
-                                                                    //ConstructAPDUforReadBinary
+                                
                                                                     
-                                                                    let CmdHeader = "0CB0000080000000"
-                                                                    let DO97 = "970104"
-                                                                    let M = CmdHeader + DO97
-                                                                    let N = SSC1! + M + "8000000000"
-                                                                    CC = self.util?.MessageAuthenticationCodeMethodOne(input: N, key: SKmac!)
-                                                                    let DO8E = "8E08" + CC!
-                                                                    
-                                                                    ProtectedAPDU = "0CB000000D" + DO97 + DO8E + "00"
+                                                                    ProtectedAPDU = self.ConstructAPDUforReadBinary(HexBlock: "00", HexOffset: "00", HexLength: "04", SSC: SSC1!, SKmac: SKmac!)
                                                                     
                                                                     APDUCmd = NSData(bytes: ProtectedAPDU.hexaBytes, length: ProtectedAPDU.hexaData.count)
-                                                                    card?.transmit(APDUCmd as Data, reply: {
+                                                                    card?.transmit(APDUCmd as Data, reply: { [self]
                                                                         (data:Data? ,error:Error?) in
                                                                         if error != nil {
                                                                             print(error!)
                                                                         }else{
                                                                             print("RAPDU : " + data!.hexadecimal)
                                                                             SSC1 = self.util?.IncrementHex(Hex: SSC1!, Increment: 1)
+                                                                            re = self.VerifyReadBinaryRAPDU(APDU: data!.hexadecimal, SSC: SSC1!, Key: SKmac!)
+                                                                            if re {
+                                                                                print("Verify CC for Read Binary Success")
+                                                                                // GetLength
+                                                                                let Datalength = self.GetLengthOfData(APDU: data!.hexadecimal, SKenc: SKenc!)
+                                                                                print(Datalength)
+                                                                                
+                                                                                // MARK: Get Data of DG 1
+                                                                                
+                                                                                SSC1 = self.util?.IncrementHex(Hex: SSC1!, Increment: 1)
+                                                                                ProtectedAPDU = self.ConstructAPDUforReadBinary(HexBlock: "00", HexOffset: "05", HexLength:Datalength , SSC: SSC1!, SKmac: SKmac!)
+                                                                                APDUCmd = NSData(bytes: ProtectedAPDU.hexaBytes, length: ProtectedAPDU.hexaData.count)
+                                                                                card?.transmit(APDUCmd as Data, reply: {
+                                                                                    (data:Data?,error:Error?) in
+                                                                                    if error != nil {
+                                                                                        print(error!)
+                                                                                    }else{
+                                                                                        print("RAPDU : " + data!.hexadecimal)
+                                                                                        SSC1 = self.util?.IncrementHex(Hex: SSC1!, Increment: 1)
+                                                                                        re = self.VerifyReadBinaryRAPDU(APDU: data!.hexadecimal, SSC: SSC1!, Key: SKmac!)
+                                                                                        if re {
+                                                                                            print("Verify CC for Read Binary Success")
+                                                                                            print("DG1 : " + self.GetData(APDU: data!.hexadecimal, SKenc: SKenc!))
+                                                                                            
+                                                                                            // MARK: Generate APDU for SELECT DG11
+                                                                                            
+                                                                                            SSC1 = self.util?.IncrementHex(Hex: SSC1!, Increment: 1)
+                                                                                            let ProtectedAPDU = self.ConstructAPDUforSelectDF(DG:DG.DG11.rawValue,SKenc: SKenc!,SKmac: SKmac!,SSC1: String(SSC1!))
+                                                                                            
+                                                                                            
+                                                                                            // MARK: Send APDU for select DG11
+                                                                                            
+                                                                                            print("Select cmd : " + ProtectedAPDU)
+                                                                                            let APDUCmd = NSData(bytes: ProtectedAPDU.hexaBytes, length: ProtectedAPDU.hexaData.count)
+                                                                                            card?.transmit(APDUCmd as Data, reply: {
+                                                                                                (data:Data?,error:Error?) in
+                                                                                                if error != nil {
+                                                                                                    print(error!)
+                                                                                                }else{
+                                                                                                    if (data?.hexadecimal.count)! <= 4 {
+                                                                                                        print("RAPDU : " + data!.hexadecimal)
+                                                                                                    }else{
+                                                                                                        print("RAPDU : " + data!.hexadecimal)
+                                                                                                        SSC1 = self.util?.IncrementHex(Hex: SSC1!, Increment: 1)
+                                                                                                        let re = self.VerifySelectRAPDU(APDU: data!.hexadecimal, SSC: SSC1!, Key: SKmac!)
+                                                                                                        if re {
+                                                                                                            print("Verify CC success for select DG11")
+                                                                                                            
+                                                                                                            // MARK: Get Length Data of DG11
+                                                                                                            
+                                                                                                            
+                                                                                                        }else{
+                                                                                                            print("Verify CC fail for select DG11")
+                                                                                                        }
+                                                                                                    }
+                                                                                                    
+                                                                                                }
+                                                                                            })
+                                                                                            
+                                                                                            
+                                                                                            
+                                                                                        }else{
+                                                                                            print("Verify CC for Read Binary Fail")
+                                                                                        }
+                                                                                    }
+                                                                                })
+                                                                            }else{
+                                                                                print("Verify CC for Read Binary Fail")
+                                                                                card?.endSession()
+                                                                            }
                                                                         }
                                                                     })
                                                                     
                                                                     
                                                                 }else{
-                                                                    print(false)
+                                                                    print("Compare CC fail for Select DG1")
                                                                     card?.endSession()
                                                                 }
                                                             }

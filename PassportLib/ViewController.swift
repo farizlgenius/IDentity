@@ -21,7 +21,7 @@ class ViewController: UIViewController {
 
     @IBAction func startPress(_ sender: UIButton) {
         
-        lib?.startReadDGData(mrz:"AA9689232973063092301309")
+        lib?.startReadDGData(mrz:"AA1078844274061171803138")
 //        "AA9689232973063092301309"
 //        "AA1078844274061171803138"
         
