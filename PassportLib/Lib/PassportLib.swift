@@ -135,10 +135,25 @@ class PassportLib
         return ProtectedAPDU
     }
     
+    func ConstructAPDUforReadBinaryExtend(HexBlock:String,HexOffset:String,HexLength:String,SSC:String,SKmac:String)->String{
+        let CmdHeader = "0CB0\(HexBlock)\(HexOffset)80000000"
+        let DO97 = "9702\(HexLength)"
+        let M = CmdHeader + DO97
+        let N = SSC + M + "80000000"
+        let CC = self.util?.MessageAuthenticationCodeMethodOne(input: N, key: SKmac)
+        let DO8E = "8E08" + CC!
+        let ProtectedAPDU = "0CB0\(HexBlock)\(HexOffset)00000E" + DO97 + DO8E + "0000"
+        return ProtectedAPDU
+    }
+    
     func VerifyReadBinaryRAPDU(APDU:String,SSC:String,Key:String)->Bool{
         let RAPDU = APDU.dropLast(4).uppercased()
+        print("RAPDU : " + RAPDU)
         let DropIndex = RAPDU.count - (self.util?.FindIndexOf(inputString: String(RAPDU), target: "8E08"))!
+        print("DropIndex : " + String(DropIndex))
         let K = SSC + RAPDU.dropLast(DropIndex) + "80"
+        print("K : " + K)
+        print("Key : " + Key)
         let CC = self.util?.MessageAuthenticationCodeMethodOne(input: K, key: Key)
         let DO8E = RAPDU.dropFirst((self.util?.FindIndexOf(inputString: String(RAPDU), target: "8E08"))!+4)
         if CC! == DO8E {
@@ -166,10 +181,26 @@ class PassportLib
         print("result 1 : " + result)
         result = (util?.TripleDesDecCBC(input: String(result), key: SKenc).dropFirst(4))!
         print("result 2 : " + result)
-        let index = result.count - (util?.FindIndexOf(inputString: String(result), target: "0201"))!
-        let length = result.dropLast(index)
+        print(result.count)
+        var index = util?.FindIndexOf(inputString: String(result), target: "5F2E")
+        index! += 4
+        if index == -1 {
+            index = util?.FindIndexOf(inputString: String(result), target: "7F2F")
+        }
+        var length = result.dropFirst(index!)
+        length = length.prefix(6)
         print("LIB MSG >>>> Data Len : " + length)
         return String(length)
+    }
+    
+    func GetDataDG2(APDU:String,SKenc:String)->String{
+        var result = APDU.dropFirst(10)
+        result = result.dropLast(result.count - (self.util?.FindIndexOf(inputString: String(result), target: "99029000"))!)
+        print("result 1 : " + result)
+        result = (util?.TripleDesDecCBC(input: String(result), key: SKenc).dropFirst(4))!
+        print("result 2 : " + result)
+        print(result.count)
+        return String(result)
     }
     
     func GetData(APDU:String,SKenc:String)->String{
@@ -215,6 +246,7 @@ class PassportLib
         mngr?.getSlot(withName: slotName){
             (slot:TKSmartCardSlot?) in
             let card = slot?.makeSmartCard()
+            card?.useExtendedLength = true
             if card != nil {
                 card!.beginSession{
                     (success:Bool,error:Error?) in
@@ -376,7 +408,7 @@ class PassportLib
                                                                                 SSCP = (self.util?.IncrementHex(Hex:SSCP, Increment: 1))!
                                                                                 verify = self.VerifyReadBinaryRAPDU(APDU: res!, SSC: SSCP, Key: SKmac)
                                                                                 if verify {
-                                                                                    print("DG1 : " + self.GetData(APDU: res!, SKenc: SKenc))
+                                                                                    print("DG1 : " + self.GetData(APDU: res!, SKenc: SKenc) + "\n")
                                                                                 }
                                                                                 
                                                                                 /*############################
@@ -411,15 +443,42 @@ class PassportLib
                                                                                             {
                                                                                                 (re:Data?,error:Error?) in
                                                                                                 if error != nil {
-                                                                                                    print()
+                                                                                                    print("LIB MSG >>>> Transmit APDU Error : ",error!)
                                                                                                 }else
                                                                                                 {
                                                                                                     // MARK: Step 21 : Get Length of DG from Response
                                                                                                     res = re?.hexadecimal
                                                                                                     print("LIB MSG (Response) <<<< : " + res!)
+                                                                                                    
+                                                                                                    // MARK: Step 22 : Verify CC from APDU
+                                                                                                    /**/
+                                                                                                    SSCP = (self.util?.IncrementHex(Hex: SSCP, Increment: 1))!
                                                                                                     let len = self.GetLengthOfDG2(APDU:res!, SKenc: SKenc)
                                                                                                     print(len)
-                                                                                                
+                                                                                                    print(UInt64(len,radix: 16)!)
+                                                                                                    //var remain = UInt64(len,radix: 16)
+                                                                                                    
+                                                                                                    // MARK: Step 23 : Get All Data DG2
+                                                                                                    SSCP = (self.util?.IncrementHex(Hex: SSCP, Increment: 1))!
+                                                                                                    cmdAPDU = self.ConstructAPDUforReadBinaryExtend(HexBlock: "00", HexOffset: "00", HexLength: "4600", SSC: SSCP, SKmac: SKmac)
+                                                                                                    print("LIB MSG (APDU CMD) >>>> : " + cmdAPDU)
+                                                                                                    data = NSData(bytes: cmdAPDU.hexaBytes, length: cmdAPDU.hexaData.count)
+                                                                                                    card?.transmit(data as Data)
+                                                                                                    {
+                                                                                                        (re:Data?,error:Error?) in
+                                                                                                        if error != nil {
+                                                                                                            print("LIB MSG >>>> Transmit APDU Error : ",error!)
+                                                                                                        }else
+                                                                                                        {
+                                                                                                            res = re?.hexadecimal
+                                                                                                            print("LIB MSG (Response) <<<< : " + res!)
+                                                                                                            let r = self.GetDataDG2(APDU: res!, SKenc: SKenc)
+                                                                                                            print(r)
+                                                                                                            
+                                                                                                        }
+                                                                                                        
+                                                                                                    }
+                                                                                                   
                                                                                                 }
                                                                                             }
                                                                                             
