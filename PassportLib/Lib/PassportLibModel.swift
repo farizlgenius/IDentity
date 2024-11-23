@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PassportDataModel{
+struct PassportLibModel{
 //    //DG 1
 //    var documentCode:String?
 //    var issueState:String?

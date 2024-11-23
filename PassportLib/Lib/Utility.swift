@@ -208,9 +208,6 @@ class Utility{
     }
 
 
-
-
-
     // Binary to hex
     func binToHex(_ bin : String) -> String? {
         // binary to integer:

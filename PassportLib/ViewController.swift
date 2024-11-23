@@ -9,7 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    var lib:PassportLib?
+    var lib:PassportLibController?
     
     @IBOutlet weak var showImage: UIImageView!
     @IBOutlet weak var textArea: UITextView!
@@ -19,14 +19,18 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        lib = PassportLib()
+        lib = PassportLibController()
     }
 
     @IBAction func startPress(_ sender: UIButton) {
         
-        let mrz:String = mrzData.text!
-        print(mrz)
-        lib?.startReadDGData(mrz:mrz)
+        var mrz:String = mrzData.text!
+        mrz = "AC6739780296091633405064"
+        //"AA1078870773063091803138"
+        //"K760625<<273063091210244"
+        //"AA9689232973063092301309"
+        //"AC6739780296091633405064"
+        lib?.ReadRFIDData(mrz:mrz,dg1: false,dg2: false,dg3: false,dg11: true)
 
     }
     
