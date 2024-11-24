@@ -22,7 +22,7 @@ class ReaderController
     func initSmartCard() async ->Bool{
         let readerName = getReader()
         slot = await mngr?.getSlot(withName: readerName)
-        if let slot = slot {
+        if slot != nil {
             print("LIB >>>> Init Smart Card Success")
             return true
         }

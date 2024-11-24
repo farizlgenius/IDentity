@@ -49,7 +49,7 @@ class ViewController: UIViewController {
     @IBAction func startPress(_ sender: UIButton) {
         
         var mrz:String = mrzData.text!
-        mrz = "AA1078870773063091803138"
+        mrz = "AA9689232973063092301309"
         //"AA1078870773063091803138"
         //"K760625<<273063091210244"
         //"AA9689232973063092301309"

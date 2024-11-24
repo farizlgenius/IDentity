@@ -135,7 +135,6 @@ class PassportController
             K.append("00")
         }
         let CC = self.util?.MessageAuthenticationCodeMethodOne(input: K, key: Key)
-        print(RAPDU)
         let DO8E = RAPDU.dropFirst((util?.FindIndexOf(inputString: String(RAPDU), target: "8E08"))!+4)
         if CC! == DO8E {
             return true
@@ -158,7 +157,7 @@ class PassportController
         result = result.dropLast(result.count - (self.util?.FindIndexOf(inputString: String(result), target: "99029000"))!)
         //print("result 1 : " + result)
         let encResult = util?.TripleDesDecCBC(input: String(result), key: SKenc)
-        //print("result 2 : " + encResult!)
+        print("encResult : " + encResult!)
         // Calculate length of header in biometric template
         let offsetIndex1 = util?.FindIndexOf(inputString: String(encResult!), target: "7F61")
         let offsetIndex2 = encResult!.count - offsetIndex1!
@@ -185,6 +184,14 @@ class PassportController
         result = result.dropLast(result.count - (self.util?.FindIndexOf(inputString: String(result), target: "99029000"))!)
         result = (util?.TripleDesDecCBC(input: String(result), key: SKenc).dropFirst(4))!
         result = result.dropFirst(88).dropLast(6)
+        return String(result)
+    }
+    
+    func GetRemainDataDG2(APDU:String,SKenc:String)->String{
+        var result = APDU.dropFirst(10)
+        result = result.dropLast(result.count - (self.util?.FindIndexOf(inputString: String(result), target: "99029000"))!)
+        result = (util?.TripleDesDecCBC(input: String(result), key: SKenc).dropFirst(4))!
+        result = result.dropLast(6)
         return String(result)
     }
     
@@ -399,7 +406,7 @@ class PassportController
                 SSCP = (self.util?.IncrementHex(Hex:SSCP, Increment: 1))!
                 verify = self.VerifyReadBinaryRAPDU(APDU: res, SSC: SSCP, Key: SKmac)
                 if verify {
-                    var data = GetDataDG1(APDU: res, SKenc: SKenc)
+                    let data = GetDataDG1(APDU: res, SKenc: SKenc)
                     print("LIB >>>> DG1 : " + data)
                     model?.DG1 = data
                     model?.documentCode = String(data.prefix(2))
@@ -409,10 +416,14 @@ class PassportController
                     model?.holderFullName = String(data2.prefix(31))
                     let splitname = model?.holderFullName?.split(separator: "<", omittingEmptySubsequences: false)
                     print(splitname!)
-                    model?.holderFirstName = String((splitname?[2])!).capitalized
-                    model?.holderMiddleName = String((splitname?[1])!).capitalized
-                    model?.holderLastName = String((splitname?[0])!).capitalized
-                    data2 = data2.dropFirst(31)
+                    model?.holderMiddleName = String((splitname?[1])!)
+                    model?.holderLastName = String((splitname?[0])!)
+                    if splitname![3] != "" {
+                        model?.holderFirstName = String(splitname![2] + " " + splitname![3])
+                    }else{
+                        model?.holderFirstName = String((splitname?[2])!)
+                    }
+                    data2 = data2.dropFirst(39)
                     model?.documentNumber = String(data2.prefix(9))
                     data2 = data2.dropFirst(9)
                     model?.docNumCheckDigit = String(data2.prefix(1))
@@ -429,7 +440,7 @@ class PassportController
                     data2 = data2.dropFirst(6)
                     model?.dateOfExpiryCheckDigit = String(data.prefix(1))
                     data2 = data2.dropFirst(1)
-                    model?.optionalData = String(data2.prefix(7))
+                    model?.optionalData = String(data2.dropLast(3))
                     
                 }else{
                     print("LIB >>>> Verify RES APDU READ DG1 Fail")
@@ -499,8 +510,41 @@ class PassportController
                 SSCP = (util?.IncrementHex(Hex:SSCP, Increment: 1))!
                 verify = VerifyReadBinaryRAPDU(APDU: res, SSC: SSCP, Key: SKmac)
                 if verify {
-                    let r = GetDataDG2(APDU: res, SKenc: SKenc)
+                    var r = GetDataDG2(APDU: res, SKenc: SKenc)
+                    print(r.count)
+                    print(r)
+                    let allLen = (UInt32(len[0],radix: 16)! * 2) - 1000
+                    print(allLen)
+                    if r.count < allLen {
+                        print("Still Remain!!!")
+//                        // MARK: - Step 7 : Get Remain Data DG2
+//                        let new = (r.count/2) + Int(len[1],radix: 16)!
+//                        var newOffset = String(new,radix: 16)
+//                        while newOffset.count < 4 {
+//                            newOffset = "0" + newOffset
+//                        }
+//                        print(newOffset)
+//                        SSCP = (util?.IncrementHex(Hex: SSCP, Increment: 1))!
+//                        apdu = ConstructAPDUforReadBinaryExtend(HexBlock: String(newOffset.dropLast(2)), HexOffset: String(newOffset.dropFirst(2)), HexLength: len[0], SSC: SSCP, SKmac: SKmac)
+//                        print("LIB >>>> (APDU CMD READ DG2) >>>> : " + apdu)
+//                        res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu)
+//                        print("LIB <<<< (APDU RES READ DG2) <<<< : " + res.uppercased())
+//                        
+//                        // MARK: - Step 6 : Verify Res Apdu Read DG2
+//                        SSCP = (util?.IncrementHex(Hex:SSCP, Increment: 1))!
+//                        verify = VerifyReadBinaryRAPDU(APDU: res, SSC: SSCP, Key: SKmac)
+//                        if verify {
+//                            let r2 = GetRemainDataDG2(APDU: res, SKenc: SKenc)
+//                            print(r2.count)
+//                            r.append(r2)
+//                            print(r.count)
+//                        }else{
+//                            print("LIB >>>> Verify RES APDU READ REMAIN DG2 Fail")
+//                        } // end of verify res apdu read ramin dg2
+                    }
                     model?.DG2 = r.hexadecimal
+                    print(" ##################### ")
+                    print(r.hexadecimal?.base64EncodedString())
                 }else{
                     print("LIB >>>> Verify RES APDU READ DG2 Fail")
                 } // end of verify res apdu read dg2
