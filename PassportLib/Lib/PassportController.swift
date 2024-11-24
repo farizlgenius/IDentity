@@ -412,6 +412,24 @@ class PassportController
                     model?.holderFirstName = String((splitname?[2])!).capitalized
                     model?.holderMiddleName = String((splitname?[1])!).capitalized
                     model?.holderLastName = String((splitname?[0])!).capitalized
+                    data2 = data2.dropFirst(31)
+                    model?.documentNumber = String(data2.prefix(9))
+                    data2 = data2.dropFirst(9)
+                    model?.docNumCheckDigit = String(data2.prefix(1))
+                    data2 = data2.dropFirst(1)
+                    model?.nationality = String(data2.prefix(3))
+                    data2 = data2.dropFirst(3)
+                    model?.dateOfBirth = String(data2.prefix(6))
+                    data2 = data2.dropFirst(6)
+                    model?.dateOfBirthCheckDigit = String(data2.prefix(1))
+                    data2 = data2.dropFirst(1)
+                    model?.sex = String(data2.prefix(1))
+                    data2 = data2.dropFirst(1)
+                    model?.dateOfExpiry = String(data2.prefix(6))
+                    data2 = data2.dropFirst(6)
+                    model?.dateOfExpiryCheckDigit = String(data.prefix(1))
+                    data2 = data2.dropFirst(1)
+                    model?.optionalData = String(data2.prefix(7))
                     
                 }else{
                     print("LIB >>>> Verify RES APDU READ DG1 Fail")
@@ -556,6 +574,26 @@ class PassportController
         
         #####################################
               End READ DATA GROUP 11 
+        #####################################
+        
+        """)
+        
+    }
+    
+    func readDG12(){
+        
+        print("""
+        
+        #####################################
+              BEGIN READ DATA GROUP 12 
+        #####################################
+        
+        """)
+        
+        print("""
+        
+        #####################################
+              END READ DATA GROUP 12 
         #####################################
         
         """)

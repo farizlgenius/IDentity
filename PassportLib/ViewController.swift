@@ -26,6 +26,19 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var holderLastNameLabel: UILabel!
     
+    @IBOutlet weak var documentNumberLabel: UILabel!
+    
+    @IBOutlet weak var nationalityLabel: UILabel!
+    
+    @IBOutlet weak var dateOfBirthLabel: UILabel!
+    
+    @IBOutlet weak var sexLabel: UILabel!
+    
+    @IBOutlet weak var dateOfExpireLabel: UILabel!
+    
+    @IBOutlet weak var optionalDataLabel: UILabel!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -54,6 +67,12 @@ class ViewController: UIViewController {
         holderFirstNameLabel.text = lib?.model?.holderFirstName
         holderMiddleNameLabel.text = lib?.model?.holderMiddleName
         holderLastNameLabel.text = lib?.model?.holderLastName
+        documentNumberLabel.text = lib?.model?.documentNumber
+        nationalityLabel.text = lib?.model?.nationality
+        dateOfBirthLabel.text = lib?.model?.dateOfBirth
+        sexLabel.text = lib?.model?.sex
+        dateOfExpireLabel.text = lib?.model?.dateOfExpiry
+        optionalDataLabel.text = lib?.model?.optionalData
         
     }
 }

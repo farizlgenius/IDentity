@@ -19,12 +19,6 @@ class ReaderController
         mngr = TKSmartCardSlotManager.default
     }
     
-    
-//    let readerName = getReader()
-//    let slot = await mngr?.getSlot(withName: readerName)
-//    card = slot?.makeSmartCard()
-//    let isBegin = await beginCardSession(card: card!)
-    // init smart card
     func initSmartCard() async ->Bool{
         let readerName = getReader()
         slot = await mngr?.getSlot(withName: readerName)
