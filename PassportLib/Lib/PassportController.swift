@@ -10,7 +10,7 @@ import CryptoTokenKit
 import CryptoKit
 import CommonCrypto
 
-class PassportLibController
+class PassportController
 {
     enum DG : String{
         case Common = "011E"
@@ -58,20 +58,23 @@ class PassportLibController
     let GETCHALLENGESTR:String = "0084000008"
     
     // properties
-    let mngr:TKSmartCardSlotManager?
-    var card:TKSmartCard?
+    //let mngr:TKSmartCardSlotManager?
+    //var card:TKSmartCard?
+    let rmngr:ReaderController
+    var isSmartCardInitialized:Bool?
+    var isCardSessionBegin:Bool?
     let util:Utility?
-    var model:PassportLibModel?
+    var model:PassportModel?
     var slotName:String = ""
     var SSCP = ""
     var SKmac = ""
     var SKenc = ""
     
     // Constructor
-    init(){
-        mngr = TKSmartCardSlotManager.default
+    init(rmngr:ReaderController){
         util = Utility()
-        model = PassportLibModel()
+        model = PassportModel()
+        self.rmngr = rmngr
     }
     
     
@@ -215,44 +218,7 @@ class PassportLibController
         return String(characters)
     }
     
-    // Smart Card function
-    
-    // get reader name
-    func getReader()->String{
-        if (mngr?.slotNames.count)! > 0 {
-            return (mngr?.slotNames[0])!
-        }else{
-             return "No Reader"
-        }
-    }
-    
         
-    // begin smart card session
-    func beginCardSession(card:TKSmartCard) async -> Bool {
-        do {
-            return try await card.beginSession()
-        } catch {
-            return false
-        }
-    }
-    
-    // Transmit APDU to Card
-    func transmitCardAPDU(card:TKSmartCard,apdu:String) async -> String {
-        let data = NSData(bytes: apdu.hexaBytes, length: apdu.hexaData.count)
-        do{
-            let res = try await card.transmit(data as Data)
-            return res.hexadecimal
-        } catch {
-            return "nil"
-        }
-    }
-    
-    // End Card Session
-    func endCardSession(card:TKSmartCard){
-        card.endSession()
-    }
-    
-    
     func externalAuthnetication(mrz:String) async -> Bool {
         
         print("""
@@ -278,22 +244,23 @@ class PassportLibController
         
         // MARK: - Step 4 : Initial SmartCard
         
-        let readerName = getReader()
-        let slot = await mngr?.getSlot(withName: readerName)
-        card = slot?.makeSmartCard()
-        let isBegin = await beginCardSession(card: card!)
+
+        isSmartCardInitialized = await rmngr.initSmartCard()
+        if isSmartCardInitialized! {
+            isCardSessionBegin = await rmngr.beginCardSession()
+        }
         
-        if isBegin {
+        if isCardSessionBegin ?? false {
             
             // MARK: - Step 5 : Transmit APDU for SELECT DF of Passport
             print("LIB >>>> (APDU CMD SELECT DF) >>>> : " + SELECTDFSTR)
-            var res = await transmitCardAPDU(card:card!,apdu: SELECTDFSTR)
+            var res = await rmngr.transmitCardAPDU(card:rmngr.card!,apdu: SELECTDFSTR)
             print("LIB <<<< (APDU RES SELECT DF) <<<< : " + res)
             
             // MARK: - Step 6 : Transmit Get Challenge APDU
-            print("LIB >>>> (APDU CMD SELECT DF) >>>> : " + GETCHALLENGESTR)
-            res = await transmitCardAPDU(card:card!,apdu: GETCHALLENGESTR)
-            print("LIB <<<< (APDU RES SELECT DF) <<<< : " + res.uppercased())
+            print("LIB >>>> (APDU CMD GET CHALLENGE) >>>> : " + GETCHALLENGESTR)
+            res = await rmngr.transmitCardAPDU(card:rmngr.card!,apdu: GETCHALLENGESTR)
+            print("LIB <<<< (APDU RES GET CHALLENGE) <<<< : " + res.uppercased())
             if res.count <= 4 {
                 print("LIB >>>> Can't Get Challenge From Chip")
                 print("""
@@ -328,9 +295,20 @@ class PassportLibController
             
             // MARK: - Step 12 : Send APDU command
             print("LIB >>>> (APDU CMD EXTERNAL AUTH) >>>> : " + apdu)
-            res = await transmitCardAPDU(card: card!, apdu: apdu)
+            res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu)
             print("LIB <<<< (APDU RES EXTERNAL AUTH) <<<< : " + res.uppercased())
             
+            if res.count <= 4 {
+                print("LIB >>>> EXTERNAL AUTHENTICATION Fail")
+                print("""
+                
+                #####################################
+                              THE END !!! 
+                #####################################
+                
+                """)
+                return false
+            }
             // MARK: - Step 13 : Get Eic by Cut Off Mic from response and decrypt Eic to get R
             let Eic = res.uppercased().dropLast(20)
             print("LIB >>>> Eic : " + Eic)
@@ -385,7 +363,7 @@ class PassportLibController
         SSCP = (util?.IncrementHex(Hex: String(SSCP), Increment: 1))!
         var apdu = self.ConstructAPDUforSelectDF(DG:DG.DG1.rawValue,SKenc: SKenc,SKmac: SKmac,SSCP: SSCP)
         print("LIB >>>> (APDU CMD SELECT DG1) >>>> : " + apdu)
-        var res = await transmitCardAPDU(card: card!, apdu: apdu)
+        var res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu)
         print("LIB <<<< (APDU RES SELECT DG1) <<<< : " + res.uppercased())
         
         // MARK: - Step 2 : Verify Res Apdu select DG1
@@ -397,7 +375,7 @@ class PassportLibController
             SSCP = (util?.IncrementHex(Hex: SSCP, Increment: 1))!
             apdu = ConstructAPDUforReadBinary(HexBlock: "00", HexOffset: "00", HexLength: "04", SSC: SSCP, SKmac: SKmac)
             print("LIB >>>> (APDU CMD GET LEN DG1) >>>> : " + apdu)
-            res = await transmitCardAPDU(card: card!, apdu: apdu)
+            res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu)
             print("LIB <<<< (APDU RES GET LEN DG1) <<<< : " + res.uppercased())
             
             // MARK: - Step 4 : Verify Res Apdu get len DG1
@@ -414,16 +392,26 @@ class PassportLibController
                 SSCP = (self.util?.IncrementHex(Hex: SSCP, Increment: 1))!
                 apdu = self.ConstructAPDUforReadBinary(HexBlock: "00", HexOffset: "05", HexLength:len , SSC: SSCP, SKmac: SKmac)
                 print("LIB >>>> (APDU CMD READ DG1) >>>> : " + apdu)
-                res = await transmitCardAPDU(card: card!, apdu: apdu)
+                res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu)
                 print("LIB <<<< (APDU RES READ DG1) <<<< : " + res.uppercased())
                 
                 //MARK: - Step 7 : Verify RES APDU Read Data DG1
                 SSCP = (self.util?.IncrementHex(Hex:SSCP, Increment: 1))!
                 verify = self.VerifyReadBinaryRAPDU(APDU: res, SSC: SSCP, Key: SKmac)
                 if verify {
-                    let data = GetDataDG1(APDU: res, SKenc: SKenc)
+                    var data = GetDataDG1(APDU: res, SKenc: SKenc)
                     print("LIB >>>> DG1 : " + data)
                     model?.DG1 = data
+                    model?.documentCode = String(data.prefix(2))
+                    var data2 = data.dropFirst(2)
+                    model?.issueState = String(data2.prefix(3))
+                    data2 = data2.dropFirst(3)
+                    model?.holderFullName = String(data2.prefix(31))
+                    let splitname = model?.holderFullName?.split(separator: "<", omittingEmptySubsequences: false)
+                    print(splitname!)
+                    model?.holderFirstName = String((splitname?[2])!).capitalized
+                    model?.holderMiddleName = String((splitname?[1])!).capitalized
+                    model?.holderLastName = String((splitname?[0])!).capitalized
                     
                 }else{
                     print("LIB >>>> Verify RES APDU READ DG1 Fail")
@@ -459,7 +447,7 @@ class PassportLibController
         SSCP = (util?.IncrementHex(Hex: String(SSCP), Increment: 1))!
         var apdu = ConstructAPDUforSelectDF(DG:DG.DG2.rawValue,SKenc: SKenc,SKmac: SKmac,SSCP: SSCP)
         print("LIB >>>> (APDU CMD SELECT DG2) >>>> : " + apdu)
-        var res = await transmitCardAPDU(card: card!, apdu: apdu)
+        var res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu)
         print("LIB <<<< (APDU RES SELECT DG2) <<<< : " + res.uppercased())
         
         // MARK: - Step 2 : Verify RES APDU Select DG2
@@ -471,7 +459,7 @@ class PassportLibController
             SSCP = (util?.IncrementHex(Hex: SSCP, Increment: 1))!
             apdu = ConstructAPDUforReadBinary(HexBlock: "00", HexOffset: "00", HexLength: "30", SSC: SSCP, SKmac: SKmac)
             print("LIB >>>> (APDU CMD GET LEN DG2) >>>> : " + apdu)
-            res = await transmitCardAPDU(card: card!, apdu: apdu)
+            res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu)
             print("LIB <<<< (APDU RES GET LEN DG2) <<<< : " + res.uppercased())
             
             // MARK: - Step 4 : Verify Res APDU Get Len DG2
@@ -486,7 +474,7 @@ class PassportLibController
                 SSCP = (util?.IncrementHex(Hex: SSCP, Increment: 1))!
                 apdu = ConstructAPDUforReadBinaryExtend(HexBlock: "00", HexOffset: len[1], HexLength: len[0], SSC: SSCP, SKmac: SKmac)
                 print("LIB >>>> (APDU CMD READ DG2) >>>> : " + apdu)
-                res = await transmitCardAPDU(card: card!, apdu: apdu)
+                res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu)
                 print("LIB <<<< (APDU RES READ DG2) <<<< : " + res.uppercased())
                 
                 // MARK: - Step 6 : Verify Res Apdu Read DG2
@@ -531,7 +519,7 @@ class PassportLibController
         SSCP = (util?.IncrementHex(Hex: String(SSCP), Increment: 1))!
         var apdu = ConstructAPDUforSelectDF(DG:DG.DG11.rawValue,SKenc: SKenc,SKmac: SKmac,SSCP: SSCP)
         print("LIB >>>> (APDU CMD SELECT DG11) >>>> : " + apdu)
-        var res = await transmitCardAPDU(card: card!, apdu: apdu)
+        var res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu)
         print("LIB <<<< (APDU RES SELECT DG11) <<<< : " + res.uppercased())
         
         // MARK: - Step 2 : Verify Res Apdu select DG11
@@ -543,7 +531,7 @@ class PassportLibController
             SSCP = (util?.IncrementHex(Hex: SSCP, Increment: 1))!
             apdu = ConstructAPDUforReadBinary(HexBlock: "00", HexOffset: "00", HexLength: "FF", SSC: SSCP, SKmac: SKmac)
             print("LIB >>>> (APDU CMD GET LEN DG11) >>>> : " + apdu)
-            res = await transmitCardAPDU(card: card!, apdu: apdu)
+            res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu)
             print("LIB <<<< (APDU RES GET LEN DG11) <<<< : " + res.uppercased())
             
             // MARK: - Step 4 : Verify Res Apdu get len DG11

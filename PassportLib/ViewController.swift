@@ -9,28 +9,39 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    var lib:PassportLibController?
+    var lib:PassportController?
+    var reader:ReaderController?
     
     @IBOutlet weak var showImage: UIImageView!
     @IBOutlet weak var textArea: UITextView!
     @IBOutlet weak var mrzData: UITextField!
     
+    @IBOutlet weak var documentCodeLabel: UILabel!
+    
+    @IBOutlet weak var issueStateLabel: UILabel!
+    
+    @IBOutlet weak var holderFirstNameLabel: UILabel!
+    
+    @IBOutlet weak var holderMiddleNameLabel: UILabel!
+    
+    @IBOutlet weak var holderLastNameLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        lib = PassportLibController()
+        reader = ReaderController()
+        lib = PassportController(rmngr: reader!)
     }
 
     @IBAction func startPress(_ sender: UIButton) {
         
         var mrz:String = mrzData.text!
-        mrz = "AC6739780296091633405064"
+        mrz = "AA1078870773063091803138"
         //"AA1078870773063091803138"
         //"K760625<<273063091210244"
         //"AA9689232973063092301309"
         //"AC6739780296091633405064"
-        lib?.ReadRFIDData(mrz:mrz,dg1: false,dg2: false,dg3: false,dg11: true)
+        lib?.ReadRFIDData(mrz:mrz,dg1: true,dg2: true,dg3: false,dg11: false)
 
     }
     
@@ -38,6 +49,12 @@ class ViewController: UIViewController {
         textArea.text = lib?.model?.DG1
         let data = UIImage(data:(lib?.model?.DG2)!)!.jpegData(compressionQuality: 1.0)
         showImage.image = UIImage(data: data!)
+        documentCodeLabel.text = lib?.model?.documentCode
+        issueStateLabel.text = lib?.model?.issueState
+        holderFirstNameLabel.text = lib?.model?.holderFirstName
+        holderMiddleNameLabel.text = lib?.model?.holderMiddleName
+        holderLastNameLabel.text = lib?.model?.holderLastName
+        
     }
 }
 
