@@ -9,6 +9,7 @@ import Foundation
 import CryptoTokenKit
 import CryptoKit
 import CommonCrypto
+import UIKit
 
 class PassportController
 {
@@ -189,7 +190,11 @@ class PassportController
     
     func GetRemainDataDG2(APDU:String,SKenc:String)->String{
         var result = APDU.dropFirst(10)
-        result = result.dropLast(result.count - (self.util?.FindIndexOf(inputString: String(result), target: "99029000"))!)
+        if util?.FindIndexOf(inputString: String(result), target: "99029000") == -1 {
+            result = result.dropLast(result.count - (self.util?.FindIndexOf(inputString: String(result), target: "99026282"))!)
+        }else{
+            result = result.dropLast(result.count - (self.util?.FindIndexOf(inputString: String(result), target: "99029000"))!)
+        }
         result = (util?.TripleDesDecCBC(input: String(result), key: SKenc).dropFirst(4))!
         result = result.dropLast(6)
         return String(result)
@@ -204,9 +209,57 @@ class PassportController
     }
     
     func GetDataDG11(APDU:String,SKenc:String)->String{
-        var data:[String]
         var result = APDU.dropFirst(6)
-        result = result.dropLast(result.count - (self.util?.FindIndexOf(inputString: String(result), target: "99029000"))!)
+        if util?.FindIndexOf(inputString: String(result), target: "99029000") == -1 {
+            result = result.dropLast(result.count - (self.util?.FindIndexOf(inputString: String(result), target: "99026282"))!)
+        }else{
+            result = result.dropLast(result.count - (self.util?.FindIndexOf(inputString: String(result), target: "99029000"))!)
+        }
+        print("Before ENC : " + result)
+        result = (util?.TripleDesDecCBC(input: String(result), key: SKenc).dropFirst(0))!
+        //let index = result.count - (util?.FindIndexOf(inputString: String(result), target: "5F10"))!
+        return String(result)
+    }
+    
+    func SplitDataDG11(dg11:String,Tag:String)->String{
+        if dg11.contains(Tag) {
+            let r = dg11.range(of:Tag)?.lowerBound
+            let startingIndex = dg11.distance(from: dg11.startIndex, to: r!)
+            var data2 = dg11.dropFirst(startingIndex)
+            if data2.contains(Tag) {
+                data2 = data2.dropFirst(4)
+                let r = data2.range(of:Tag)?.lowerBound
+                let startingIndex = data2.distance(from: data2.startIndex, to: r!)
+                let data3 = data2.dropFirst(startingIndex).dropFirst(4)
+                let len = Int(data3.prefix(2),radix: 16)!*2
+                let data4 = data3.dropFirst(2).prefix(len)
+                print(hexStringtoAscii(String(data4)))
+                return hexStringtoAscii(String(data4))
+            }
+        }
+        return ""
+    }
+    
+    func GetDataDG12(APDU:String,SKenc:String)->String{
+        var result = APDU.dropFirst(6)
+        if util?.FindIndexOf(inputString: String(result), target: "99029000") == -1 {
+            result = result.dropLast(result.count - (self.util?.FindIndexOf(inputString: String(result), target: "99026282"))!)
+        }else{
+            result = result.dropLast(result.count - (self.util?.FindIndexOf(inputString: String(result), target: "99029000"))!)
+        }
+        print("Before ENC : " + result)
+        result = (util?.TripleDesDecCBC(input: String(result), key: SKenc).dropFirst(0))!
+        //let index = result.count - (util?.FindIndexOf(inputString: String(result), target: "5F10"))!
+        return String(result)
+    }
+    
+    func GetDataDG15(APDU:String,SKenc:String)->String{
+        var result = APDU.dropFirst(6)
+        if util?.FindIndexOf(inputString: String(result), target: "99029000") == -1 {
+            result = result.dropLast(result.count - (self.util?.FindIndexOf(inputString: String(result), target: "99026282"))!)
+        }else{
+            result = result.dropLast(result.count - (self.util?.FindIndexOf(inputString: String(result), target: "99029000"))!)
+        }
         print("Before ENC : " + result)
         result = (util?.TripleDesDecCBC(input: String(result), key: SKenc).dropFirst(0))!
         //let index = result.count - (util?.FindIndexOf(inputString: String(result), target: "5F10"))!
@@ -510,41 +563,66 @@ class PassportController
                 SSCP = (util?.IncrementHex(Hex:SSCP, Increment: 1))!
                 verify = VerifyReadBinaryRAPDU(APDU: res, SSC: SSCP, Key: SKmac)
                 if verify {
-                    var r = GetDataDG2(APDU: res, SKenc: SKenc)
-                    print(r.count)
-                    print(r)
+                    let r = GetDataDG2(APDU: res, SKenc: SKenc)
                     let allLen = (UInt32(len[0],radix: 16)! * 2) - 1000
                     print(allLen)
                     if r.count < allLen {
+                        
                         print("Still Remain!!!")
-//                        // MARK: - Step 7 : Get Remain Data DG2
-//                        let new = (r.count/2) + Int(len[1],radix: 16)!
-//                        var newOffset = String(new,radix: 16)
-//                        while newOffset.count < 4 {
-//                            newOffset = "0" + newOffset
-//                        }
-//                        print(newOffset)
-//                        SSCP = (util?.IncrementHex(Hex: SSCP, Increment: 1))!
-//                        apdu = ConstructAPDUforReadBinaryExtend(HexBlock: String(newOffset.dropLast(2)), HexOffset: String(newOffset.dropFirst(2)), HexLength: len[0], SSC: SSCP, SKmac: SKmac)
-//                        print("LIB >>>> (APDU CMD READ DG2) >>>> : " + apdu)
-//                        res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu)
-//                        print("LIB <<<< (APDU RES READ DG2) <<<< : " + res.uppercased())
-//                        
-//                        // MARK: - Step 6 : Verify Res Apdu Read DG2
-//                        SSCP = (util?.IncrementHex(Hex:SSCP, Increment: 1))!
-//                        verify = VerifyReadBinaryRAPDU(APDU: res, SSC: SSCP, Key: SKmac)
-//                        if verify {
-//                            let r2 = GetRemainDataDG2(APDU: res, SKenc: SKenc)
-//                            print(r2.count)
-//                            r.append(r2)
-//                            print(r.count)
-//                        }else{
-//                            print("LIB >>>> Verify RES APDU READ REMAIN DG2 Fail")
-//                        } // end of verify res apdu read ramin dg2
-                    }
-                    model?.DG2 = r.hexadecimal
-                    print(" ##################### ")
-                    print(r.hexadecimal?.base64EncodedString())
+                        var re:String = ""
+                        // MARK: - Step 7 : Get Remain Data DG2
+                        SSCP = (util?.IncrementHex(Hex: SSCP, Increment: 1))!
+                        apdu = ConstructAPDUforReadBinaryExtend(HexBlock: "00", HexOffset:"00", HexLength: "FFFF", SSC: SSCP, SKmac: SKmac)
+                        print("LIB >>>> (APDU CMD READ DG2) >>>> : " + apdu)
+                        res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu)
+                        print("LIB <<<< (APDU RES READ DG2) <<<< : " + res.uppercased())
+
+                        // MARK: - Step 6 : Verify Res Apdu Read DG2
+                        SSCP = (util?.IncrementHex(Hex:SSCP, Increment: 1))!
+                        verify = VerifyReadBinaryRAPDU(APDU: res, SSC: SSCP, Key: SKmac)
+                        if verify {
+                            let r2 = GetRemainDataDG2(APDU: res, SKenc: SKenc)
+                            re.append(r2)
+                        }else{
+                            print("LIB >>>> Verify RES APDU READ REMAIN DG2 Fail")
+                        } // end of verify res apdu read ramin dg2
+                        
+                        // Loop for get all remain data
+                        while re.count < allLen {
+                            
+                            // MARK: - Step 7 : Get Remain Data DG2
+                            let new = re.count/2
+                            var newOffset = String(new,radix: 16)
+                            while newOffset.count < 4 {
+                                newOffset = "0" + newOffset
+                            }
+                            print(newOffset)
+                            SSCP = (util?.IncrementHex(Hex: SSCP, Increment: 1))!
+                            apdu = ConstructAPDUforReadBinaryExtend(HexBlock: String(newOffset.dropLast(2)), HexOffset: String(newOffset.dropFirst(2)), HexLength: len[0], SSC: SSCP, SKmac: SKmac)
+                            print("LIB >>>> (APDU CMD READ DG2) >>>> : " + apdu)
+                            res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu)
+                            print("LIB <<<< (APDU RES READ DG2) <<<< : " + res.uppercased())
+                            
+                            // MARK: - Step 6 : Verify Res Apdu Read DG2
+                            SSCP = (util?.IncrementHex(Hex:SSCP, Increment: 1))!
+                            verify = VerifyReadBinaryRAPDU(APDU: res, SSC: SSCP, Key: SKmac)
+                            if verify {
+                                let r2 = GetRemainDataDG2(APDU: res, SKenc: SKenc)
+                                re.append(r2)
+                            }else{
+                                print("LIB >>>> Verify RES APDU READ REMAIN DG2 Fail")
+                                break
+                            } // end of verify res apdu read ramin dg2
+                        }
+                        let re1 = String(re.dropFirst(170))
+                        let djpg = UIImage(data: re1.hexadecimal!)!.jpegData(compressionQuality: 1.0)
+                        model?.faceImage = djpg?.base64EncodedString()
+                        
+                    }else{
+                        let djpg = UIImage(data: r.hexadecimal!)!.jpegData(compressionQuality: 1.0)
+                        model?.faceImage = djpg?.base64EncodedString()
+                    } // end of get dg2 data
+                    
                 }else{
                     print("LIB >>>> Verify RES APDU READ DG2 Fail")
                 } // end of verify res apdu read dg2
@@ -604,7 +682,17 @@ class PassportController
                 // MARK: - Step 5 : Read DG11
                 let dg11 = GetDataDG11(APDU:res, SKenc: SKenc)
                 print("LIB >>>> DG11 : " + dg11)
-
+                
+                // MARK: - Step 6 : Loop for each data
+                model?.personalNumber = SplitDataDG11(dg11: dg11, Tag: "5F10")
+                model?.fullDateOfBirth = SplitDataDG11(dg11: dg11, Tag: "5F2B")
+                model?.placeOfBirth = SplitDataDG11(dg11: dg11, Tag: "5F11")
+                model?.permanentAddress = SplitDataDG11(dg11: dg11, Tag: "5F42")
+                model?.telephone = SplitDataDG11(dg11: dg11, Tag: "5F12")
+                model?.profession = SplitDataDG11(dg11: dg11, Tag: "5F13")
+                model?.title = SplitDataDG11(dg11: dg11, Tag: "5F14")
+                model?.personelSummary = SplitDataDG11(dg11: dg11, Tag: "5F15")
+     
                 
             }else{
                 print("LIB >>>> Verify RES APDU READ DG11 Fail")
@@ -624,7 +712,7 @@ class PassportController
         
     }
     
-    func readDG12(){
+    func readDG12() async {
         
         print("""
         
@@ -633,6 +721,42 @@ class PassportController
         #####################################
         
         """)
+        
+        // MARK: - Step 1 : Consruct APDU for SELECT DG12
+        SSCP = (util?.IncrementHex(Hex: String(SSCP), Increment: 1))!
+        var apdu = ConstructAPDUforSelectDF(DG:DG.DG12.rawValue,SKenc: SKenc,SKmac: SKmac,SSCP: SSCP)
+        print("LIB >>>> (APDU CMD SELECT DG12) >>>> : " + apdu)
+        var res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu)
+        print("LIB <<<< (APDU RES SELECT DG12) <<<< : " + res.uppercased())
+        
+        // MARK: - Step 2 : Verify Res Apdu select DG12
+        SSCP = (util?.IncrementHex(Hex: SSCP, Increment: 1))!
+        var verify = VerifySelectRAPDU(APDU: res, SSC: SSCP, Key: SKmac)
+        if verify {
+            
+            // MARK: - Step 3 : Send APDU Read Binary for get length DG data
+            SSCP = (util?.IncrementHex(Hex: SSCP, Increment: 1))!
+            apdu = ConstructAPDUforReadBinary(HexBlock: "00", HexOffset: "00", HexLength: "FF", SSC: SSCP, SKmac: SKmac)
+            print("LIB >>>> (APDU CMD READ DG12) >>>> : " + apdu)
+            res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu)
+            print("LIB <<<< (APDU RES READ DG12) <<<< : " + res.uppercased())
+            
+            // MARK: - Step 4 : Verify Res Apdu get len DG12
+            SSCP = (util?.IncrementHex(Hex: SSCP, Increment: 1))!
+            verify = VerifyReadBinaryRAPDU(APDU: res, SSC: SSCP, Key: SKmac)
+            if verify {
+                
+                // MARK: - Step 5 : Read DG12
+                let dg12 = GetDataDG12(APDU:res, SKenc: SKenc)
+                print("LIB >>>> DG12 : " + dg12)
+
+                
+            }else{
+                print("LIB >>>> Verify RES APDU READ DG12 Fail")
+            } // end of verify read dg11
+        }else{
+            print("LIB >>>> Verify RES APDU SELECT DG12 Fail")
+        } // end of verify select dg1
         
         print("""
         
@@ -644,7 +768,63 @@ class PassportController
         
     }
     
-    func ReadRFIDData(mrz:String,dg1:Bool,dg2:Bool,dg3:Bool,dg11:Bool) {
+    func readDG15() async {
+        
+        print("""
+        
+        #####################################
+              BEGIN READ DATA GROUP 15
+        #####################################
+        
+        """)
+        
+        // MARK: - Step 1 : Consruct APDU for SELECT DG15
+        SSCP = (util?.IncrementHex(Hex: String(SSCP), Increment: 1))!
+        var apdu = ConstructAPDUforSelectDF(DG:DG.DG15.rawValue,SKenc: SKenc,SKmac: SKmac,SSCP: SSCP)
+        print("LIB >>>> (APDU CMD SELECT DG15) >>>> : " + apdu)
+        var res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu)
+        print("LIB <<<< (APDU RES SELECT DG15) <<<< : " + res.uppercased())
+        
+        // MARK: - Step 2 : Verify Res Apdu select DG15
+        SSCP = (util?.IncrementHex(Hex: SSCP, Increment: 1))!
+        var verify = VerifySelectRAPDU(APDU: res, SSC: SSCP, Key: SKmac)
+        if verify {
+            
+            // MARK: - Step 3 : Send APDU Read Binary for get length DG data
+            SSCP = (util?.IncrementHex(Hex: SSCP, Increment: 1))!
+            apdu = ConstructAPDUforReadBinary(HexBlock: "00", HexOffset: "00", HexLength: "FF", SSC: SSCP, SKmac: SKmac)
+            print("LIB >>>> (APDU CMD READ DG15) >>>> : " + apdu)
+            res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu)
+            print("LIB <<<< (APDU RES READ DG15) <<<< : " + res.uppercased())
+            
+            // MARK: - Step 4 : Verify Res Apdu get len DG12
+            SSCP = (util?.IncrementHex(Hex: SSCP, Increment: 1))!
+            verify = VerifyReadBinaryRAPDU(APDU: res, SSC: SSCP, Key: SKmac)
+            if verify {
+                
+                // MARK: - Step 5 : Read DG12
+                let dg15 = GetDataDG15(APDU:res, SKenc: SKenc)
+                print("LIB >>>> DG15 : " + dg15)
+
+                
+            }else{
+                print("LIB >>>> Verify RES APDU READ DG15 Fail")
+            } // end of verify read dg11
+        }else{
+            print("LIB >>>> Verify RES APDU SELECT DG15 Fail")
+        } // end of verify select dg1
+        
+        print("""
+        
+        #####################################
+              END READ DATA GROUP 15 
+        #####################################
+        
+        """)
+        
+    }
+    
+    func ReadRFIDData(mrz:String,dg1:Bool,dg2:Bool,dg3:Bool,dg11:Bool,dg12:Bool,dg15:Bool) {
         
         Task.init{
             let isSuccess = await externalAuthnetication(mrz: mrz)
@@ -662,6 +842,14 @@ class PassportController
             
             if dg11 && isSuccess {
                 await readDG11()
+            }
+            
+            if dg12 && isSuccess {
+                await readDG12()
+            }
+            
+            if dg15 && isSuccess {
+                await readDG15()
             }
         }
         

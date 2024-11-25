@@ -26,7 +26,7 @@ struct PassportModel{
     var optionalData:String?
     var compositeCheckDigit:String?
     //DG 2
-    var faceImage:Data?
+    var faceImage:String?
     //DG 3
     var fingerPrintImage:Data?
     //DG 11
@@ -38,7 +38,7 @@ struct PassportModel{
     var profession:String?
     var title:String?
     var personelSummary:String?
+    
     var DG1:String?
-    var DG2:Data?
     var DG11:String?
 }
