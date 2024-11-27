@@ -14,6 +14,7 @@ import UIKit
 protocol PassportControllerDelegate{
     func onProgressReadPassportData(progress:Float)
     func onCompleteReadPassportData(data:PassportModel)
+    func onBeginCardSession(isSuccess:Bool)
 }
 
 class PassportController
@@ -80,10 +81,11 @@ class PassportController
     var delegate:PassportControllerDelegate?
     
     // Constructor
-    init(rmngr:ReaderController){
+    init(rmngr:ReaderController,isSmartCardInitialized:Bool){
         util = Utility()
         model = PassportModel()
         self.rmngr = rmngr
+        self.isSmartCardInitialized = isSmartCardInitialized
     }
     
     
@@ -313,9 +315,9 @@ class PassportController
         // MARK: - Step 4 : Initial SmartCard
         
 
-        isSmartCardInitialized = await rmngr.initSmartCard()
         if isSmartCardInitialized! {
             isCardSessionBegin = await rmngr.beginCardSession()
+            delegate?.onBeginCardSession(isSuccess: isCardSessionBegin!)
         }
         
         if isCardSessionBegin ?? false {
@@ -1111,6 +1113,7 @@ class PassportController
             }
             
             delegate?.onCompleteReadPassportData(data: model!)
+            rmngr.endCardSession()
         }
         
     }

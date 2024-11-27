@@ -9,5 +9,6 @@ import Foundation
 
 struct ThaiIdModel
 {
+    var chipId:String?
     
 }

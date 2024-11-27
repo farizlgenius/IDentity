@@ -26,7 +26,7 @@ class ReadPassportViewController:UIViewController {
                 if textField.text!.count < 10 {
                     
                 }else{
-                    passport = PassportController(rmngr: readerManager!)
+                    passport = PassportController(rmngr: readerManager!,isSmartCardInitialized:isSmartCardInit!)
                     performSegue(withIdentifier: "startReadPassport", sender: nil)
                 }
             }else{

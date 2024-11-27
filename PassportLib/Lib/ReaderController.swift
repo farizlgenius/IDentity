@@ -72,8 +72,8 @@ class ReaderController
     }
     
     // End Card Session
-    func endCardSession(card:TKSmartCard){
-        card.endSession()
+    func endCardSession(){
+        card!.endSession()
         print("LIB >>>> End Card Session Success")
     }
 }

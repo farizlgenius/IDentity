@@ -34,7 +34,7 @@
                                     <fontDescription key="titleFontDescription" name="Helvetica" family="Helvetica" pointSize="25"/>
                                 </buttonConfiguration>
                                 <connections>
-                                    <action selector="pressReadThaiId:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ifq-Hw-jvD"/>
+                                    <segue destination="LKb-ei-gCa" kind="presentation" modalPresentationStyle="fullScreen" id="7IC-bB-hwt"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0cr-lO-ak9">
@@ -54,8 +54,7 @@
                                     <fontDescription key="subtitleFontDescription" name="Helvetica" family="Helvetica" pointSize="12"/>
                                 </buttonConfiguration>
                                 <connections>
-                                    <action selector="pressReadPassport:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bYq-Ng-eTq"/>
-                                    <segue destination="XVj-sq-xFF" kind="presentation" identifier="pressReadPassport" modalPresentationStyle="fullScreen" id="k5D-KB-JD8"/>
+                                    <segue destination="XVj-sq-xFF" kind="presentation" modalPresentationStyle="fullScreen" id="JzG-Vi-nJG"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -70,10 +69,6 @@
                     </view>
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <outlet property="passportBtn" destination="0cr-lO-ak9" id="Uuk-mq-IYG"/>
-                        <outlet property="thaiidBtn" destination="pun-LP-0wf" id="3UF-BA-7RV"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -116,36 +111,29 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xpa-it-u56">
-                                <rect key="frame" x="231.5" y="814" width="357" height="109"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="passportreader" translatesAutoresizingMaskIntoConstraints="NO" id="a2b-Y3-o7D">
+                                <rect key="frame" x="114" y="512" width="198" height="210"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="109" id="6Op-wu-FMA"/>
-                                    <constraint firstAttribute="width" constant="357" id="TKN-KT-zVA"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="357" id="joY-OO-yCu"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="109" id="y7a-AP-sdS"/>
+                                    <constraint firstAttribute="width" constant="198" id="HJG-4E-Fif"/>
+                                    <constraint firstAttribute="height" constant="210" id="J2z-H9-Ftb"/>
                                 </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Read Passport" subtitle="Read data from Passport" imagePadding="10">
-                                    <imageReference key="image" image="arrow.up.left.and.down.right.magnifyingglass" catalog="system" symbolScale="large" variableValue="0.0"/>
-                                    <backgroundConfiguration key="background" cornerRadius="30">
-                                        <color key="backgroundColor" red="0.1176470518" green="0.20784312490000001" blue="0.2235293984" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                    </backgroundConfiguration>
-                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="35" scale="large" weight="regular"/>
-                                    <fontDescription key="titleFontDescription" name="Helvetica" family="Helvetica" pointSize="25"/>
-                                    <fontDescription key="subtitleFontDescription" name="Helvetica" family="Helvetica" pointSize="12"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="pressReadPassport:" destination="BYZ-38-t0r" eventType="touchUpInside" id="AgU-rI-lb0"/>
-                                    <action selector="pressReadPassport:" destination="XVj-sq-xFF" eventType="touchUpInside" id="wiE-Q5-HmN"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gAb-XC-CeB">
-                                <rect key="frame" x="231.5" y="964" width="357" height="109"/>
+                            </imageView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Please Connect Reader and place your passport on reader before click &quot;Read Passport&quot;" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="HkD-Vm-S9w">
+                                <rect key="frame" x="349.5" y="560" width="378" height="115"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="357" id="FR2-O4-ne4"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="109" id="OHG-yO-Yft"/>
-                                    <constraint firstAttribute="height" constant="109" id="QK9-wO-nM7"/>
-                                    <constraint firstAttribute="width" constant="357" id="SQv-CU-2D2"/>
+                                    <constraint firstAttribute="height" constant="115" id="3Yd-Tu-ltm"/>
+                                    <constraint firstAttribute="width" constant="378" id="ZVl-Qg-dUi"/>
+                                </constraints>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gAb-XC-CeB">
+                                <rect key="frame" x="114" y="792" width="263" height="109"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="263" id="Lx9-Wr-EEL"/>
+                                    <constraint firstAttribute="height" constant="109" id="egb-5X-Zg2"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Restart" subtitle="Go back to first page" imagePadding="10">
@@ -163,42 +151,45 @@
                                     <segue destination="BYZ-38-t0r" kind="presentation" identifier="backFromPassportPage" modalPresentationStyle="fullScreen" id="v1Z-Fo-luH"/>
                                 </connections>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="passportreader" translatesAutoresizingMaskIntoConstraints="NO" id="a2b-Y3-o7D">
-                                <rect key="frame" x="114" y="557" width="198" height="210"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xpa-it-u56">
+                                <rect key="frame" x="428" y="792" width="263" height="109"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="198" id="HJG-4E-Fif"/>
-                                    <constraint firstAttribute="height" constant="210" id="J2z-H9-Ftb"/>
+                                    <constraint firstAttribute="width" constant="263" id="dmR-jU-YzD"/>
+                                    <constraint firstAttribute="height" constant="109" id="kvq-NE-czA"/>
                                 </constraints>
-                            </imageView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Please Connect Reader and place your passport on reader before click &quot;Read Passport&quot;" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="HkD-Vm-S9w">
-                                <rect key="frame" x="342" y="623" width="378" height="115"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="115" id="3Yd-Tu-ltm"/>
-                                    <constraint firstAttribute="width" constant="378" id="ZVl-Qg-dUi"/>
-                                </constraints>
-                                <color key="textColor" systemColor="labelColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Read Passport" subtitle="Read data from Passport" imagePadding="10">
+                                    <imageReference key="image" image="arrow.up.left.and.down.right.magnifyingglass" catalog="system" symbolScale="large" variableValue="0.0"/>
+                                    <backgroundConfiguration key="background" cornerRadius="30">
+                                        <color key="backgroundColor" red="0.1176470518" green="0.20784312490000001" blue="0.2235293984" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    </backgroundConfiguration>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="35" scale="large" weight="regular"/>
+                                    <fontDescription key="titleFontDescription" name="Helvetica" family="Helvetica" pointSize="25"/>
+                                    <fontDescription key="subtitleFontDescription" name="Helvetica" family="Helvetica" pointSize="12"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="pressReadPassport:" destination="BYZ-38-t0r" eventType="touchUpInside" id="AgU-rI-lb0"/>
+                                    <action selector="pressReadPassport:" destination="XVj-sq-xFF" eventType="touchUpInside" id="wiE-Q5-HmN"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="V7X-QP-Dp7"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="xpa-it-u56" firstAttribute="centerX" secondItem="M3R-M9-4xV" secondAttribute="centerX" id="3ro-kG-bXq"/>
-                            <constraint firstItem="gAb-XC-CeB" firstAttribute="centerY" secondItem="M3R-M9-4xV" secondAttribute="centerY" constant="428.5" id="8WB-Ie-ypc"/>
-                            <constraint firstItem="gAb-XC-CeB" firstAttribute="centerX" secondItem="M3R-M9-4xV" secondAttribute="centerX" id="CTe-Q5-nQd"/>
+                            <constraint firstItem="gAb-XC-CeB" firstAttribute="centerY" secondItem="M3R-M9-4xV" secondAttribute="centerY" constant="256.5" id="BgY-6N-Uzl"/>
+                            <constraint firstItem="HkD-Vm-S9w" firstAttribute="centerX" secondItem="M3R-M9-4xV" secondAttribute="centerX" constant="128.5" id="IDN-fS-xEE"/>
                             <constraint firstItem="gxa-F6-X6Z" firstAttribute="centerY" secondItem="M3R-M9-4xV" secondAttribute="centerY" constant="-340" id="KPv-He-vvL"/>
-                            <constraint firstItem="HkD-Vm-S9w" firstAttribute="centerX" secondItem="M3R-M9-4xV" secondAttribute="centerX" constant="121" id="Kra-7d-DvO"/>
                             <constraint firstItem="PYY-nf-pAS" firstAttribute="centerY" secondItem="M3R-M9-4xV" secondAttribute="centerY" constant="-163" id="LRO-3I-8nx"/>
+                            <constraint firstItem="gAb-XC-CeB" firstAttribute="centerX" secondItem="M3R-M9-4xV" secondAttribute="centerX" constant="-164.5" id="R7k-Nw-nah"/>
                             <constraint firstItem="gxa-F6-X6Z" firstAttribute="centerX" secondItem="M3R-M9-4xV" secondAttribute="centerX" id="Y1m-pG-Jvw"/>
-                            <constraint firstItem="HkD-Vm-S9w" firstAttribute="centerY" secondItem="M3R-M9-4xV" secondAttribute="centerY" constant="90.5" id="beH-am-2qY"/>
+                            <constraint firstItem="a2b-Y3-o7D" firstAttribute="centerX" secondItem="M3R-M9-4xV" secondAttribute="centerX" constant="-197" id="Yp7-d3-fhW"/>
+                            <constraint firstItem="xpa-it-u56" firstAttribute="centerY" secondItem="M3R-M9-4xV" secondAttribute="centerY" constant="256.5" id="aGi-ph-8rc"/>
+                            <constraint firstItem="xpa-it-u56" firstAttribute="centerX" secondItem="M3R-M9-4xV" secondAttribute="centerX" constant="149.5" id="gg8-iC-a8v"/>
                             <constraint firstItem="cX7-ro-7aa" firstAttribute="centerX" secondItem="M3R-M9-4xV" secondAttribute="centerX" id="hpU-a6-EPt"/>
-                            <constraint firstItem="a2b-Y3-o7D" firstAttribute="centerX" secondItem="M3R-M9-4xV" secondAttribute="centerX" constant="-197" id="mIg-Tf-xCu"/>
+                            <constraint firstItem="a2b-Y3-o7D" firstAttribute="centerY" secondItem="M3R-M9-4xV" secondAttribute="centerY" constant="27" id="lAg-QS-KXW"/>
                             <constraint firstItem="cX7-ro-7aa" firstAttribute="centerY" secondItem="M3R-M9-4xV" secondAttribute="centerY" constant="-117" id="mVe-8C-KSr"/>
                             <constraint firstItem="PYY-nf-pAS" firstAttribute="centerX" secondItem="M3R-M9-4xV" secondAttribute="centerX" constant="-197" id="pd1-M6-OJT"/>
-                            <constraint firstItem="xpa-it-u56" firstAttribute="centerY" secondItem="M3R-M9-4xV" secondAttribute="centerY" constant="278.5" id="xzW-Kr-mDb"/>
-                            <constraint firstItem="a2b-Y3-o7D" firstAttribute="centerY" secondItem="M3R-M9-4xV" secondAttribute="centerY" constant="72" id="zbY-iG-jft"/>
+                            <constraint firstItem="HkD-Vm-S9w" firstAttribute="centerY" secondItem="M3R-M9-4xV" secondAttribute="centerY" constant="27.5" id="r1H-JC-S8y"/>
                         </constraints>
                     </view>
                     <connections>
@@ -209,6 +200,173 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bv0-Qa-cck" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1249.7560975609756" y="-504.40677966101697"/>
+        </scene>
+        <!--Read Thai Id View Controller-->
+        <scene sceneID="LBz-4L-N4h">
+            <objects>
+                <viewController id="LKb-ei-gCa" customClass="ReadThaiIdViewController" customModule="PassportLib" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="su2-43-fIY">
+                        <rect key="frame" x="0.0" y="0.0" width="820" height="1180"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="insert" translatesAutoresizingMaskIntoConstraints="NO" id="Tfg-mF-J8Z">
+                                <rect key="frame" x="229.5" y="204" width="361" height="350"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="361" id="Gz7-Ae-Fdr"/>
+                                    <constraint firstAttribute="height" constant="350" id="xaG-SN-iL9"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Insert Smart Card in the reader Click Read" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IRe-XN-Mi0">
+                                <rect key="frame" x="212" y="562" width="396" height="114"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="114" id="7d1-WB-fsG"/>
+                                    <constraint firstAttribute="width" constant="396" id="Csl-45-ub7"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O3D-jg-Hr0">
+                                <rect key="frame" x="442" y="776" width="288" height="109"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="288" id="Iad-NO-eXX"/>
+                                    <constraint firstAttribute="height" constant="109" id="d1H-WQ-FdU"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Read Thai Id" subtitle="Read data from Thai Id" imagePadding="10">
+                                    <imageReference key="image" image="person.text.rectangle" catalog="system" symbolScale="large" variableValue="0.0"/>
+                                    <backgroundConfiguration key="background" cornerRadius="30">
+                                        <color key="backgroundColor" red="0.1176470518" green="0.20784312490000001" blue="0.2235293984" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    </backgroundConfiguration>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="35" scale="large" weight="regular"/>
+                                    <fontDescription key="titleFontDescription" name="Helvetica" family="Helvetica" pointSize="25"/>
+                                    <fontDescription key="subtitleFontDescription" name="Helvetica" family="Helvetica" pointSize="12"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="pressReadPassport:" destination="XVj-sq-xFF" eventType="touchUpInside" id="14P-Dl-FJ1"/>
+                                    <action selector="pressReadPassport:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jiJ-i0-GFR"/>
+                                    <action selector="pressReadThaiId:" destination="LKb-ei-gCa" eventType="touchUpInside" id="HMU-t3-3YX"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cGy-O6-uDb">
+                                <rect key="frame" x="90" y="776" width="284" height="109"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="109" id="KLB-1M-aqf"/>
+                                    <constraint firstAttribute="width" constant="284" id="okj-KI-QWw"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Restart" subtitle="Go back to first page" imagePadding="10">
+                                    <imageReference key="image" image="arrowshape.turn.up.backward.2" catalog="system" symbolScale="large" variableValue="0.0"/>
+                                    <backgroundConfiguration key="background" cornerRadius="30">
+                                        <color key="backgroundColor" red="0.1176470518" green="0.20784312490000001" blue="0.2235293984" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    </backgroundConfiguration>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="35" scale="large" weight="regular"/>
+                                    <fontDescription key="titleFontDescription" name="Helvetica" family="Helvetica" pointSize="25"/>
+                                    <fontDescription key="subtitleFontDescription" name="Helvetica" family="Helvetica" pointSize="12"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="pressReadPassport:" destination="BYZ-38-t0r" eventType="touchUpInside" id="eQy-C3-dhK"/>
+                                    <action selector="pressRestart:" destination="XVj-sq-xFF" eventType="touchUpInside" id="x6s-sH-Rwj"/>
+                                    <segue destination="BYZ-38-t0r" kind="presentation" modalPresentationStyle="fullScreen" id="ytf-hn-JKP"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="tju-a0-KOq"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="IRe-XN-Mi0" firstAttribute="centerY" secondItem="su2-43-fIY" secondAttribute="centerY" constant="29" id="2dq-4l-Wkc"/>
+                            <constraint firstItem="Tfg-mF-J8Z" firstAttribute="centerY" secondItem="su2-43-fIY" secondAttribute="centerY" constant="-211" id="37Z-SM-nAo"/>
+                            <constraint firstItem="cGy-O6-uDb" firstAttribute="centerX" secondItem="su2-43-fIY" secondAttribute="centerX" constant="-178" id="607-Bz-bMD"/>
+                            <constraint firstItem="IRe-XN-Mi0" firstAttribute="centerX" secondItem="su2-43-fIY" secondAttribute="centerX" id="7iT-yf-ezH"/>
+                            <constraint firstItem="Tfg-mF-J8Z" firstAttribute="centerY" secondItem="su2-43-fIY" secondAttribute="centerY" constant="-211" id="FHi-ch-p7d"/>
+                            <constraint firstItem="O3D-jg-Hr0" firstAttribute="centerX" secondItem="su2-43-fIY" secondAttribute="centerX" constant="176" id="MgZ-sm-UC6"/>
+                            <constraint firstItem="cGy-O6-uDb" firstAttribute="centerY" secondItem="su2-43-fIY" secondAttribute="centerY" constant="240.5" id="Sxi-2F-8iu"/>
+                            <constraint firstItem="Tfg-mF-J8Z" firstAttribute="centerX" secondItem="su2-43-fIY" secondAttribute="centerX" id="XFO-gm-JBo"/>
+                            <constraint firstItem="O3D-jg-Hr0" firstAttribute="centerY" secondItem="su2-43-fIY" secondAttribute="centerY" constant="240.5" id="oab-eH-Cc5"/>
+                            <constraint firstItem="Tfg-mF-J8Z" firstAttribute="centerX" secondItem="su2-43-fIY" secondAttribute="centerX" id="wNA-G8-JAy"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <segue destination="mLR-4O-Uec" kind="presentation" identifier="startReadThaiId" modalPresentationStyle="fullScreen" id="La3-M7-Nl7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ebQ-I3-uJj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1249.7560975609756" y="266.94915254237287"/>
+        </scene>
+        <!--Start Read Thai Id View Controller-->
+        <scene sceneID="9bC-8J-7cf">
+            <objects>
+                <viewController id="mLR-4O-Uec" customClass="StartReadThaiIdViewController" customModule="PassportLib" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="s2R-og-xC5">
+                        <rect key="frame" x="0.0" y="0.0" width="820" height="1180"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Processing . . ." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NA9-el-hu8">
+                                <rect key="frame" x="144" y="656" width="305" height="58"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="58" id="aVh-hZ-Ud8"/>
+                                    <constraint firstAttribute="width" constant="305" id="d3O-fM-yBP"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="MqN-yU-aWZ">
+                                <rect key="frame" x="143.5" y="722" width="533" height="4"/>
+                                <color key="tintColor" red="0.1176470518" green="0.20784312490000001" blue="0.2235293984" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="533" id="cMu-95-VoJ"/>
+                                    <constraint firstAttribute="height" constant="4" id="mKR-cP-jdV"/>
+                                </constraints>
+                            </progressView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oyb-Mk-t2C">
+                                <rect key="frame" x="231.5" y="833" width="357" height="109"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="357" id="PH3-uI-W3l"/>
+                                    <constraint firstAttribute="height" constant="109" id="Wqk-Ha-S4g"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Read Thai Id" subtitle="Read data from Thai Id" imagePadding="10">
+                                    <imageReference key="image" image="arrow.up.left.and.down.right.magnifyingglass" catalog="system" symbolScale="large" variableValue="0.0"/>
+                                    <backgroundConfiguration key="background" cornerRadius="30">
+                                        <color key="backgroundColor" red="0.1176470518" green="0.20784312490000001" blue="0.2235293984" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    </backgroundConfiguration>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="35" scale="large" weight="regular"/>
+                                    <fontDescription key="titleFontDescription" name="Helvetica" family="Helvetica" pointSize="25"/>
+                                    <fontDescription key="subtitleFontDescription" name="Helvetica" family="Helvetica" pointSize="12"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="pressRead:" destination="g3t-Hv-YBf" eventType="touchUpInside" id="muH-d1-71f"/>
+                                    <action selector="pressReadPassport:" destination="XVj-sq-xFF" eventType="touchUpInside" id="L2G-y5-YeB"/>
+                                    <action selector="pressReadPassport:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cdQ-FE-htf"/>
+                                </connections>
+                            </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="card" translatesAutoresizingMaskIntoConstraints="NO" id="Aps-1r-Nj8">
+                                <rect key="frame" x="250" y="285" width="320" height="322"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="322" id="isF-w7-0eg"/>
+                                    <constraint firstAttribute="width" constant="320" id="jgE-BQ-XbB"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="m6a-s4-Lpy"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="oyb-Mk-t2C" firstAttribute="centerY" secondItem="s2R-og-xC5" secondAttribute="centerY" constant="297.5" id="0eZ-lA-oAb"/>
+                            <constraint firstItem="MqN-yU-aWZ" firstAttribute="centerY" secondItem="s2R-og-xC5" secondAttribute="centerY" constant="134" id="HKf-56-LKp"/>
+                            <constraint firstItem="NA9-el-hu8" firstAttribute="centerX" secondItem="s2R-og-xC5" secondAttribute="centerX" constant="-113.5" id="Khr-h8-dKF"/>
+                            <constraint firstItem="Aps-1r-Nj8" firstAttribute="centerY" secondItem="s2R-og-xC5" secondAttribute="centerY" constant="-144" id="MPW-3k-J3d"/>
+                            <constraint firstItem="oyb-Mk-t2C" firstAttribute="centerX" secondItem="s2R-og-xC5" secondAttribute="centerX" id="Za0-Jk-qGh"/>
+                            <constraint firstItem="MqN-yU-aWZ" firstAttribute="centerX" secondItem="s2R-og-xC5" secondAttribute="centerX" id="aUU-6s-gLG"/>
+                            <constraint firstItem="NA9-el-hu8" firstAttribute="centerY" secondItem="s2R-og-xC5" secondAttribute="centerY" constant="95" id="odn-nc-cdF"/>
+                            <constraint firstItem="Aps-1r-Nj8" firstAttribute="centerX" secondItem="s2R-og-xC5" secondAttribute="centerX" id="vPa-hB-vb9"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xDs-sC-tC7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2257.3170731707319" y="281.69491525423729"/>
         </scene>
         <!--Start Read Passport Controller-->
         <scene sceneID="EV6-E0-jy9">
@@ -377,11 +535,13 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="vGR-mn-wR7"/>
+        <segue reference="ytf-hn-JKP"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.up.left.and.down.right.magnifyingglass" catalog="system" width="128" height="117"/>
         <image name="arrowshape.turn.up.backward.2" catalog="system" width="128" height="86"/>
+        <image name="card" width="225" height="225"/>
+        <image name="insert" width="612" height="612"/>
         <image name="passport" width="1000" height="360"/>
         <image name="passportreader" width="200" height="200"/>
         <image name="person.crop.square.filled.and.at.rectangle" catalog="system" width="128" height="93"/>

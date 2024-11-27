@@ -37,6 +37,13 @@ class StartReadPassportController:UIViewController,PassportControllerDelegate {
         }
     }
     
+    func onBeginCardSession(isSuccess: Bool) {
+        if !isSuccess {
+            let overlay = NotFoundReaderPopUpViewController()
+            overlay.appear(sender: self)
+        }
+    }
+    
     @IBAction func pressRead(_ sender: UIButton) {
         passport?.ReadRFIDData(mrz: mrz!, dg1: true, dg2: true, dg3: false, dg7:false, dg11: false, dg12: false, dg15: false)
     }
