@@ -15,7 +15,7 @@ class StartReadThaiIdViewController:UIViewController {
     override func viewDidLoad(){
         super.viewDidLoad()
         
-        thai?.readThaiID(isImageRequire: true)
+        thai?.readThaiID(isImageRequire: false)
         
     }
 }
