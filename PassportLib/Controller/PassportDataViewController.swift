@@ -11,6 +11,7 @@ import UIKit
 class PassportDataViewController:UIViewController {
     
     var passportModel:PassportModel?
+    var thaiIdModel:ThaiIdModel?
     var data:[String] = []
     @IBOutlet weak var tableView: UITableView!
     
@@ -18,38 +19,55 @@ class PassportDataViewController:UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         tableView.delegate = self
         tableView.dataSource = self
+        if passportModel != nil {
+            data.append("Document Code : \(passportModel?.documentCode ?? "")")
+            data.append("Document Number : \(passportModel?.documentNumber ?? "")")
+            data.append("First Name : \(passportModel?.holderFirstName ?? "")")
+            data.append("Middle Name : \(passportModel?.holderMiddleName ?? "")")
+            data.append("Last Name : \(passportModel?.holderLastName ?? "")")
+            data.append("Date of Birth : \(passportModel?.dateOfBirth ?? "")")
+            data.append("Date of Expiry : \(passportModel?.dateOfExpiry ?? "")")
+            data.append("Nationality : \(passportModel?.nationality ?? "")")
+            data.append("Sex : \(passportModel?.sex == "M" ? "Male" : "Female")")
+            data.append("Issue State : \(passportModel?.issueState ?? "")")
+            let img = Data(base64Encoded: (passportModel?.faceImage)!, options: .ignoreUnknownCharacters)
+            imageView.image = UIImage(data: img!)
+        }
         
-        data.append("Document Code : \(passportModel?.documentCode ?? "")")
-        data.append("Document Number : \(passportModel?.documentNumber ?? "")")
-        data.append("First Name : \(passportModel?.holderFirstName ?? "")")
-        data.append("Middle Name : \(passportModel?.holderMiddleName ?? "")")
-        data.append("Last Name : \(passportModel?.holderLastName ?? "")")
-        data.append("Date of Birth : \(passportModel?.dateOfBirth ?? "")")
-        data.append("Date of Expiry : \(passportModel?.dateOfExpiry ?? "")")
-        data.append("Nationality : \(passportModel?.nationality ?? "")")
-        data.append("Sex : \(passportModel?.sex == "M" ? "Male" : "Female")")
-        data.append("Issue State : \(passportModel?.issueState ?? "")")
+        if thaiIdModel != nil {
+            data.append("Card Type : \(thaiIdModel?.cardType ?? "")")
+            data.append("Card ID : \(thaiIdModel?.cId ?? "")")
+            data.append("thFullName : \(thaiIdModel?.thaiFullName ?? "")")
+            data.append("thTitleName : \(thaiIdModel?.thaiTitleName ?? "")")
+            data.append("thMiddleName : \(thaiIdModel?.thaiMiddleName ?? "")")
+            data.append("thLastName : \(thaiIdModel?.thaiLastName ?? "")")
+            data.append("enFullName : \(thaiIdModel?.engFullName ?? "")")
+            data.append("enTitleName : \(thaiIdModel?.engTitleName ?? "")")
+            data.append("enMiddleName : \(thaiIdModel?.engMiddleName ?? "")")
+            data.append("enLastName : \(thaiIdModel?.engLastName ?? "")")
+            data.append("Gender : \(thaiIdModel?.gender == "1" ? "Male" : "Female")")
+            data.append("Birth Date : \(thaiIdModel?.dateOfBirth ?? "")")
+            data.append("Expire Date : \(thaiIdModel?.expireDate ?? "")")
+            data.append("Chip ID : \(thaiIdModel?.chipId ?? "")")
+            data.append("bp1No : \(thaiIdModel?.bp1no ?? "")")
+            data.append("Laser ID : \(thaiIdModel?.laserId ?? "")")
+            data.append("Issuer Code : \(thaiIdModel?.issuerCode ?? "")")
+            data.append("Card Issuer : \(thaiIdModel?.cardIssuer ?? "")")
+            data.append("Issue Date : \(thaiIdModel?.issueDate ?? "")")
+            if thaiIdModel?.base64Img != "" {
+                let img = Data(base64Encoded: (thaiIdModel?.base64Img)!, options: .ignoreUnknownCharacters)
+                imageView.image = UIImage(data: img!)
+            }
+            
+        }
         
-        let img = Data(base64Encoded: (passportModel?.faceImage)!, options: .ignoreUnknownCharacters)
-        imageView.image = UIImage(data: img!)
+        
 
     }
     
-    @IBAction func pressRestart(_ sender: Any) {
-        DispatchQueue.main.async {
-            self.performSegue(withIdentifier: "restart", sender: nil)
-        }
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "restart" {
-            let controller = segue.destination as! MainViewController
-        }
-    }
-    
+
     
 }
 

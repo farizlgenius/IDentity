@@ -11,7 +11,7 @@ import CryptoTokenKit
 class ReaderController
 {
     // Reader Controller Properties
-    let mngr:TKSmartCardSlotManager?
+    var mngr:TKSmartCardSlotManager?
     var card:TKSmartCard?
     var slot:TKSmartCardSlot?
     
@@ -74,6 +74,8 @@ class ReaderController
     // End Card Session
     func endCardSession(){
         card!.endSession()
+        card = nil
+        slot = nil
         print("LIB >>>> End Card Session Success")
     }
 }
