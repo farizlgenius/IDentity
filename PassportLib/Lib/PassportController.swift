@@ -104,10 +104,23 @@ class PassportController
     
     func VerifySelectRAPDU(APDU:String,SSC:String,Key:String)->Bool{
         let RAPDU = APDU.dropLast(4).uppercased()
-        let DropIndex = RAPDU.count - (self.util?.FindIndexOf(inputString: String(RAPDU), target: "8E08"))!
-        let K = SSC + RAPDU.dropLast(DropIndex) + "80000000"
-        let CC = self.util?.MessageAuthenticationCodeMethodOne(input: K, key: Key)
-        let DO8E = RAPDU.dropFirst((self.util?.FindIndexOf(inputString: String(RAPDU), target: "8E08"))!+4)
+        var DropIndex = 0
+        if util?.FindIndexOf(inputString: String(RAPDU), target: "990290008E08") == -1 {
+            DropIndex = RAPDU.count - (self.util?.FindIndexOf(inputString: String(RAPDU), target: "990262828E08"))!
+        }else{
+            DropIndex = RAPDU.count - (self.util?.FindIndexOf(inputString: String(RAPDU), target: "990290008E08"))!
+        }
+        var K = SSC + RAPDU.dropLast(DropIndex - 8) + "80"
+        while(K.count % 16 != 0){
+            K.append("00")
+        }
+        let CC = util?.MessageAuthenticationCodeMethodOne(input: K, key: Key)
+        if util?.FindIndexOf(inputString: String(RAPDU), target: "990290008E08") == -1 {
+            DropIndex = (util?.FindIndexOf(inputString: String(RAPDU), target: "990262828E08"))!
+        }else{
+            DropIndex = (util?.FindIndexOf(inputString: String(RAPDU), target: "990290008E08"))!
+        }
+        let DO8E = RAPDU.dropFirst(DropIndex+12)
         if CC! == DO8E {
             return true
         }else{
@@ -139,14 +152,28 @@ class PassportController
     
     func VerifyReadBinaryRAPDU(APDU:String,SSC:String,Key:String)->Bool{
         let RAPDU = APDU.dropLast(4).uppercased()
-        let DropIndex = RAPDU.count - (util?.FindIndexOf(inputString: String(RAPDU), target: "8E08"))!
+        var DropIndex:Int = 0
+        if util?.FindIndexOf(inputString: String(RAPDU), target: "990290008E08") == -1 {
+            DropIndex = RAPDU.count - (util?.FindIndexOf(inputString: String(RAPDU), target: "990262828E08"))!
+            print(DropIndex)
+        }else{
+            DropIndex = RAPDU.count - (util?.FindIndexOf(inputString: String(RAPDU), target: "990290008E08"))!
+            print(DropIndex)
+        }
         
-        var K = SSC + RAPDU.dropLast(DropIndex) + "80"
+        var K = SSC + RAPDU.dropLast(DropIndex-8) + "80"
         while(K.count % 16 != 0){
             K.append("00")
         }
         let CC = self.util?.MessageAuthenticationCodeMethodOne(input: K, key: Key)
-        let DO8E = RAPDU.dropFirst((util?.FindIndexOf(inputString: String(RAPDU), target: "8E08"))!+4)
+        if util?.FindIndexOf(inputString: String(RAPDU), target: "990290008E08") == -1 {
+            DropIndex = (util?.FindIndexOf(inputString: String(RAPDU), target: "990262828E08"))!
+            print(DropIndex)
+        }else{
+            DropIndex = (util?.FindIndexOf(inputString: String(RAPDU), target: "990290008E08"))!
+            print(DropIndex)
+        }
+        let DO8E = RAPDU.dropFirst(DropIndex+12)
         if CC! == DO8E {
             return true
         }else{
@@ -212,7 +239,7 @@ class PassportController
     
     func GetDataDG1(APDU:String,SKenc:String)->String{
         let result = APDU.dropFirst(6).uppercased()
-        let result2 = result.dropLast(result.count - (self.util?.FindIndexOf(inputString: String(result), target: "9902"))!)
+        let result2 = result.dropLast(result.count - (self.util?.FindIndexOf(inputString: String(result), target: "99029000"))!)
         let result3 = util?.TripleDesDecCBC(input: String(result2), key: SKenc)
         print("LIB >>>> DG1 Hex : " + result3!.dropLast(16))
         return hexStringtoAscii(String(result3!.dropLast(16)))
@@ -572,8 +599,9 @@ class PassportController
                 // MARK: - Step 6 : Verify Res Apdu Read DG2
                 SSCP = (util?.IncrementHex(Hex:SSCP, Increment: 1))!
                 verify = VerifyReadBinaryRAPDU(APDU: res, SSC: SSCP, Key: SKmac)
+                var r:String = ""
                 if verify {
-                    let r = GetDataDG2(APDU: res, SKenc: SKenc)
+                    r = GetDataDG2(APDU: res, SKenc: SKenc)
                     let allLen = (UInt32(len[0],radix: 16)! * 2) - 1000
                     print(allLen)
                     if r.count < allLen {
@@ -621,6 +649,7 @@ class PassportController
                                 re.append(r2)
                             }else{
                                 print("LIB >>>> Verify RES APDU READ REMAIN DG2 Fail")
+                                model?.faceImage = ""
                                 break
                             } // end of verify res apdu read ramin dg2
                         }
@@ -635,6 +664,7 @@ class PassportController
                     
                 }else{
                     print("LIB >>>> Verify RES APDU READ DG2 Fail")
+                    model?.faceImage = ""
                 } // end of verify res apdu read dg2
                 
             }else{

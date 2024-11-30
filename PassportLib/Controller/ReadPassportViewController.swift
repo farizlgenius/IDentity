@@ -17,6 +17,7 @@ class ReadPassportViewController:UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         readerManager = ReaderController()
+        textField.text = "AA1078870773063091803138"
     }
     
     @IBAction func pressReadPassport(_ sender: UIButton) {

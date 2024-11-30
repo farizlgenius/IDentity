@@ -45,10 +45,6 @@ class StartReadThaiIdViewController:UIViewController,ThaiIdControllerDelegate {
         }
     }
     
-    @IBAction func pressRead(_ sender: Any) {
-        thai?.readThaiID(isImageRequire: true)
-    }
-    
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

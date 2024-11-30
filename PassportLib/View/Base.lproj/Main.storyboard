@@ -267,29 +267,6 @@
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oyb-Mk-t2C">
-                                <rect key="frame" x="231.5" y="833" width="357" height="109"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="357" id="PH3-uI-W3l"/>
-                                    <constraint firstAttribute="height" constant="109" id="Wqk-Ha-S4g"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Read Thai Id" subtitle="Read data from Thai Id" imagePadding="10">
-                                    <imageReference key="image" image="arrow.up.left.and.down.right.magnifyingglass" catalog="system" symbolScale="large" variableValue="0.0"/>
-                                    <backgroundConfiguration key="background" cornerRadius="30">
-                                        <color key="backgroundColor" red="0.1176470518" green="0.20784312490000001" blue="0.2235293984" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                    </backgroundConfiguration>
-                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="35" scale="large" weight="regular"/>
-                                    <fontDescription key="titleFontDescription" name="Helvetica" family="Helvetica" pointSize="25"/>
-                                    <fontDescription key="subtitleFontDescription" name="Helvetica" family="Helvetica" pointSize="12"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="pressRead:" destination="mLR-4O-Uec" eventType="touchUpInside" id="fan-7m-aZ9"/>
-                                    <action selector="pressRead:" destination="g3t-Hv-YBf" eventType="touchUpInside" id="muH-d1-71f"/>
-                                    <action selector="pressReadPassport:" destination="XVj-sq-xFF" eventType="touchUpInside" id="L2G-y5-YeB"/>
-                                    <action selector="pressReadPassport:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cdQ-FE-htf"/>
-                                </connections>
-                            </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="card" translatesAutoresizingMaskIntoConstraints="NO" id="Aps-1r-Nj8">
                                 <rect key="frame" x="250" y="285" width="320" height="322"/>
                                 <constraints>
@@ -306,10 +283,8 @@
                         <viewLayoutGuide key="safeArea" id="m6a-s4-Lpy"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="oyb-Mk-t2C" firstAttribute="centerY" secondItem="s2R-og-xC5" secondAttribute="centerY" constant="297.5" id="0eZ-lA-oAb"/>
                             <constraint firstItem="NA9-el-hu8" firstAttribute="centerX" secondItem="s2R-og-xC5" secondAttribute="centerX" constant="-113.5" id="Khr-h8-dKF"/>
                             <constraint firstItem="Aps-1r-Nj8" firstAttribute="centerY" secondItem="s2R-og-xC5" secondAttribute="centerY" constant="-144" id="MPW-3k-J3d"/>
-                            <constraint firstItem="oyb-Mk-t2C" firstAttribute="centerX" secondItem="s2R-og-xC5" secondAttribute="centerX" id="Za0-Jk-qGh"/>
                             <constraint firstItem="NA9-el-hu8" firstAttribute="centerY" secondItem="s2R-og-xC5" secondAttribute="centerY" constant="95" id="odn-nc-cdF"/>
                             <constraint firstItem="Aps-1r-Nj8" firstAttribute="centerX" secondItem="s2R-og-xC5" secondAttribute="centerX" id="vPa-hB-vb9"/>
                         </constraints>
@@ -411,26 +386,29 @@
                         <rect key="frame" x="0.0" y="0.0" width="820" height="1180"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5nb-Mf-TQg">
-                                <rect key="frame" x="293" y="38" width="234" height="252"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5nb-Mf-TQg">
+                                <rect key="frame" x="20" y="104" width="234" height="252"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="234" id="T1X-GO-Jub"/>
+                                    <constraint firstAttribute="height" constant="252" id="u4u-xU-W9b"/>
+                                </constraints>
                             </imageView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="f9a-Ma-yvy">
-                                <rect key="frame" x="0.0" y="320" width="820" height="790"/>
+                                <rect key="frame" x="262" y="104" width="538" height="1006"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="DcM-g3-sHR">
-                                        <rect key="frame" x="8" y="8" width="804" height="774"/>
+                                        <rect key="frame" x="8" y="8" width="522" height="990"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="sectionIndexColor" red="0.1176470518" green="0.20784312490000001" blue="0.2235293984" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="hUn-N4-mNH">
-                                                <rect key="frame" x="0.0" y="50" width="804" height="51.5"/>
+                                                <rect key="frame" x="0.0" y="50" width="522" height="51.5"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hUn-N4-mNH" id="GTZ-AR-e6B">
-                                                    <rect key="frame" x="0.0" y="0.0" width="804" height="51.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="522" height="51.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </tableViewCellContentView>
                                             </tableViewCell>
@@ -441,9 +419,38 @@
                                 <viewLayoutGuide key="contentLayoutGuide" id="826-c7-UjU"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="yab-kx-mW0"/>
                             </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yrn-yV-YWT">
+                                <rect key="frame" x="43" y="386" width="188" height="83"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="83" id="2cT-wx-I6f"/>
+                                    <constraint firstAttribute="width" constant="188" id="Ere-uj-L4o"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Restart" subtitle="Back to main page" imagePadding="10">
+                                    <imageReference key="image" image="restart" catalog="system" symbolScale="large" variableValue="0.0"/>
+                                    <backgroundConfiguration key="background" cornerRadius="30">
+                                        <color key="backgroundColor" red="0.1176470518" green="0.20784312490000001" blue="0.2235293984" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    </backgroundConfiguration>
+                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="35" scale="large" weight="regular"/>
+                                    <fontDescription key="titleFontDescription" name="Helvetica" family="Helvetica" pointSize="25"/>
+                                    <fontDescription key="subtitleFontDescription" name="Helvetica" family="Helvetica" pointSize="12"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="pressRead:" destination="g3t-Hv-YBf" eventType="touchUpInside" id="cOX-Ai-ou5"/>
+                                    <action selector="pressReadPassport:" destination="BYZ-38-t0r" eventType="touchUpInside" id="EXE-zG-vmB"/>
+                                    <action selector="pressReadPassport:" destination="XVj-sq-xFF" eventType="touchUpInside" id="bZv-Vm-wIZ"/>
+                                    <action selector="restartPressed:" destination="4Mr-Xp-lZm" eventType="touchUpInside" id="dz3-Ku-Q2F"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="BYz-W9-Lzw"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="yrn-yV-YWT" firstAttribute="centerX" secondItem="91B-VO-rLk" secondAttribute="centerX" constant="-273" id="CHQ-7y-R0J"/>
+                            <constraint firstItem="5nb-Mf-TQg" firstAttribute="centerX" secondItem="91B-VO-rLk" secondAttribute="centerX" constant="-273" id="Cqd-EE-vPQ"/>
+                            <constraint firstItem="5nb-Mf-TQg" firstAttribute="centerY" secondItem="91B-VO-rLk" secondAttribute="centerY" constant="-360" id="hEw-2x-vST"/>
+                            <constraint firstItem="yrn-yV-YWT" firstAttribute="centerY" secondItem="91B-VO-rLk" secondAttribute="centerY" constant="-162.5" id="vr1-DS-LrF"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="wsa-oh-h8q"/>
                     <connections>
@@ -476,7 +483,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Z0P-qp-N4K"/>
+        <segue reference="QIC-GB-Q5Q"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.up.left.and.down.right.magnifyingglass" catalog="system" width="128" height="117"/>
@@ -487,6 +494,7 @@
         <image name="person.crop.square.filled.and.at.rectangle" catalog="system" width="128" height="93"/>
         <image name="person.text.rectangle" catalog="system" width="128" height="93"/>
         <image name="readpassport" width="512" height="512"/>
+        <image name="restart" catalog="system" width="117" height="128"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

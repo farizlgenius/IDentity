@@ -19,9 +19,12 @@ class PassportDataViewController:UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.hidesBackButton = true
+        
         tableView.delegate = self
         tableView.dataSource = self
         if passportModel != nil {
+            title = "Passport"
             data.append("Document Code : \(passportModel?.documentCode ?? "")")
             data.append("Document Number : \(passportModel?.documentNumber ?? "")")
             data.append("First Name : \(passportModel?.holderFirstName ?? "")")
@@ -32,11 +35,14 @@ class PassportDataViewController:UIViewController {
             data.append("Nationality : \(passportModel?.nationality ?? "")")
             data.append("Sex : \(passportModel?.sex == "M" ? "Male" : "Female")")
             data.append("Issue State : \(passportModel?.issueState ?? "")")
-            let img = Data(base64Encoded: (passportModel?.faceImage)!, options: .ignoreUnknownCharacters)
-            imageView.image = UIImage(data: img!)
+            if passportModel?.faceImage != "" {
+                let img = Data(base64Encoded: (passportModel?.faceImage)!, options: .ignoreUnknownCharacters)
+                imageView.image = UIImage(data: img!)
+            }
         }
         
         if thaiIdModel != nil {
+            title = "Thai ID"
             data.append("Card Type : \(thaiIdModel?.cardType ?? "")")
             data.append("Card ID : \(thaiIdModel?.cId ?? "")")
             data.append("thFullName : \(thaiIdModel?.thaiFullName ?? "")")
@@ -67,7 +73,11 @@ class PassportDataViewController:UIViewController {
 
     }
     
-
+    
+    @IBAction func restartPressed(_ sender: UIButton) {
+        navigationController?.popToRootViewController(animated: true)
+    }
+    
     
 }
 
