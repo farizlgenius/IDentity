@@ -5,3 +5,5 @@
 - CryptoTokenKit (for Smart Card)
 - CryptoToken
 - CommonCrypto
+- AVFoundation
+- Vision
