@@ -25,7 +25,7 @@ class ReadThaiIdViewController:UIViewController {
                 thai = ThaiIdController(rmngr: readerManager!,isSmartCardInitialized: isSmartCardInit!)
                 performSegue(withIdentifier: "startReadThaiId", sender: nil)
             }else{
-                let overlay = NotFoundReaderPopUpViewController()
+                let overlay = ErrorPopUpViewController()
                 overlay.appear(sender: self)
             }
         }

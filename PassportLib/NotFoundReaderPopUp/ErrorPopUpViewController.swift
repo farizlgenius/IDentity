@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NotFoundReaderPopUpViewController: UIViewController {
+class ErrorPopUpViewController: UIViewController {
     
     @IBOutlet weak var backView: UIView!
     @IBOutlet weak var contentView: UIView!

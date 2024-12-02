@@ -54,7 +54,7 @@
                                     <fontDescription key="subtitleFontDescription" name="Helvetica" family="Helvetica" pointSize="12"/>
                                 </buttonConfiguration>
                                 <connections>
-                                    <segue destination="XVj-sq-xFF" kind="show" id="JzG-Vi-nJG"/>
+                                    <segue destination="72C-8N-LbE" kind="show" id="F7t-bx-Voa"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -74,6 +74,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="888.29268292682923" y="-27.457627118644069"/>
+        </scene>
+        <!--Passport Capture View Controller-->
+        <scene sceneID="iGD-nl-Vny">
+            <objects>
+                <viewController id="72C-8N-LbE" customClass="PassportCaptureViewController" customModule="PassportLib" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="oio-UF-NhI">
+                        <rect key="frame" x="0.0" y="0.0" width="820" height="1180"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="QFF-Bg-kxZ"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Mie-dF-UOj"/>
+                    <connections>
+                        <segue destination="XVj-sq-xFF" kind="show" identifier="startTextRecog" id="eey-lX-jUu"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aES-xw-CPp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1990.9756097560976" y="-1226.4406779661017"/>
         </scene>
         <!--Read Passport View Controller-->
         <scene sceneID="mVK-sw-O4n">
@@ -131,10 +150,10 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xpa-it-u56">
-                                <rect key="frame" x="284" y="815" width="252.5" height="109"/>
+                                <rect key="frame" x="284" y="819" width="252.5" height="109"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="44" id="dmR-jU-YzD"/>
-                                    <constraint firstAttribute="height" constant="109" id="kvq-NE-czA"/>
+                                    <constraint firstAttribute="height" constant="109" id="lYg-R9-U8W"/>
+                                    <constraint firstAttribute="width" constant="252.5" id="mCl-kj-9mc"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Read Passport" subtitle="Read data from Passport" imagePadding="10">
@@ -155,11 +174,11 @@
                         <viewLayoutGuide key="safeArea" id="V7X-QP-Dp7"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="xpa-it-u56" firstAttribute="centerY" secondItem="M3R-M9-4xV" secondAttribute="centerY" constant="279.5" id="7tU-rQ-FUW"/>
                             <constraint firstItem="HkD-Vm-S9w" firstAttribute="centerX" secondItem="M3R-M9-4xV" secondAttribute="centerX" constant="128.5" id="IDN-fS-xEE"/>
                             <constraint firstItem="gxa-F6-X6Z" firstAttribute="centerY" secondItem="M3R-M9-4xV" secondAttribute="centerY" constant="-340" id="KPv-He-vvL"/>
                             <constraint firstItem="PYY-nf-pAS" firstAttribute="centerY" secondItem="M3R-M9-4xV" secondAttribute="centerY" constant="-163" id="LRO-3I-8nx"/>
-                            <constraint firstItem="xpa-it-u56" firstAttribute="centerX" secondItem="M3R-M9-4xV" secondAttribute="centerX" id="Vnq-1S-fl3"/>
+                            <constraint firstItem="xpa-it-u56" firstAttribute="centerX" secondItem="M3R-M9-4xV" secondAttribute="centerX" id="Pu0-s9-vRT"/>
+                            <constraint firstItem="xpa-it-u56" firstAttribute="centerY" secondItem="M3R-M9-4xV" secondAttribute="centerY" constant="283.5" id="UEv-8X-e6L"/>
                             <constraint firstItem="gxa-F6-X6Z" firstAttribute="centerX" secondItem="M3R-M9-4xV" secondAttribute="centerX" id="Y1m-pG-Jvw"/>
                             <constraint firstItem="a2b-Y3-o7D" firstAttribute="centerX" secondItem="M3R-M9-4xV" secondAttribute="centerX" constant="-197" id="Yp7-d3-fhW"/>
                             <constraint firstItem="cX7-ro-7aa" firstAttribute="centerX" secondItem="M3R-M9-4xV" secondAttribute="centerX" id="hpU-a6-EPt"/>
@@ -497,6 +516,9 @@
         <image name="restart" catalog="system" width="117" height="128"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>

@@ -35,7 +35,7 @@ class PassportDataViewController:UIViewController {
             data.append("Nationality : \(passportModel?.nationality ?? "")")
             data.append("Sex : \(passportModel?.sex == "M" ? "Male" : "Female")")
             data.append("Issue State : \(passportModel?.issueState ?? "")")
-            if passportModel?.faceImage != "" {
+            if passportModel?.faceImage != "" || passportModel?.faceImage != nil {
                 let img = Data(base64Encoded: (passportModel?.faceImage)!, options: .ignoreUnknownCharacters)
                 imageView.image = UIImage(data: img!)
             }

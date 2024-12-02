@@ -40,7 +40,7 @@ class StartReadThaiIdViewController:UIViewController,ThaiIdControllerDelegate {
     
     func onBeginCardSession(isSuccess: Bool) {
         if !isSuccess {
-            let overlay = NotFoundReaderPopUpViewController()
+            let overlay = ErrorPopUpViewController()
             overlay.appear(sender: self)
         }
     }
