@@ -8,12 +8,17 @@
 import Foundation
 import CryptoTokenKit
 
+protocol ReaderControllerDelegate {
+    func onErrorOccur(errorMessage:String,isError:Bool)
+}
+
 class ReaderController
 {
     // Reader Controller Properties
     var mngr:TKSmartCardSlotManager?
     var card:TKSmartCard?
     var slot:TKSmartCardSlot?
+    var delegate:ReaderControllerDelegate?
     
     init(){
         mngr = TKSmartCardSlotManager.default
@@ -27,6 +32,7 @@ class ReaderController
             return true
         }
         print("LIB >>>> Init Smart Card Fail")
+        delegate?.onErrorOccur(errorMessage: "Init Smart Card Fail !!!", isError: true)
         return false
     }
     
@@ -37,6 +43,7 @@ class ReaderController
             return (mngr?.slotNames[0])!
         }else{
             print("LIB >>>> No Reader Found")
+            delegate?.onErrorOccur(errorMessage: "No Reader Found !!!", isError: true)
              return "No Reader"
         }
     }
@@ -55,6 +62,7 @@ class ReaderController
             }
         }else{
             print("LIB >>>> Make Smart Card Slot Fail")
+            delegate?.onErrorOccur(errorMessage: "Make Smart Card Slot Fail !!!", isError: true)
             return false
         }
         

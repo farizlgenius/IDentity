@@ -35,7 +35,7 @@ class PassportDataViewController:UIViewController {
             data.append("Nationality : \(passportModel?.nationality ?? "")")
             data.append("Sex : \(passportModel?.sex == "M" ? "Male" : "Female")")
             data.append("Issue State : \(passportModel?.issueState ?? "")")
-            if passportModel?.faceImage != "" || passportModel?.faceImage != nil {
+            if passportModel?.faceImage != "" && passportModel?.faceImage != nil {
                 let img = Data(base64Encoded: (passportModel?.faceImage)!, options: .ignoreUnknownCharacters)
                 imageView.image = UIImage(data: img!)
             }
@@ -62,6 +62,15 @@ class PassportDataViewController:UIViewController {
             data.append("Issuer Code : \(thaiIdModel?.issuerCode ?? "")")
             data.append("Card Issuer : \(thaiIdModel?.cardIssuer ?? "")")
             data.append("Issue Date : \(thaiIdModel?.issueDate ?? "")")
+            data.append("Address : \(thaiIdModel?.address ?? "")")
+            data.append("Moo : \(thaiIdModel?.moo ?? "")")
+            data.append("Trok : \(thaiIdModel?.trok ?? "")")
+            data.append("Soi : \(thaiIdModel?.soi ?? "")")
+            data.append("Thanon : \(thaiIdModel?.thanon ?? "")")
+            data.append("Tumbol : \(thaiIdModel?.tumbol ?? "")")
+            data.append("Amphur : \(thaiIdModel?.amphur ?? "")")
+            data.append("Province : \(thaiIdModel?.provice ?? "")")
+            data.append("Phot Ref No. : \(thaiIdModel?.photoRefNumber ?? "")")
             if thaiIdModel?.base64Img != "" {
                 let img = Data(base64Encoded: (thaiIdModel?.base64Img)!, options: .ignoreUnknownCharacters)
                 imageView.image = UIImage(data: img!)

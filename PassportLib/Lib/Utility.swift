@@ -109,7 +109,7 @@ class Utility{
         let cryptData1 = NSMutableData(length: Int(Data.length))!
         var numBytesEncrypted :size_t = 0
         let cryptoStatus = CCCrypt(Option,Algorithm,0,Key.bytes,KeyLength,iv.bytes, Data.bytes, Data.count, cryptData1.mutableBytes, cryptData1.length,&numBytesEncrypted)
-        if UInt32(cryptoStatus) == UInt32(kCCSuccess) {
+        if UInt32(cryptoStatus) > 0 && UInt32(cryptoStatus) == UInt32(kCCSuccess) {
             //Convert NSMutualData to NSData to Data
             let data = NSData(data: cryptData1 as Data) as Data
             return data.hexadecimal
@@ -130,7 +130,7 @@ class Utility{
         let cryptData1 = NSMutableData(length: Int(Data.length))!
         var numBytesEncrypted :size_t = 0
         let cryptoStatus = CCCrypt(Option,Algorithm,0,Key.bytes,KeyLength,iv.bytes, Data.bytes, Data.count, cryptData1.mutableBytes, cryptData1.length,&numBytesEncrypted)
-        if UInt32(cryptoStatus) == UInt32(kCCSuccess) {
+        if UInt32(cryptoStatus) > 0 && UInt32(cryptoStatus) == UInt32(kCCSuccess) {
             //Convert NSMutualData to NSData to Data
             let data = NSData(data: cryptData1 as Data) as Data
             return data.hexadecimal
@@ -149,7 +149,7 @@ class Utility{
         let cryptData1 = NSMutableData(length: Int(Data.length))!
         var numBytesEncrypted :size_t = 0
         let cryptoStatus = CCCrypt(Option,Algorithm,UInt32(kCCOptionECBMode),Key.bytes,KeyLength,nil, Data.bytes, Data.count, cryptData1.mutableBytes, cryptData1.length,&numBytesEncrypted)
-        if UInt32(cryptoStatus) == UInt32(kCCSuccess) {
+        if UInt32(cryptoStatus) > 0 && UInt32(cryptoStatus) == UInt32(kCCSuccess) {
             //Convert NSMutualData to NSData to Data
             let data = NSData(data: cryptData1 as Data) as Data
             return data.hexadecimal
@@ -168,7 +168,7 @@ class Utility{
         let cryptData1 = NSMutableData(length: Int(Data.length))!
         var numBytesEncrypted :size_t = 0
         let cryptoStatus = CCCrypt(Option,Algorithm,UInt32(kCCOptionECBMode),Key.bytes,KeyLength,nil, Data.bytes, Data.count, cryptData1.mutableBytes, cryptData1.length,&numBytesEncrypted)
-        if UInt32(cryptoStatus) == UInt32(kCCSuccess) {
+        if UInt32(cryptoStatus) > 0 && UInt32(cryptoStatus) == UInt32(kCCSuccess) {
             //Convert NSMutualData to NSData to Data
             let data = NSData(data: cryptData1 as Data) as Data
             return data.hexadecimal

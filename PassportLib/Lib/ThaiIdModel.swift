@@ -31,4 +31,13 @@ struct ThaiIdModel
     var issueDate:String?
     var expireDate:String?
     var base64Img:String?
+    var address:String?
+    var moo:String?
+    var trok:String?
+    var soi:String?
+    var thanon:String?
+    var tumbol:String?
+    var amphur:String?
+    var provice:String?
+    var photoRefNumber:String?
 }

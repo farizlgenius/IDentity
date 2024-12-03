@@ -15,6 +15,7 @@ protocol PassportControllerDelegate{
     func onProgressReadPassportData(progress:Float)
     func onCompleteReadPassportData(data:PassportModel)
     func onBeginCardSession(isSuccess:Bool)
+    func onErrorOccur(errorMessage:String,isError:Bool)
 }
 
 class PassportController
@@ -124,6 +125,7 @@ class PassportController
         if CC! == DO8E {
             return true
         }else{
+            delegate?.onErrorOccur(errorMessage: "Verify Select RAPDU Error!!",isError: true)
             return false
         }
     }
@@ -177,6 +179,7 @@ class PassportController
         if CC! == DO8E {
             return true
         }else{
+            delegate?.onErrorOccur(errorMessage: "Verify Read Binary RAPDU Error!!!",isError: true)
             return false
         }
     }
@@ -367,6 +370,7 @@ class PassportController
                 #####################################
                 
                 """)
+                delegate?.onErrorOccur(errorMessage: "Can't Get Challenge From Chip !!!",isError: true)
                 return false
             }
             let RNDIC = res.uppercased().dropLast(4)
@@ -404,6 +408,7 @@ class PassportController
                 #####################################
                 
                 """)
+                delegate?.onErrorOccur(errorMessage: "EXTERNAL AUTHENTICATION Fail !!!",isError: true)
                 return false
             }
             // MARK: - Step 13 : Get Eic by Cut Off Mic from response and decrypt Eic to get R
@@ -440,6 +445,7 @@ class PassportController
             """)
             return true
         }else{
+            delegate?.onErrorOccur(errorMessage: "Begin Card Session Fail !!!",isError: true)
             print("LIB >>>> Fail To Begin Card Session")
             return false
         }
@@ -534,13 +540,16 @@ class PassportController
                     
                 }else{
                     print("LIB >>>> Verify RES APDU READ DG1 Fail")
+                    delegate?.onErrorOccur(errorMessage: "Verify RES APDU READ DG1 Fail !!!",isError: true)
                 } // end of verify cc read dg1
                 
             }else{
                 print("LIB >>>> Verify RES APDU GET LEN DG1 Fail")
+                delegate?.onErrorOccur(errorMessage: "Verify RES APDU GET LEN DG1 Fail !!!",isError: true)
             } // end of verify get dg1 len
         }else{
             print("LIB >>>> Verify RES APDU SELECT DG1 Fail")
+            delegate?.onErrorOccur(errorMessage: "Verify RES APDU SELECT DG1 Fail !!!",isError: true)
         } // end of verify select dg1
         
         print("""
@@ -623,6 +632,7 @@ class PassportController
                             re.append(r2)
                         }else{
                             print("LIB >>>> Verify RES APDU READ REMAIN DG2 Fail")
+                            delegate?.onErrorOccur(errorMessage: "Verify RES APDU READ REMAIN DG2 Fail !!!",isError: true)
                         } // end of verify res apdu read ramin dg2
                         
                         // Loop for get all remain data
@@ -649,6 +659,7 @@ class PassportController
                                 re.append(r2)
                             }else{
                                 print("LIB >>>> Verify RES APDU READ REMAIN DG2 Fail")
+                                delegate?.onErrorOccur(errorMessage: "Verify RES APDU READ REMAIN DG2 Fail !!!",isError: true)
                                 model?.faceImage = ""
                                 break
                             } // end of verify res apdu read ramin dg2
@@ -664,15 +675,18 @@ class PassportController
                     
                 }else{
                     print("LIB >>>> Verify RES APDU READ DG2 Fail")
+                    delegate?.onErrorOccur(errorMessage: "Verify RES APDU READ DG2 Fail !!!",isError: true)
                     model?.faceImage = ""
                 } // end of verify res apdu read dg2
                 
             }else{
                 print("LIB >>>> Verify RES APDU GET LEN DG2 Fail")
+                delegate?.onErrorOccur(errorMessage: "Verify RES APDU GET LEN DG2 Fail !!!",isError: true)
             } // end of verify res apdu get len dg2
 
         }else{
             print("LIB >>>> Verify RES APDU SELECT DG2 Fail")
+            delegate?.onErrorOccur(errorMessage: "Verify RES APDU SELECT DG2 Fail !!!",isError: true)
         } // end of verify res apdu select dg2
         
         print("""
@@ -781,6 +795,7 @@ class PassportController
                                 re.append(r2)
                             }else{
                                 print("LIB >>>> Verify RES APDU READ REMAIN DG2 Fail")
+                                delegate?.onErrorOccur(errorMessage: "Verify RES APDU READ REMAIN DG2 Fail !!!",isError: true)
                                 break
                             } // end of verify res apdu read ramin dg3
                         }
@@ -795,14 +810,17 @@ class PassportController
                     
                 }else{
                     print("LIB >>>> Verify RES APDU READ DG3 Fail")
+                    delegate?.onErrorOccur(errorMessage: "Verify RES APDU READ DG3 Fail !!!",isError: true)
                 } // end of verify res apdu read dg2
                 
             }else{
                 print("LIB >>>> Verify RES APDU GET LEN DG3 Fail")
+                delegate?.onErrorOccur(errorMessage: "Verify RES APDU GET LEN DG3 Fail !!!",isError: true)
             } // end of verify res apdu get len dg2
 
         }else{
             print("LIB >>>> Verify RES APDU SELECT DG3 Fail")
+            delegate?.onErrorOccur(errorMessage: "Verify RES APDU SELECT DG3 Fail !!!",isError: true)
         } // end of verify res apdu select dg2
         
         print("""
@@ -867,9 +885,11 @@ class PassportController
                 
             }else{
                 print("LIB >>>> Verify RES APDU READ DG11 Fail")
+                delegate?.onErrorOccur(errorMessage: "Verify RES APDU READ DG11 Fail !!!",isError: true)
             } // end of verify read dg11
         }else{
             print("LIB >>>> Verify RES APDU SELECT DG11 Fail")
+            delegate?.onErrorOccur(errorMessage: "Verify RES APDU SELECT DG11 Fail !!!",isError: true)
         } // end of verify select dg1
         
         
@@ -934,9 +954,11 @@ class PassportController
                 
             }else{
                 print("LIB >>>> Verify RES APDU READ DG11 Fail")
+                delegate?.onErrorOccur(errorMessage: "Verify RES APDU READ DG11 Fail !!!",isError: true)
             } // end of verify read dg11
         }else{
             print("LIB >>>> Verify RES APDU SELECT DG11 Fail")
+            delegate?.onErrorOccur(errorMessage: "Verify RES APDU SELECT DG11 Fail !!!",isError: true)
         } // end of verify select dg1
         
         
@@ -991,9 +1013,11 @@ class PassportController
                 
             }else{
                 print("LIB >>>> Verify RES APDU READ DG12 Fail")
+                delegate?.onErrorOccur(errorMessage: "Verify RES APDU READ DG12 Fail !!!",isError: true)
             } // end of verify read dg11
         }else{
             print("LIB >>>> Verify RES APDU SELECT DG12 Fail")
+            delegate?.onErrorOccur(errorMessage: "Verify RES APDU SELECT DG12 Fail !!!",isError: true)
         } // end of verify select dg1
         
         print("""
@@ -1047,9 +1071,11 @@ class PassportController
                 
             }else{
                 print("LIB >>>> Verify RES APDU READ DG15 Fail")
+                delegate?.onErrorOccur(errorMessage: "Verify RES APDU READ DG15 Fail !!!",isError: true)
             } // end of verify read dg11
         }else{
             print("LIB >>>> Verify RES APDU SELECT DG15 Fail")
+            delegate?.onErrorOccur(errorMessage: "Verify RES APDU SELECT DG15 Fail !!!",isError: true)
         } // end of verify select dg1
         
         print("""

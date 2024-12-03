@@ -19,7 +19,7 @@ class StartReadPassportController:UIViewController,PassportControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         progressBar.progress = 0.0
-        passport?.ReadRFIDData(mrz: mrz!, dg1: true, dg2: true, dg3: false, dg7:false, dg11: false, dg12: false, dg15: false)
+        passport?.ReadRFIDData(mrz: mrz!, dg1: true, dg2: true, dg3: false, dg7:false, dg11: true, dg12: false, dg15: false)
         passport?.delegate = self
         self.navigationController?.navigationBar.isHidden = true
     }

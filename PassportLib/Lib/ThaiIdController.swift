@@ -12,6 +12,7 @@ protocol ThaiIdControllerDelegate{
     func onProgressReadThaiIdData(progress:Float)
     func onCompleteReadThaiIdData(data:ThaiIdModel)
     func onBeginCardSession(isSuccess:Bool)
+    func onErrorOccur(errorMessage:String,isError:Bool)
 }
 
 class ThaiIdController
@@ -25,6 +26,8 @@ class ThaiIdController
         case readBinary2 = "80B000FF0200FF"
         case getResponse = "00C00000FF"
         case selectThaiIdDf = "00A4040008A000000054480001"
+        case readAddress = "80B015790200FF"
+        //case getResponseAddress = "00C00000FF"
     }
     
     var apduImg:[String] = ["80B0017B0200FF","80B0027A0200FF","80B003790200FF","80B004780200FF","80B005770200FF","80B006760200FF","80B007750200FF","80B008740200FF","80B009730200FF","80B00A720200FF","80B00B710200FF","80B00C700200FF","80B00D6F0200FF","80B00E6E0200FF","80B00F6D0200FF","80B0106C0200FF","80B0116B0200FF","80B0126A0200FF","80B013690200FF","80B014680200FF"]
@@ -82,6 +85,7 @@ class ThaiIdController
             model?.chipId = String(res.uppercased().dropFirst(26).dropLast(52))
         }else{
             print("LIB >>>> GET CHIP ID ERROR ")
+            delegate?.onErrorOccur(errorMessage: "GET CHIP ID ERROR !!!", isError: true)
         }
         print("LIB >>>> Chip ID : " + (model?.chipId)!)
         
@@ -119,10 +123,12 @@ class ThaiIdController
                 model?.laserId = util!.hexStringtoAscii(String(filter))
             }else{
                 print("LIB >>>> GET LASER ID ERROR ")
+                delegate?.onErrorOccur(errorMessage: "GET LASER ID ERROR !!!", isError: true)
             } // End of get laser id
 
         }else{
             print("LIB >>>> SELECT LASER ID ERROR ")
+            delegate?.onErrorOccur(errorMessage: "SELECT LASER ID ERROR !!!", isError: true)
         } // End of select laser id
         
         print("""
@@ -145,23 +151,23 @@ class ThaiIdController
         """)
         
         // MARK: - Step 4 : Send APDU for Select Thai ID Card Data
-        print("LIB >>>> (APDU CMD SELECT THAI ID) >>>> : " + apdu.selectThaiIdDf.rawValue)
+        print("LIB >>>> (APDU CMD SELECT THAI ID DATA) >>>> : " + apdu.selectThaiIdDf.rawValue)
         var res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu.selectThaiIdDf.rawValue)
-        print("LIB <<<< (APDU RES SELECT THAI ID) <<<< : " + res.uppercased())
+        print("LIB <<<< (APDU RES SELECT THAI ID DATA) <<<< : " + res.uppercased())
         if res.uppercased().suffix(4) == "9000" || res.uppercased().prefix(2) == "61" {
             
             // MARK: - Step 4 : Send APDU for get Laser ID
-            print("LIB >>>> (APDU CMD GET THAI ID DATA) >>>> : " + apdu.readBinary1.rawValue)
+            print("LIB >>>> (APDU CMD READ BINARY THAI ID DATA P1) >>>> : " + apdu.readBinary1.rawValue)
             res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu.readBinary1.rawValue)
-            print("LIB <<<< (APDU RES GET THAI ID DATA) <<<< : " + res.uppercased())
+            print("LIB <<<< (APDU RES READ BINARY TAHI ID DATA P1) <<<< : " + res.uppercased())
             if res.uppercased().suffix(4) == "9000" || res.uppercased().prefix(2) == "61" {
                 
                 
                 // MARK: - Step 6 : Send APDU for recieve data part 1
                 
-                print("LIB >>>> (APDU CMD GET THAI ID DATA) >>>> : " + apdu.getResponse.rawValue)
+                print("LIB >>>> (APDU CMD GET THAI ID DATA P1) >>>> : " + apdu.getResponse.rawValue)
                 res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu.getResponse.rawValue)
-                print("LIB <<<< (APDU RES GET THAI ID DATA) <<<< : " + res.uppercased())
+                print("LIB <<<< (APDU RES GET THAI ID DATA P1) <<<< : " + res.uppercased())
                 if res.uppercased().suffix(4) == "9000" || res.uppercased().prefix(2) == "61" {
                     
                     // Card Type
@@ -259,23 +265,25 @@ class ThaiIdController
                     
                 }else{
                     print("LIB >>>> GET RES THAI ID ERROR ")
+                    delegate?.onErrorOccur(errorMessage: "GET RES THAI ID ERROR !!!", isError: true)
                 } // End of get response Thai id p1
             }else{
-                print("LIB >>>> READ BINARY THAI ID 1")
+                print("LIB >>>> READ BINARY THAI ID DATA P1 ERROR!!!")
+                delegate?.onErrorOccur(errorMessage: "READ BINARY THAI ID DATA P1 ERROR !!!", isError: true)
             } // End of Read binary thai id 1
             
             // MARK: - Step 7 : Send APDU for read binary data part 2
             
-            print("LIB >>>> (APDU CMD GET THAI ID DATA) >>>> : " + apdu.readBinary2.rawValue)
+            print("LIB >>>> (APDU CMD READ BINARY ID DATA P2) >>>> : " + apdu.readBinary2.rawValue)
             res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu.readBinary2.rawValue)
-            print("LIB <<<< (APDU RES GET THAI ID DATA) <<<< : " + res.uppercased())
+            print("LIB <<<< (APDU RES READ BINARY ID DATA P2) <<<< : " + res.uppercased())
             if res.uppercased().suffix(4) == "9000" || res.uppercased().prefix(2) == "61" {
                 
                 // MARK: - Step 8 : Send APDU for recieve data part 2
                 
-                print("LIB >>>> (APDU CMD GET THAI ID DATA) >>>> : " + apdu.getResponse.rawValue)
+                print("LIB >>>> (APDU CMD GET THAI ID DATA P2) >>>> : " + apdu.getResponse.rawValue)
                 res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu.getResponse.rawValue)
-                print("LIB <<<< (APDU RES GET THAI ID DATA) <<<< : " + res.uppercased())
+                print("LIB <<<< (APDU RES GET THAI ID DATA P2) <<<< : " + res.uppercased())
                 if res.uppercased().suffix(4) == "9000" || res.uppercased().prefix(2) == "61" {
                     
                     // Card Issuer p2
@@ -300,10 +308,67 @@ class ThaiIdController
                     
                 }else{
                     print("LIB >>>> GET RES THAI ID ERROR ")
+                    delegate?.onErrorOccur(errorMessage: "GET RES THAI ID ERROR !!!", isError: true)
                 } // End of get response Thai id p2
             }else{
-                print("LIB >>>> READ BINARY THAI ID 2")
+                print("LIB >>>> READ BINARY THAI ID DATA P2 ERROR!!!")
+                delegate?.onErrorOccur(errorMessage: "READ BINARY THAI ID DATA P2 ERROR!!!", isError: true)
             } // End of Read binary thai id 2
+            
+            // MARK: - Step 9 : Send APDU for read binary address
+            print("LIB >>>> (APDU CMD READ BINARY ADDRESS) >>>> : " + apdu.readAddress.rawValue)
+            res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu.readAddress.rawValue)
+            print("LIB <<<< (APDU RES READ BINARY ADDRESS) <<<< : " + res.uppercased())
+            if res.uppercased().suffix(4) == "9000" || res.uppercased().prefix(2) == "61" {
+                
+                // MARK: - Step 8 : Send APDU for recieve address
+                
+                print("LIB >>>> (APDU CMD GET THAI ID ADDRESS) >>>> : " + apdu.getResponse.rawValue)
+                res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu.getResponse.rawValue)
+                print("LIB <<<< (APDU RES GET THAI ID ADDRESS) <<<< : " + res.uppercased())
+                if res.uppercased().suffix(4) == "9000" || res.uppercased().prefix(2) == "61" {
+                    
+                    let photoref = res.dropFirst(320).prefix(28)
+                    print(photoref)
+                    
+                    // Address
+                    let address = ConvertToThai(input: String(res.prefix(320)))
+                    let adrArr = address.components(separatedBy: "#")
+                    model?.address = adrArr[0]
+                    print("LIB >>>> Address :  " +  (model?.address)!)
+                    model?.moo = adrArr[1]
+                    print("LIB >>>> Moo :  " +  (model?.moo)!)
+                    model?.trok = adrArr[2]
+                    print("LIB >>>> Trok :  " +  (model?.trok)!)
+                    model?.soi = adrArr[3]
+                    print("LIB >>>> Soi :  " +  (model?.soi)!)
+                    model?.thanon = adrArr[4]
+                    print("LIB >>>> Thanon :  " +  (model?.thanon)!)
+                    model?.tumbol = adrArr[5]
+                    print("LIB >>>> Tumbol :  " +  (model?.tumbol)!)
+                    model?.amphur = adrArr[6]
+                    print("LIB >>>> Amphur :  " +  (model?.amphur)!)
+                    model?.provice = adrArr[7]
+                    print("LIB >>>> Province :  " +  (model?.provice)!)
+                    
+
+                    
+                    
+                    // PhotoRefNumber
+                    model?.photoRefNumber = util?.hexStringtoAscii(String(photoref))
+                    print("LIB >>>> Photo Reference Number :  " +  (model?.photoRefNumber)!)
+                    res = String(res.dropFirst(16))
+                    
+                }else{
+                    print("LIB >>>> GET RES THAI ID ERROR ")
+                    delegate?.onErrorOccur(errorMessage: "GET RES THAI ID ERROR !!!", isError: true)
+                } // End of get response Thai id p2
+            }else{
+                print("LIB >>>> READ BINARY THAI ID ADDRESS ERROR!!!")
+                delegate?.onErrorOccur(errorMessage: "READ BINARY THAI ID ADDRESS ERROR !!!", isError: true)
+            } // End of Read binary thai id 2
+            
+            
         }else{
             print("LIB >>>> SELECT THAI ID ERROR ")
         } // End of select thai id
@@ -347,11 +412,13 @@ class ThaiIdController
                     imgHex += res.dropLast(4)
                     i+=1
                 }else{
-                    print("LIB >>>> GET BINARY IMG 1")
+                    print("LIB >>>> GET BINARY IMG \(i) Error !!!")
+                    delegate?.onErrorOccur(errorMessage: "GET BINARY IMG \(i) Error !!!", isError: true)
                     i+=1
                 } // End of get binary img 1
             }else{
-                print("LIB >>>> READ BINARY IMG 1")
+                print("LIB >>>> READ BINARY IMG \(i)")
+                delegate?.onErrorOccur(errorMessage: "READ BINARY IMG \(i)", isError: true)
                 i+=1
             } // End of read binary img 1
         }
