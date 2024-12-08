@@ -27,6 +27,7 @@ class PassportDataViewController:UIViewController {
             title = "Passport"
             data.append("Document Code : \(passportModel?.documentCode ?? "")")
             data.append("Document Number : \(passportModel?.documentNumber ?? "")")
+            data.append("Title : \(passportModel?.title ?? "")")
             data.append("First Name : \(passportModel?.holderFirstName ?? "")")
             data.append("Middle Name : \(passportModel?.holderMiddleName ?? "")")
             data.append("Last Name : \(passportModel?.holderLastName ?? "")")
@@ -35,6 +36,14 @@ class PassportDataViewController:UIViewController {
             data.append("Nationality : \(passportModel?.nationality ?? "")")
             data.append("Sex : \(passportModel?.sex == "M" ? "Male" : "Female")")
             data.append("Issue State : \(passportModel?.issueState ?? "")")
+            data.append("Personal Number : \(passportModel?.personalNumber ?? "")")
+            data.append("Full Date of Birth : \(passportModel?.fullDateOfBirth ?? "")")
+            data.append("Place of Birth : \(passportModel?.placeOfBirth ?? "")")
+            data.append("Address : \(passportModel?.permanentAddress ?? "")")
+            data.append("Telephone : \(passportModel?.telephone ?? "")")
+            data.append("Profession : \(passportModel?.profession ?? "")")
+            data.append("Personal Summary : \(passportModel?.personelSummary ?? "")")
+            
             if passportModel?.faceImage != "" && passportModel?.faceImage != nil {
                 let img = Data(base64Encoded: (passportModel?.faceImage)!, options: .ignoreUnknownCharacters)
                 imageView.image = UIImage(data: img!)

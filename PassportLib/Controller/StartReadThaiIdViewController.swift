@@ -45,6 +45,10 @@ class StartReadThaiIdViewController:UIViewController,ThaiIdControllerDelegate {
         }
     }
     
+    func onErrorOccur(errorMessage: String, isError: Bool) {
+        
+    }
+    
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

@@ -25,10 +25,13 @@ struct PassportModel{
     var dateOfExpiryCheckDigit:String?
     var optionalData:String?
     var compositeCheckDigit:String?
+    
     //DG 2
     var faceImage:String?
+    
     //DG 3
-    var fingerPrintImage:Data?
+    //var fingerPrintImage:Data?
+    
     //DG 11
     var personalNumber:String?
     var fullDateOfBirth:String?
@@ -39,6 +42,9 @@ struct PassportModel{
     var title:String?
     var personelSummary:String?
     
+    //DG12
+    
     var DG1:String?
     var DG11:String?
+    var DG12:String?
 }

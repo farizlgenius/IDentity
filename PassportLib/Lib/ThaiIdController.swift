@@ -78,7 +78,8 @@ class ThaiIdController
         """)
         
         // MARK: - Step 2 : Send APDU for Get Chip ID
-        print("LIB >>>> (APDU CMD GET CHIP ID) >>>> : " + apdu.chipId.rawValue)
+        //print("LIB >>>> (APDU CMD GET CHIP ID) >>>> : " + apdu.chipId.rawValue)
+        print("LIB >>>> (APDU CMD GET CHIP ID) >>>> ")
         let res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu.chipId.rawValue)
         print("LIB <<<< (APDU RES GET CHIP ID) <<<< : " + res.uppercased())
         if res.uppercased().suffix(4) == "9000" {
@@ -108,13 +109,15 @@ class ThaiIdController
         """)
         
         // MARK: - Step 3 : Send APDU for Select Laser ID
-        print("LIB >>>> (APDU CMD SELECT LASER ID) >>>> : " + apdu.laserId.rawValue)
+        //print("LIB >>>> (APDU CMD SELECT LASER ID) >>>> : " + apdu.laserId.rawValue)
+        print("LIB >>>> (APDU CMD SELECT LASER ID) >>>> ")
         var res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu.laserId.rawValue)
         print("LIB <<<< (APDU RES SELECT LASER ID) <<<< : " + res.uppercased())
         if res.uppercased().suffix(4) == "9000" || res.uppercased().prefix(2) == "61" {
             
             // MARK: - Step 4 : Send APDU for get Laser ID
-            print("LIB >>>> (APDU CMD GET LASER ID) >>>> : " + apdu.getLaserId.rawValue)
+            //print("LIB >>>> (APDU CMD GET LASER ID) >>>> : " + apdu.getLaserId.rawValue)
+            print("LIB >>>> (APDU CMD GET LASER ID) >>>> ")
             res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu.getLaserId.rawValue)
             print("LIB <<<< (APDU RES GET LASER ID) <<<< : " + res.uppercased())
             let filter = res.dropFirst(14).dropLast(12)
@@ -151,13 +154,15 @@ class ThaiIdController
         """)
         
         // MARK: - Step 4 : Send APDU for Select Thai ID Card Data
-        print("LIB >>>> (APDU CMD SELECT THAI ID DATA) >>>> : " + apdu.selectThaiIdDf.rawValue)
+        print("LIB >>>> (APDU CMD SELECT THAI ID DATA) >>>> " )
+        //print("LIB >>>> (APDU CMD SELECT THAI ID DATA) >>>> : " + apdu.selectThaiIdDf.rawValue)
         var res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu.selectThaiIdDf.rawValue)
         print("LIB <<<< (APDU RES SELECT THAI ID DATA) <<<< : " + res.uppercased())
         if res.uppercased().suffix(4) == "9000" || res.uppercased().prefix(2) == "61" {
             
             // MARK: - Step 4 : Send APDU for get Laser ID
-            print("LIB >>>> (APDU CMD READ BINARY THAI ID DATA P1) >>>> : " + apdu.readBinary1.rawValue)
+            //print("LIB >>>> (APDU CMD READ BINARY THAI ID DATA P1) >>>> : " + apdu.readBinary1.rawValue)
+            print("LIB >>>> (APDU CMD READ BINARY THAI ID DATA P1) >>>> ")
             res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu.readBinary1.rawValue)
             print("LIB <<<< (APDU RES READ BINARY TAHI ID DATA P1) <<<< : " + res.uppercased())
             if res.uppercased().suffix(4) == "9000" || res.uppercased().prefix(2) == "61" {
@@ -165,7 +170,8 @@ class ThaiIdController
                 
                 // MARK: - Step 6 : Send APDU for recieve data part 1
                 
-                print("LIB >>>> (APDU CMD GET THAI ID DATA P1) >>>> : " + apdu.getResponse.rawValue)
+                //print("LIB >>>> (APDU CMD GET THAI ID DATA P1) >>>> : " + apdu.getResponse.rawValue)
+                print("LIB >>>> (APDU CMD GET THAI ID DATA P1) >>>> ")
                 res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu.getResponse.rawValue)
                 print("LIB <<<< (APDU RES GET THAI ID DATA P1) <<<< : " + res.uppercased())
                 if res.uppercased().suffix(4) == "9000" || res.uppercased().prefix(2) == "61" {
@@ -274,14 +280,16 @@ class ThaiIdController
             
             // MARK: - Step 7 : Send APDU for read binary data part 2
             
-            print("LIB >>>> (APDU CMD READ BINARY ID DATA P2) >>>> : " + apdu.readBinary2.rawValue)
+            //print("LIB >>>> (APDU CMD READ BINARY ID DATA P2) >>>> : " + apdu.readBinary2.rawValue)
+            print("LIB >>>> (APDU CMD READ BINARY ID DATA P2) >>>> ")
             res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu.readBinary2.rawValue)
             print("LIB <<<< (APDU RES READ BINARY ID DATA P2) <<<< : " + res.uppercased())
             if res.uppercased().suffix(4) == "9000" || res.uppercased().prefix(2) == "61" {
                 
                 // MARK: - Step 8 : Send APDU for recieve data part 2
                 
-                print("LIB >>>> (APDU CMD GET THAI ID DATA P2) >>>> : " + apdu.getResponse.rawValue)
+                //print("LIB >>>> (APDU CMD GET THAI ID DATA P2) >>>> : " + apdu.getResponse.rawValue)
+                print("LIB >>>> (APDU CMD GET THAI ID DATA P2) >>>> ")
                 res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu.getResponse.rawValue)
                 print("LIB <<<< (APDU RES GET THAI ID DATA P2) <<<< : " + res.uppercased())
                 if res.uppercased().suffix(4) == "9000" || res.uppercased().prefix(2) == "61" {
@@ -316,14 +324,16 @@ class ThaiIdController
             } // End of Read binary thai id 2
             
             // MARK: - Step 9 : Send APDU for read binary address
-            print("LIB >>>> (APDU CMD READ BINARY ADDRESS) >>>> : " + apdu.readAddress.rawValue)
+            //print("LIB >>>> (APDU CMD READ BINARY ADDRESS) >>>> : " + apdu.readAddress.rawValue)
+            print("LIB >>>> (APDU CMD READ BINARY ADDRESS) >>>> ")
             res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu.readAddress.rawValue)
             print("LIB <<<< (APDU RES READ BINARY ADDRESS) <<<< : " + res.uppercased())
             if res.uppercased().suffix(4) == "9000" || res.uppercased().prefix(2) == "61" {
                 
                 // MARK: - Step 8 : Send APDU for recieve address
                 
-                print("LIB >>>> (APDU CMD GET THAI ID ADDRESS) >>>> : " + apdu.getResponse.rawValue)
+                //print("LIB >>>> (APDU CMD GET THAI ID ADDRESS) >>>> : " + apdu.getResponse.rawValue)
+                print("LIB >>>> (APDU CMD GET THAI ID ADDRESS) >>>> ")
                 res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu.getResponse.rawValue)
                 print("LIB <<<< (APDU RES GET THAI ID ADDRESS) <<<< : " + res.uppercased())
                 if res.uppercased().suffix(4) == "9000" || res.uppercased().prefix(2) == "61" {
@@ -397,14 +407,16 @@ class ThaiIdController
         var imgHex:String = ""
         var i = 0
         while i < 20 {
-            print("LIB >>>> (APDU CMD GET THAI ID DATA) >>>> : " + apduImg[i])
+            //print("LIB >>>> (APDU CMD GET THAI ID DATA) >>>> : " + apduImg[i])
+            print("LIB >>>> (APDU CMD GET THAI ID DATA) >>>> : " + String(i))
             var res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apduImg[i])
             print("LIB <<<< (APDU RES GET THAI ID DATA) <<<< : " + res.uppercased())
             if res.uppercased().suffix(4) == "9000" || res.uppercased().prefix(2) == "61" {
                 
                 // MARK: - Step 10 : Send APDU for recieve data part 2
                 
-                print("LIB >>>> (APDU CMD GET THAI ID DATA) >>>> : " + apdu.getResponse.rawValue)
+                //print("LIB >>>> (APDU CMD GET THAI ID DATA) >>>> : " + apdu.getResponse.rawValue)
+                print("LIB >>>> (APDU CMD GET THAI ID DATA) >>>> ")
                 res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu.getResponse.rawValue)
                 print("LIB <<<< (APDU RES GET THAI ID DATA) <<<< : " + res.uppercased())
                 if res.uppercased().suffix(4) == "9000" || res.uppercased().prefix(2) == "61" {

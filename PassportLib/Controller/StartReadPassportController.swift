@@ -10,6 +10,7 @@ import UIKit
 
 class StartReadPassportController:UIViewController,PassportControllerDelegate {
     
+    
     var passportModel:PassportModel?
     var passport:PassportController?
     var mrz:String?
@@ -19,7 +20,8 @@ class StartReadPassportController:UIViewController,PassportControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         progressBar.progress = 0.0
-        passport?.ReadRFIDData(mrz: mrz!, dg1: true, dg2: true, dg3: false, dg7:false, dg11: true, dg12: false, dg15: false)
+        mrz = "AA1078870773063091803138"
+        passport?.ReadRFIDData(mrz: mrz!, dg1: true, dg2: true, dg11: true)
         passport?.delegate = self
         self.navigationController?.navigationBar.isHidden = true
     }
@@ -45,8 +47,12 @@ class StartReadPassportController:UIViewController,PassportControllerDelegate {
         }
     }
     
+    func onErrorOccur(errorMessage: String, isError: Bool) {
+        
+    }
+    
     @IBAction func pressRead(_ sender: UIButton) {
-        passport?.ReadRFIDData(mrz: mrz!, dg1: true, dg2: true, dg3: false, dg7:false, dg11: false, dg12: false, dg15: false)
+        passport?.ReadRFIDData(mrz: mrz!, dg1: true, dg2: true, dg11: true)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
