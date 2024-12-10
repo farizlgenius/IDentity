@@ -19,9 +19,11 @@ class ReaderController
     var card:TKSmartCard?
     var slot:TKSmartCardSlot?
     var delegate:ReaderControllerDelegate?
+    var isPassport:Bool
     
-    init(){
+    init(isPassport:Bool){
         mngr = TKSmartCardSlotManager.default
+        self.isPassport = isPassport
     }
     
     func initSmartCard() async ->Bool{
@@ -39,8 +41,29 @@ class ReaderController
     // get reader name
     func getReader()->String{
         if (mngr?.slotNames.count)! > 0 {
-            print("LIB >>>> Reader : " + (mngr?.slotNames[0])!)
-            return (mngr?.slotNames[0])!
+            if isPassport {
+                for reader in mngr!.slotNames {
+                    if reader == "Feitian R502   " {
+                        return "Feitian R502   "
+                    }
+                }
+                
+                print("LIB >>>> Reader : " + (mngr?.slotNames[0])!)
+                //print(mngr?.slotNames)
+                return (mngr?.slotNames[0])!
+                
+            }else{
+                for reader in mngr!.slotNames {
+                    if reader == "Feitian SCR301" {
+                        return "Feitian SCR301"
+                    }
+                }
+                
+                print("LIB >>>> Reader : " + (mngr?.slotNames[0])!)
+                //print(mngr?.slotNames)
+                return (mngr?.slotNames[0])!
+            }
+            
         }else{
             print("LIB >>>> No Reader Found")
             delegate?.onErrorOccur(errorMessage: "No Reader Found !!!", isError: true)
@@ -81,9 +104,15 @@ class ReaderController
     
     // End Card Session
     func endCardSession(){
-        card!.endSession()
-        card = nil
-        slot = nil
-        print("LIB >>>> End Card Session Success")
+        if card != nil {
+            card!.endSession()
+            card = nil
+            slot = nil
+            mngr = nil
+            print("LIB >>>> End Card Session Success")
+        }else{
+            print("LIB >>> Can't End Card Session no Smart Card Found!!")
+        }
+        
     }
 }

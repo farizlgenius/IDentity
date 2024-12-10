@@ -15,7 +15,7 @@ class ReadThaiIdViewController:UIViewController {
     override func viewDidLoad(){
         super.viewDidLoad()
         
-        readerManager = ReaderController()
+        readerManager = ReaderController(isPassport:false)
     }
     
     @IBAction func pressReadThaiId(_ sender: Any) {

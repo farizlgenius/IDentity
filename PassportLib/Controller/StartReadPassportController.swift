@@ -35,7 +35,6 @@ class StartReadPassportController:UIViewController,PassportControllerDelegate {
     
     func onCompleteReadPassportData(data: PassportModel) {
         DispatchQueue.main.async {
-            self.passportModel = data
             self.performSegue(withIdentifier: "showPassportData", sender: nil)
         }
     }
@@ -58,7 +57,7 @@ class StartReadPassportController:UIViewController,PassportControllerDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showPassportData" {
             let controller = segue.destination as! PassportDataViewController
-            controller.passportModel = passportModel
+            controller.passport = passport
         }
     }
     

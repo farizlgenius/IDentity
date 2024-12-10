@@ -10,8 +10,8 @@ import UIKit
 
 class PassportDataViewController:UIViewController {
     
-    var passportModel:PassportModel?
-    var thaiIdModel:ThaiIdModel?
+    var passport:PassportController?
+    var thai:ThaiIdController?
     var data:[String] = []
     @IBOutlet weak var tableView: UITableView!
     
@@ -23,65 +23,65 @@ class PassportDataViewController:UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        if passportModel != nil {
+        if passport?.data != nil {
             title = "Passport"
-            data.append("Document Code : \(passportModel?.documentCode ?? "")")
-            data.append("Document Number : \(passportModel?.documentNumber ?? "")")
-            data.append("Title : \(passportModel?.title ?? "")")
-            data.append("First Name : \(passportModel?.holderFirstName ?? "")")
-            data.append("Middle Name : \(passportModel?.holderMiddleName ?? "")")
-            data.append("Last Name : \(passportModel?.holderLastName ?? "")")
-            data.append("Date of Birth : \(passportModel?.dateOfBirth ?? "")")
-            data.append("Date of Expiry : \(passportModel?.dateOfExpiry ?? "")")
-            data.append("Nationality : \(passportModel?.nationality ?? "")")
-            data.append("Sex : \(passportModel?.sex == "M" ? "Male" : "Female")")
-            data.append("Issue State : \(passportModel?.issueState ?? "")")
-            data.append("Personal Number : \(passportModel?.personalNumber ?? "")")
-            data.append("Full Date of Birth : \(passportModel?.fullDateOfBirth ?? "")")
-            data.append("Place of Birth : \(passportModel?.placeOfBirth ?? "")")
-            data.append("Address : \(passportModel?.permanentAddress ?? "")")
-            data.append("Telephone : \(passportModel?.telephone ?? "")")
-            data.append("Profession : \(passportModel?.profession ?? "")")
-            data.append("Personal Summary : \(passportModel?.personelSummary ?? "")")
+            data.append("Document Code : \(passport?.data?.documentCode ?? "")")
+            data.append("Document Number : \(passport?.data?.documentNumber ?? "")")
+            data.append("Title : \(passport?.data?.title ?? "")")
+            data.append("First Name : \(passport?.data?.holderFirstName ?? "")")
+            data.append("Middle Name : \(passport?.data?.holderMiddleName ?? "")")
+            data.append("Last Name : \(passport?.data?.holderLastName ?? "")")
+            data.append("Date of Birth : \(passport?.data?.dateOfBirth ?? "")")
+            data.append("Date of Expiry : \(passport?.data?.dateOfExpiry ?? "")")
+            data.append("Nationality : \(passport?.data?.nationality ?? "")")
+            data.append("Sex : \(passport?.data?.sex == "M" ? "Male" : "Female")")
+            data.append("Issue State : \(passport?.data?.issueState ?? "")")
+            data.append("Personal Number : \(passport?.data?.personalNumber ?? "")")
+            data.append("Full Date of Birth : \(passport?.data?.fullDateOfBirth ?? "")")
+            data.append("Place of Birth : \(passport?.data?.placeOfBirth ?? "")")
+            data.append("Address : \(passport?.data?.permanentAddress ?? "")")
+            data.append("Telephone : \(passport?.data?.telephone ?? "")")
+            data.append("Profession : \(passport?.data?.profession ?? "")")
+            data.append("Personal Summary : \(passport?.data?.personelSummary ?? "")")
             
-            if passportModel?.faceImage != "" && passportModel?.faceImage != nil {
-                let img = Data(base64Encoded: (passportModel?.faceImage)!, options: .ignoreUnknownCharacters)
+            if passport?.data?.faceImage != "" && passport?.data?.faceImage != nil {
+                let img = Data(base64Encoded: (passport?.data?.faceImage)!, options: .ignoreUnknownCharacters)
                 imageView.image = UIImage(data: img!)
             }
         }
         
-        if thaiIdModel != nil {
+        if thai != nil {
             title = "Thai ID"
-            data.append("Card Type : \(thaiIdModel?.cardType ?? "")")
-            data.append("Card ID : \(thaiIdModel?.cId ?? "")")
-            data.append("thFullName : \(thaiIdModel?.thaiFullName ?? "")")
-            data.append("thTitleName : \(thaiIdModel?.thaiTitleName ?? "")")
-            data.append("thMiddleName : \(thaiIdModel?.thaiMiddleName ?? "")")
-            data.append("thLastName : \(thaiIdModel?.thaiLastName ?? "")")
-            data.append("enFullName : \(thaiIdModel?.engFullName ?? "")")
-            data.append("enTitleName : \(thaiIdModel?.engTitleName ?? "")")
-            data.append("enMiddleName : \(thaiIdModel?.engMiddleName ?? "")")
-            data.append("enLastName : \(thaiIdModel?.engLastName ?? "")")
-            data.append("Gender : \(thaiIdModel?.gender == "1" ? "Male" : "Female")")
-            data.append("Birth Date : \(thaiIdModel?.dateOfBirth ?? "")")
-            data.append("Expire Date : \(thaiIdModel?.expireDate ?? "")")
-            data.append("Chip ID : \(thaiIdModel?.chipId ?? "")")
-            data.append("bp1No : \(thaiIdModel?.bp1no ?? "")")
-            data.append("Laser ID : \(thaiIdModel?.laserId ?? "")")
-            data.append("Issuer Code : \(thaiIdModel?.issuerCode ?? "")")
-            data.append("Card Issuer : \(thaiIdModel?.cardIssuer ?? "")")
-            data.append("Issue Date : \(thaiIdModel?.issueDate ?? "")")
-            data.append("Address : \(thaiIdModel?.address ?? "")")
-            data.append("Moo : \(thaiIdModel?.moo ?? "")")
-            data.append("Trok : \(thaiIdModel?.trok ?? "")")
-            data.append("Soi : \(thaiIdModel?.soi ?? "")")
-            data.append("Thanon : \(thaiIdModel?.thanon ?? "")")
-            data.append("Tumbol : \(thaiIdModel?.tumbol ?? "")")
-            data.append("Amphur : \(thaiIdModel?.amphur ?? "")")
-            data.append("Province : \(thaiIdModel?.provice ?? "")")
-            data.append("Phot Ref No. : \(thaiIdModel?.photoRefNumber ?? "")")
-            if thaiIdModel?.base64Img != "" {
-                let img = Data(base64Encoded: (thaiIdModel?.base64Img)!, options: .ignoreUnknownCharacters)
+            data.append("Card Type : \(thai?.data?.cardType ?? "")")
+            data.append("Card ID : \(thai?.data?.cId ?? "")")
+            data.append("thFullName : \(thai?.data?.thaiFullName ?? "")")
+            data.append("thTitleName : \(thai?.data?.thaiTitleName ?? "")")
+            data.append("thMiddleName : \(thai?.data?.thaiMiddleName ?? "")")
+            data.append("thLastName : \(thai?.data?.thaiLastName ?? "")")
+            data.append("enFullName : \(thai?.data?.engFullName ?? "")")
+            data.append("enTitleName : \(thai?.data?.engTitleName ?? "")")
+            data.append("enMiddleName : \(thai?.data?.engMiddleName ?? "")")
+            data.append("enLastName : \(thai?.data?.engLastName ?? "")")
+            data.append("Gender : \(thai?.data?.gender == "1" ? "Male" : "Female")")
+            data.append("Birth Date : \(thai?.data?.dateOfBirth ?? "")")
+            data.append("Expire Date : \(thai?.data?.expireDate ?? "")")
+            data.append("Chip ID : \(thai?.data?.chipId ?? "")")
+            data.append("bp1No : \(thai?.data?.bp1no ?? "")")
+            data.append("Laser ID : \(thai?.data?.laserId ?? "")")
+            data.append("Issuer Code : \(thai?.data?.issuerCode ?? "")")
+            data.append("Card Issuer : \(thai?.data?.cardIssuer ?? "")")
+            data.append("Issue Date : \(thai?.data?.issueDate ?? "")")
+            data.append("Address : \(thai?.data?.address ?? "")")
+            data.append("Moo : \(thai?.data?.moo ?? "")")
+            data.append("Trok : \(thai?.data?.trok ?? "")")
+            data.append("Soi : \(thai?.data?.soi ?? "")")
+            data.append("Thanon : \(thai?.data?.thanon ?? "")")
+            data.append("Tumbol : \(thai?.data?.tumbol ?? "")")
+            data.append("Amphur : \(thai?.data?.amphur ?? "")")
+            data.append("Province : \(thai?.data?.provice ?? "")")
+            data.append("Phot Ref No. : \(thai?.data?.photoRefNumber ?? "")")
+            if thai?.data?.base64Img != "" && thai?.data?.base64Img != nil {
+                let img = Data(base64Encoded: (thai?.data?.base64Img)!, options: .ignoreUnknownCharacters)
                 imageView.image = UIImage(data: img!)
             }
             

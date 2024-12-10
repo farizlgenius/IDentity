@@ -37,7 +37,7 @@ class ThaiIdController
     var isSmartCardInitialized:Bool?
     var isCardSessionBegin:Bool?
     let util:Utility?
-    var model:ThaiIdModel?
+    var data:ThaiIdModel?
     var progress:Float = 0.0
     var eachProgress:Float = 0.0
     var slotName:String = ""
@@ -48,7 +48,7 @@ class ThaiIdController
     // Constructor
     init(rmngr:ReaderController,isSmartCardInitialized:Bool){
         util = Utility()
-        model = ThaiIdModel()
+        data = ThaiIdModel()
         self.rmngr = rmngr
         self.isSmartCardInitialized = isSmartCardInitialized
     }
@@ -83,12 +83,12 @@ class ThaiIdController
         let res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu.chipId.rawValue)
         print("LIB <<<< (APDU RES GET CHIP ID) <<<< : " + res.uppercased())
         if res.uppercased().suffix(4) == "9000" {
-            model?.chipId = String(res.uppercased().dropFirst(26).dropLast(52))
+            data?.chipId = String(res.uppercased().dropFirst(26).dropLast(52))
         }else{
             print("LIB >>>> GET CHIP ID ERROR ")
             delegate?.onErrorOccur(errorMessage: "GET CHIP ID ERROR !!!", isError: true)
         }
-        print("LIB >>>> Chip ID : " + (model?.chipId)!)
+        print("LIB >>>> Chip ID : " + (data?.chipId ?? "nil") )
         
         print("""
         
@@ -123,7 +123,7 @@ class ThaiIdController
             let filter = res.dropFirst(14).dropLast(12)
             print("LIB >>>> Laser ID :  " + util!.hexStringtoAscii(String(filter)))
             if res.uppercased().suffix(4) == "9000" || res.uppercased().prefix(2) == "61" {
-                model?.laserId = util!.hexStringtoAscii(String(filter))
+                data?.laserId = util!.hexStringtoAscii(String(filter))
             }else{
                 print("LIB >>>> GET LASER ID ERROR ")
                 delegate?.onErrorOccur(errorMessage: "GET LASER ID ERROR !!!", isError: true)
@@ -177,96 +177,96 @@ class ThaiIdController
                 if res.uppercased().suffix(4) == "9000" || res.uppercased().prefix(2) == "61" {
                     
                     // Card Type
-                    model?.cardType = util!.hexStringtoAscii(String(res.prefix(8)))
-                    print("LIB >>>> Card Type :  " +  (model?.cardType)!)
+                    data?.cardType = util!.hexStringtoAscii(String(res.prefix(8)))
+                    print("LIB >>>> Card Type :  " +  (data?.cardType)!)
                     res = String(res.dropFirst(8))
                     
                     // Thai ID
-                    model?.cId = util?.hexStringtoAscii(String(res.prefix(26)))
-                    print("LIB >>>> Thai ID :  " +  (model?.cId)!)
+                    data?.cId = util?.hexStringtoAscii(String(res.prefix(26)))
+                    print("LIB >>>> Thai ID :  " +  (data?.cId)!)
                     res = String(res.dropFirst(26))
                     
                     // Thai Full Name
                     var thFullName = res.prefix(200)
-                    model?.thaiFullName = ConvertToThai(input:String(thFullName)).replacingOccurrences(of: "#", with: " ")
-                    print("LIB >>>> Thai Full Name :  " +  (model?.thaiFullName)!)
+                    data?.thaiFullName = ConvertToThai(input:String(thFullName)).replacingOccurrences(of: "#", with: " ")
+                    print("LIB >>>> Thai Full Name :  " +  (data?.thaiFullName)!)
                     
                     // Thai Title Name
                     var indexOf23 = util?.FindIndexOf(inputString: String(thFullName), target: "23")
                     let thTitleName = String(thFullName.prefix(indexOf23!))
-                    model?.thaiTitleName = ConvertToThai(input: thTitleName)
-                    print("LIB >>>> Thai First Name :  " +  (model?.thaiTitleName)!)
+                    data?.thaiTitleName = ConvertToThai(input: thTitleName)
+                    print("LIB >>>> Thai First Name :  " +  (data?.thaiTitleName)!)
                     thFullName = thFullName.dropFirst(indexOf23! + 2)
                     
                     // Thai First Name
                     indexOf23 = util?.FindIndexOf(inputString: String(thFullName), target: "23")
                     let thFirstName = String(thFullName.prefix(indexOf23!))
-                    model?.thaiFirstName = ConvertToThai(input: thFirstName)
-                    print("LIB >>>> Thai Title Name :  " +  (model?.thaiFirstName)!)
+                    data?.thaiFirstName = ConvertToThai(input: thFirstName)
+                    print("LIB >>>> Thai Title Name :  " +  (data?.thaiFirstName)!)
                     thFullName = thFullName.dropFirst(indexOf23! + 2)
                     
                     // Thai Middle Name
                     indexOf23 = util?.FindIndexOf(inputString: String(thFullName), target: "23")
                     let thMiddleName = String(thFullName.prefix(indexOf23!))
-                    model?.thaiMiddleName = ConvertToThai(input: thMiddleName)
-                    print("LIB >>>> Thai Middle Name :  " +  (model?.thaiMiddleName)!)
+                    data?.thaiMiddleName = ConvertToThai(input: thMiddleName)
+                    print("LIB >>>> Thai Middle Name :  " +  (data?.thaiMiddleName)!)
                     thFullName = thFullName.dropFirst(indexOf23! + 2)
                     
                     // Thai Last Name
                     let thLastName = String(thFullName)
-                    model?.thaiLastName = ConvertToThai(input: thLastName)
-                    print("LIB >>>> Thai Last Name :  " +  (model?.thaiLastName)!)
+                    data?.thaiLastName = ConvertToThai(input: thLastName)
+                    print("LIB >>>> Thai Last Name :  " +  (data?.thaiLastName)!)
                     res = String(res.dropFirst(200))
                     
                     // Eng Full Name
                     var enFullName = res.prefix(200)
-                    model?.engFullName = util?.hexStringtoAscii(String(enFullName)).trimmingCharacters(in: .whitespacesAndNewlines).replacingOccurrences(of: "#", with: " ")
-                    print("LIB >>>> Eng Full Name :  " +  (model?.engFullName)!)
+                    data?.engFullName = util?.hexStringtoAscii(String(enFullName)).trimmingCharacters(in: .whitespacesAndNewlines).replacingOccurrences(of: "#", with: " ")
+                    print("LIB >>>> Eng Full Name :  " +  (data?.engFullName)!)
                     
                     // Eng Title Name
                     indexOf23 = util?.FindIndexOf(inputString: String(enFullName), target: "23")
                     let enTitleName = String(enFullName.prefix(indexOf23!))
-                    model?.engTitleName = util?.hexStringtoAscii(enTitleName).trimmingCharacters(in: .whitespacesAndNewlines)
-                    print("LIB >>>> Eng Title Name :  " +  (model?.engTitleName)!)
+                    data?.engTitleName = util?.hexStringtoAscii(enTitleName).trimmingCharacters(in: .whitespacesAndNewlines)
+                    print("LIB >>>> Eng Title Name :  " +  (data?.engTitleName)!)
                     enFullName = enFullName.dropFirst(indexOf23! + 2)
                     
                     // Eng First Name
                     indexOf23 = util?.FindIndexOf(inputString: String(enFullName), target: "23")
                     let enFirstName = String(enFullName.prefix(indexOf23!))
-                    model?.engFirstName = util?.hexStringtoAscii(enFirstName).trimmingCharacters(in: .whitespacesAndNewlines)
-                    print("LIB >>>> Eng First Name :  " +  (model?.engFirstName)!)
+                    data?.engFirstName = util?.hexStringtoAscii(enFirstName).trimmingCharacters(in: .whitespacesAndNewlines)
+                    print("LIB >>>> Eng First Name :  " +  (data?.engFirstName)!)
                     enFullName = enFullName.dropFirst(indexOf23! + 2)
                     
                     // Eng Middle Name
                     indexOf23 = util?.FindIndexOf(inputString: String(enFullName), target: "23")
                     let enMiddleName = String(enFullName.prefix(indexOf23!))
-                    model?.engMiddleName = util?.hexStringtoAscii(enMiddleName).trimmingCharacters(in: .whitespacesAndNewlines)
-                    print("LIB >>>> Eng Middle Name :  " +  (model?.engMiddleName)!)
+                    data?.engMiddleName = util?.hexStringtoAscii(enMiddleName).trimmingCharacters(in: .whitespacesAndNewlines)
+                    print("LIB >>>> Eng Middle Name :  " +  (data?.engMiddleName)!)
                     enFullName = enFullName.dropFirst(indexOf23! + 2)
                     
                     // Eng Last Name
                     let enLastName = String(enFullName)
-                    model?.engLastName = util?.hexStringtoAscii(enLastName).trimmingCharacters(in: .whitespacesAndNewlines)
-                    print("LIB >>>> Eng Last Name :  " +  (model?.engLastName)!)
+                    data?.engLastName = util?.hexStringtoAscii(enLastName).trimmingCharacters(in: .whitespacesAndNewlines)
+                    print("LIB >>>> Eng Last Name :  " +  (data?.engLastName)!)
                     res = String(res.dropFirst(200))
                     
                     // Birth Date
-                    model?.dateOfBirth = util?.hexStringtoAscii(String(res.prefix(16)))
-                    print("LIB >>>> Birth Date :  " +  (model?.dateOfBirth)!)
+                    data?.dateOfBirth = util?.hexStringtoAscii(String(res.prefix(16)))
+                    print("LIB >>>> Birth Date :  " +  (data?.dateOfBirth)!)
                     res = String(res.dropFirst(16))
                     
                     // Gender
-                    model?.gender = util?.hexStringtoAscii(String(res.prefix(2)))
-                    print("LIB >>>> Gender :  " +  (model?.gender)!)
+                    data?.gender = util?.hexStringtoAscii(String(res.prefix(2)))
+                    print("LIB >>>> Gender :  " +  (data?.gender)!)
                     res = String(res.dropFirst(2))
                     
                     // Bp1no
-                    model?.bp1no = util?.hexStringtoAscii(String(res.prefix(40)))
-                    print("LIB >>>> BP1No :  " +  (model?.bp1no)!)
+                    data?.bp1no = util?.hexStringtoAscii(String(res.prefix(40)))
+                    print("LIB >>>> BP1No :  " +  (data?.bp1no)!)
                     res = String(res.dropFirst(40))
                     
                     // Card Issuer p1
-                    model?.cardIssuer = ConvertToThai(input: String(res.dropLast(4)))
+                    data?.cardIssuer = ConvertToThai(input: String(res.dropLast(4)))
                     
                     
                 }else{
@@ -295,23 +295,23 @@ class ThaiIdController
                 if res.uppercased().suffix(4) == "9000" || res.uppercased().prefix(2) == "61" {
                     
                     // Card Issuer p2
-                    model?.cardIssuer! += ConvertToThai(input: String(res.prefix(182)))
-                    print("LIB >>>> Card Issuer :  " +  (model?.cardIssuer)!)
+                    data?.cardIssuer! += ConvertToThai(input: String(res.prefix(182)))
+                    print("LIB >>>> Card Issuer :  " +  (data?.cardIssuer)!)
                     res = String(res.dropFirst(182))
                     
                     // Issuer Code
-                    model?.issuerCode = util?.hexStringtoAscii(String(res.prefix(26)))
-                    print("LIB >>>> Issuer Code :  " +  (model?.issuerCode)!)
+                    data?.issuerCode = util?.hexStringtoAscii(String(res.prefix(26)))
+                    print("LIB >>>> Issuer Code :  " +  (data?.issuerCode)!)
                     res = String(res.dropFirst(26))
                     
                     // Date of Issue
-                    model?.issueDate = util?.hexStringtoAscii(String(res.prefix(16)))
-                    print("LIB >>>> Issue Date :  " +  (model?.issueDate)!)
+                    data?.issueDate = util?.hexStringtoAscii(String(res.prefix(16)))
+                    print("LIB >>>> Issue Date :  " +  (data?.issueDate)!)
                     res = String(res.dropFirst(16))
                     
                     // Expire Date
-                    model?.expireDate = util?.hexStringtoAscii(String(res.prefix(16)))
-                    print("LIB >>>> Expire Date :  " +  (model?.expireDate)!)
+                    data?.expireDate = util?.hexStringtoAscii(String(res.prefix(16)))
+                    print("LIB >>>> Expire Date :  " +  (data?.expireDate)!)
                     res = String(res.dropFirst(16))
                     
                 }else{
@@ -344,29 +344,29 @@ class ThaiIdController
                     // Address
                     let address = ConvertToThai(input: String(res.prefix(320)))
                     let adrArr = address.components(separatedBy: "#")
-                    model?.address = adrArr[0]
-                    print("LIB >>>> Address :  " +  (model?.address)!)
-                    model?.moo = adrArr[1]
-                    print("LIB >>>> Moo :  " +  (model?.moo)!)
-                    model?.trok = adrArr[2]
-                    print("LIB >>>> Trok :  " +  (model?.trok)!)
-                    model?.soi = adrArr[3]
-                    print("LIB >>>> Soi :  " +  (model?.soi)!)
-                    model?.thanon = adrArr[4]
-                    print("LIB >>>> Thanon :  " +  (model?.thanon)!)
-                    model?.tumbol = adrArr[5]
-                    print("LIB >>>> Tumbol :  " +  (model?.tumbol)!)
-                    model?.amphur = adrArr[6]
-                    print("LIB >>>> Amphur :  " +  (model?.amphur)!)
-                    model?.provice = adrArr[7]
-                    print("LIB >>>> Province :  " +  (model?.provice)!)
+                    data?.address = adrArr[0]
+                    print("LIB >>>> Address :  " +  (data?.address)!)
+                    data?.moo = adrArr[1]
+                    print("LIB >>>> Moo :  " +  (data?.moo)!)
+                    data?.trok = adrArr[2]
+                    print("LIB >>>> Trok :  " +  (data?.trok)!)
+                    data?.soi = adrArr[3]
+                    print("LIB >>>> Soi :  " +  (data?.soi)!)
+                    data?.thanon = adrArr[4]
+                    print("LIB >>>> Thanon :  " +  (data?.thanon)!)
+                    data?.tumbol = adrArr[5]
+                    print("LIB >>>> Tumbol :  " +  (data?.tumbol)!)
+                    data?.amphur = adrArr[6]
+                    print("LIB >>>> Amphur :  " +  (data?.amphur)!)
+                    data?.provice = adrArr[7]
+                    print("LIB >>>> Province :  " +  (data?.provice)!)
                     
 
                     
                     
                     // PhotoRefNumber
-                    model?.photoRefNumber = util?.hexStringtoAscii(String(photoref))
-                    print("LIB >>>> Photo Reference Number :  " +  (model?.photoRefNumber)!)
+                    data?.photoRefNumber = util?.hexStringtoAscii(String(photoref))
+                    print("LIB >>>> Photo Reference Number :  " +  (data?.photoRefNumber)!)
                     res = String(res.dropFirst(16))
                     
                 }else{
@@ -408,17 +408,17 @@ class ThaiIdController
         var i = 0
         while i < 20 {
             //print("LIB >>>> (APDU CMD GET THAI ID DATA) >>>> : " + apduImg[i])
-            print("LIB >>>> (APDU CMD GET THAI ID DATA) >>>> : " + String(i))
+            print("LIB >>>> (APDU CMD GET THAI ID PIC) >>>> : " + String(i))
             var res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apduImg[i])
-            print("LIB <<<< (APDU RES GET THAI ID DATA) <<<< : " + res.uppercased())
+            print("LIB <<<< (APDU RES GET THAI ID PIC) <<<< : " + res.uppercased())
             if res.uppercased().suffix(4) == "9000" || res.uppercased().prefix(2) == "61" {
                 
                 // MARK: - Step 10 : Send APDU for recieve data part 2
                 
-                //print("LIB >>>> (APDU CMD GET THAI ID DATA) >>>> : " + apdu.getResponse.rawValue)
-                print("LIB >>>> (APDU CMD GET THAI ID DATA) >>>> ")
+                print("LIB >>>> (APDU CMD GET THAI ID PIC) >>>> : " + apdu.getResponse.rawValue)
+                print("LIB >>>> (APDU CMD GET THAI ID PIC) >>>> ")
                 res = await rmngr.transmitCardAPDU(card: rmngr.card!, apdu: apdu.getResponse.rawValue)
-                print("LIB <<<< (APDU RES GET THAI ID DATA) <<<< : " + res.uppercased())
+                print("LIB <<<< (APDU RES GET THAI ID PIC) <<<< : " + res.uppercased())
                 if res.uppercased().suffix(4) == "9000" || res.uppercased().prefix(2) == "61" {
                     
                     imgHex += res.dropLast(4)
@@ -435,8 +435,18 @@ class ThaiIdController
             } // End of read binary img 1
         }
         
-        model?.base64Img = imgHex.hexadecimal?.base64EncodedString()
-        print("LIB >>>> " + (model?.base64Img)!)
+        if imgHex.hexadecimal?.base64EncodedString() != nil {
+            data?.base64Img = imgHex.hexadecimal?.base64EncodedString()
+        }else{
+            data?.base64Img = ""
+        }
+        
+        if data?.base64Img != nil {
+            print("LIB >>>> " + (data?.base64Img)!)
+        }else{
+            print("LIB >>>> Get Image Fail")
+        }
+        
         
         print("""
         
@@ -480,7 +490,7 @@ class ThaiIdController
                     delegate?.onProgressReadThaiIdData(progress: progress)
                     
                 }else{
-                    model?.base64Img = ""
+                    data?.base64Img = ""
                     progress += 0.25
                     delegate?.onProgressReadThaiIdData(progress: progress)
                 }
@@ -488,7 +498,7 @@ class ThaiIdController
 
             }
             
-            delegate?.onCompleteReadThaiIdData(data: model!)
+            delegate?.onCompleteReadThaiIdData(data: data!)
             rmngr.endCardSession()
             
         }

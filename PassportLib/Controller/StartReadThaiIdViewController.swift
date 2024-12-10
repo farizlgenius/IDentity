@@ -33,7 +33,6 @@ class StartReadThaiIdViewController:UIViewController,ThaiIdControllerDelegate {
     
     func onCompleteReadThaiIdData(data: ThaiIdModel) {
         DispatchQueue.main.async {
-            self.thaiIdModel = data
             self.performSegue(withIdentifier: "showThaiIdData", sender: nil)
         }
     }
@@ -54,7 +53,7 @@ class StartReadThaiIdViewController:UIViewController,ThaiIdControllerDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showThaiIdData" {
             let controller = segue.destination as! PassportDataViewController
-            controller.thaiIdModel = thaiIdModel
+            controller.thai = thai
         }
     }
 }

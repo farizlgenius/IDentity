@@ -70,7 +70,7 @@ class PassportController
     var isSmartCardInitialized:Bool?
     var isCardSessionBegin:Bool?
     let util:Utility?
-    var model:PassportModel?
+    var data:PassportModel?
     var progress:Float = 0.0
     var eachProgress:Float = 0.0
     var slotName:String = ""
@@ -84,7 +84,7 @@ class PassportController
     // Constructor
     init(rmngr:ReaderController,isSmartCardInitialized:Bool){
         util = Utility()
-        model = PassportModel()
+        data = PassportModel()
         self.rmngr = rmngr
         self.isSmartCardInitialized = isSmartCardInitialized
     }
@@ -222,7 +222,11 @@ class PassportController
     
     func GetDataDG2(APDU:String,SKenc:String)->String{
         var result = APDU.dropFirst(10)
-        result = result.dropLast(result.count - (self.util?.FindIndexOf(inputString: String(result), target: "99029000"))!)
+        if util?.FindIndexOf(inputString: String(result), target: "99029000") == -1 {
+            result = result.dropLast(result.count - (self.util?.FindIndexOf(inputString: String(result), target: "99026282"))!)
+        }else{
+            result = result.dropLast(result.count - (self.util?.FindIndexOf(inputString: String(result), target: "99029000"))!)
+        }
         result = (util?.TripleDesDecCBC(input: String(result), key: SKenc).dropFirst(4))!
         result = result.dropFirst(88).dropLast(6)
         return String(result)
@@ -242,7 +246,12 @@ class PassportController
     
     func GetDataDG1(APDU:String,SKenc:String)->String{
         let result = APDU.dropFirst(6).uppercased()
-        let result2 = result.dropLast(result.count - (self.util?.FindIndexOf(inputString: String(result), target: "99029000"))!)
+        var result2:Substring = ""
+        if util?.FindIndexOf(inputString: String(result), target: "99029000") == -1 {
+            result2 = result.dropLast(result.count - (self.util?.FindIndexOf(inputString: String(result), target: "99026282"))!)
+        }else{
+            result2 = result.dropLast(result.count - (self.util?.FindIndexOf(inputString: String(result), target: "99029000"))!)
+        }
         let result3 = util?.TripleDesDecCBC(input: String(result2), key: SKenc)
         print("LIB >>>> DG1 Hex : " + result3!.dropLast(16))
         return hexStringtoAscii(String(result3!.dropLast(16)))
@@ -504,41 +513,41 @@ class PassportController
                 SSCP = (self.util?.IncrementHex(Hex:SSCP, Increment: 1))!
                 verify = self.VerifyReadBinaryRAPDU(APDU: res, SSC: SSCP, Key: SKmac)
                 if verify {
-                    let data = GetDataDG1(APDU: res, SKenc: SKenc)
-                    print("LIB >>>> DG1 : " + data)
-                    model?.DG1 = data
-                    model?.documentCode = String(data.prefix(2))
-                    var data2 = data.dropFirst(2)
-                    model?.issueState = String(data2.prefix(3))
+                    let data1 = GetDataDG1(APDU: res, SKenc: SKenc)
+                    print("LIB >>>> DG1 : " + data1)
+                    data?.DG1 = data1
+                    data?.documentCode = String(data1.prefix(2))
+                    var data2 = data1.dropFirst(2)
+                    data?.issueState = String(data2.prefix(3))
                     data2 = data2.dropFirst(3)
-                    model?.holderFullName = String(data2.prefix(31))
-                    let splitname = model?.holderFullName?.split(separator: "<", omittingEmptySubsequences: false)
+                    data?.holderFullName = String(data2.prefix(31))
+                    let splitname = data?.holderFullName?.split(separator: "<", omittingEmptySubsequences: false)
                     print(splitname!)
-                    model?.holderMiddleName = String((splitname?[1])!)
-                    model?.holderLastName = String((splitname?[0])!)
+                    data?.holderMiddleName = String((splitname?[1])!)
+                    data?.holderLastName = String((splitname?[0])!)
                     if splitname![3] != "" {
-                        model?.holderFirstName = String(splitname![2] + " " + splitname![3])
+                        data?.holderFirstName = String(splitname![2] + " " + splitname![3])
                     }else{
-                        model?.holderFirstName = String((splitname?[2])!)
+                        data?.holderFirstName = String((splitname?[2])!)
                     }
                     data2 = data2.dropFirst(39)
-                    model?.documentNumber = String(data2.prefix(9))
+                    data?.documentNumber = String(data2.prefix(9))
                     data2 = data2.dropFirst(9)
-                    model?.docNumCheckDigit = String(data2.prefix(1))
+                    data?.docNumCheckDigit = String(data2.prefix(1))
                     data2 = data2.dropFirst(1)
-                    model?.nationality = String(data2.prefix(3))
+                    data?.nationality = String(data2.prefix(3))
                     data2 = data2.dropFirst(3)
-                    model?.dateOfBirth = String(data2.prefix(6))
+                    data?.dateOfBirth = String(data2.prefix(6))
                     data2 = data2.dropFirst(6)
-                    model?.dateOfBirthCheckDigit = String(data2.prefix(1))
+                    data?.dateOfBirthCheckDigit = String(data2.prefix(1))
                     data2 = data2.dropFirst(1)
-                    model?.sex = String(data2.prefix(1))
+                    data?.sex = String(data2.prefix(1))
                     data2 = data2.dropFirst(1)
-                    model?.dateOfExpiry = String(data2.prefix(6))
+                    data?.dateOfExpiry = String(data2.prefix(6))
                     data2 = data2.dropFirst(6)
-                    model?.dateOfExpiryCheckDigit = String(data.prefix(1))
+                    data?.dateOfExpiryCheckDigit = String(data1.prefix(1))
                     data2 = data2.dropFirst(1)
-                    model?.optionalData = String(data2.dropLast(3))
+                    data?.optionalData = String(data2.dropLast(3))
                     
                 }else{
                     print("LIB >>>> Verify RES APDU READ DG1 Fail")
@@ -667,23 +676,23 @@ class PassportController
                             }else{
                                 print("LIB >>>> Verify RES APDU READ REMAIN DG2 Fail")
                                 delegate?.onErrorOccur(errorMessage: "Verify RES APDU READ REMAIN DG2 Fail !!!",isError: true)
-                                model?.faceImage = ""
+                                data?.faceImage = ""
                                 break
                             } // end of verify res apdu read ramin dg2
                         }
                         let re1 = String(re.dropFirst(170))
                         let djpg = UIImage(data: re1.hexadecimal!)!.jpegData(compressionQuality: 1.0)
-                        model?.faceImage = djpg?.base64EncodedString()
+                        data?.faceImage = djpg?.base64EncodedString()
                         
                     }else{
                         let djpg = UIImage(data: r.hexadecimal!)!.jpegData(compressionQuality: 1.0)
-                        model?.faceImage = djpg?.base64EncodedString()
+                        data?.faceImage = djpg?.base64EncodedString()
                     } // end of get dg2 data
                     
                 }else{
                     print("LIB >>>> Verify RES APDU READ DG2 Fail")
                     delegate?.onErrorOccur(errorMessage: "Verify RES APDU READ DG2 Fail !!!",isError: true)
-                    model?.faceImage = ""
+                    data?.faceImage = ""
                 } // end of verify res apdu read dg2
                 
             }else{
@@ -941,14 +950,14 @@ class PassportController
                 print("LIB >>>> DG11 : " + dg11)
                 
                 // MARK: - Step 6 : Loop for each data
-                model?.personalNumber = SplitDataDG11(dg11: dg11, Tag: "5F10")
-                model?.fullDateOfBirth = SplitDataDG11(dg11: dg11, Tag: "5F2B")
-                model?.placeOfBirth = SplitDataDG11(dg11: dg11, Tag: "5F11")
-                model?.permanentAddress = SplitDataDG11(dg11: dg11, Tag: "5F42")
-                model?.telephone = SplitDataDG11(dg11: dg11, Tag: "5F12")
-                model?.profession = SplitDataDG11(dg11: dg11, Tag: "5F13")
-                model?.title = SplitDataDG11(dg11: dg11, Tag: "5F14")
-                model?.personelSummary = SplitDataDG11(dg11: dg11, Tag: "5F15")
+                data?.personalNumber = SplitDataDG11(dg11: dg11, Tag: "5F10")
+                data?.fullDateOfBirth = SplitDataDG11(dg11: dg11, Tag: "5F2B")
+                data?.placeOfBirth = SplitDataDG11(dg11: dg11, Tag: "5F11")
+                data?.permanentAddress = SplitDataDG11(dg11: dg11, Tag: "5F42")
+                data?.telephone = SplitDataDG11(dg11: dg11, Tag: "5F12")
+                data?.profession = SplitDataDG11(dg11: dg11, Tag: "5F13")
+                data?.title = SplitDataDG11(dg11: dg11, Tag: "5F14")
+                data?.personelSummary = SplitDataDG11(dg11: dg11, Tag: "5F15")
      
                 
             }else{
@@ -1167,7 +1176,7 @@ class PassportController
 //                delegate?.onProgressReadPassportData(progress: progress)
 //            }
             
-            delegate?.onCompleteReadPassportData(data: model!)
+            delegate?.onCompleteReadPassportData(data: data!)
             rmngr.endCardSession()
         }
         

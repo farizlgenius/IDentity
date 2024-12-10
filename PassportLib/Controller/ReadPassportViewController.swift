@@ -19,7 +19,7 @@ class ReadPassportViewController:UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        readerManager = ReaderController()
+        readerManager = ReaderController(isPassport: true)
         textField.text = ""
         recognizeText()
     }

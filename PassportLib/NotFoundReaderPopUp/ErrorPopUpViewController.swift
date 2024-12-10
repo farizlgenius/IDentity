@@ -14,7 +14,9 @@ class ErrorPopUpViewController: UIViewController {
     
     init(){
         super.init(nibName: "NotFoundReaderPopUpViewController", bundle: nil)
-        self.modalPresentationStyle = .overFullScreen
+        DispatchQueue.main.async {
+            self.modalPresentationStyle = .overFullScreen
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -41,9 +43,12 @@ class ErrorPopUpViewController: UIViewController {
     }
     
     func appear(sender:UIViewController){
-        sender.present(self, animated: false){
-            self.show()
+        DispatchQueue.main.async {
+            sender.present(self, animated: false){
+                self.show()
+            }
         }
+        
     }
     
     private func show(){
