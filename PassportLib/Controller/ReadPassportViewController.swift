@@ -36,7 +36,7 @@ class ReadPassportViewController:UIViewController {
                     performSegue(withIdentifier: "startReadPassport", sender: nil)
                 }
             }else{
-                let overlay = ErrorPopUpViewController()
+                let overlay = AlertPopUpViewController(message: "No Reader Found, Please connect reader and try again ")
                 overlay.appear(sender: self)
             }
         }

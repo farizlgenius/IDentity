@@ -7,16 +7,20 @@
 
 import UIKit
 
-class ErrorPopUpViewController: UIViewController {
+class AlertPopUpViewController: UIViewController {
     
     @IBOutlet weak var backView: UIView!
     @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var label: UILabel!
     
-    init(){
-        super.init(nibName: "NotFoundReaderPopUpViewController", bundle: nil)
+    var errorMessage:String?
+    
+    init(message:String){
+        super.init(nibName: "AlertPopUpViewController", bundle: nil)
         DispatchQueue.main.async {
             self.modalPresentationStyle = .overFullScreen
         }
+        errorMessage = message
     }
     
     required init?(coder: NSCoder) {
@@ -28,6 +32,7 @@ class ErrorPopUpViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         configView()
+        label.text = errorMessage
     }
 
     @IBAction func pressOK(_ sender: UIButton) {
@@ -48,6 +53,7 @@ class ErrorPopUpViewController: UIViewController {
                 self.show()
             }
         }
+        
         
     }
     

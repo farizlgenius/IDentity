@@ -20,7 +20,7 @@ class StartReadPassportController:UIViewController,PassportControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         progressBar.progress = 0.0
-        mrz = "AA1078870773063091803138"
+        //mrz = "AA1078870773063091803138"
         passport?.ReadRFIDData(mrz: mrz!, dg1: true, dg2: true, dg11: true)
         passport?.delegate = self
         self.navigationController?.navigationBar.isHidden = true
@@ -41,13 +41,16 @@ class StartReadPassportController:UIViewController,PassportControllerDelegate {
     
     func onBeginCardSession(isSuccess: Bool) {
         if !isSuccess {
-            let overlay = ErrorPopUpViewController()
+            let overlay = AlertPopUpViewController(message: "No Smart Card Found")
             overlay.appear(sender: self)
         }
     }
     
     func onErrorOccur(errorMessage: String, isError: Bool) {
-        
+        if isError {
+            let overlay = AlertPopUpViewController(message: errorMessage)
+            overlay.appear(sender: self)
+        }
     }
     
     @IBAction func pressRead(_ sender: UIButton) {

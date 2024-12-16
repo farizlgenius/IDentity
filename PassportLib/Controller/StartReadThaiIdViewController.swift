@@ -39,13 +39,16 @@ class StartReadThaiIdViewController:UIViewController,ThaiIdControllerDelegate {
     
     func onBeginCardSession(isSuccess: Bool) {
         if !isSuccess {
-            let overlay = ErrorPopUpViewController()
+            let overlay = AlertPopUpViewController(message: "No Smart Card Found")
             overlay.appear(sender: self)
         }
     }
     
     func onErrorOccur(errorMessage: String, isError: Bool) {
-        
+        if isError {
+            let overlay = AlertPopUpViewController(message: errorMessage)
+            overlay.appear(sender: self)
+        }
     }
     
     
