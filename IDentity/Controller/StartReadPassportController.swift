@@ -1,39 +1,42 @@
 //
-//  StartReadThaiIdViewController.swift
+//  StartReadPassportController.swift
 //  PassportLib
 //
-//  Created by Far-iz Lengha on 27/11/2567 BE.
+//  Created by Far-iz Lengha on 26/11/2567 BE.
 //
 
 import Foundation
 import UIKit
+import IDentityFramework
 
-class StartReadThaiIdViewController:UIViewController,ThaiIdControllerDelegate {
+class StartReadPassportController:UIViewController,PassportControllerDelegate {
     
     
+    var passportModel:PassportModel?
+    var passport:PassportController?
+    var mrz:String?
     
     @IBOutlet weak var progressBar: UIProgressView!
     
-    var thaiIdModel:ThaiIdModel?
-    var thai:ThaiIdController?
-    
-    override func viewDidLoad(){
+    override func viewDidLoad() {
         super.viewDidLoad()
         progressBar.progress = 0.0
-        thai?.delegate = self
-        thai?.readThaiID(isImageRequire: true)
-        
+        //mrz = "AA1078870773063091803138"
+        passport?.ReadRFIDData(mrz: mrz!, dg1: true, dg2: true, dg11: true)
+        passport?.delegate = self
+        self.navigationController?.navigationBar.isHidden = true
     }
     
-    func onProgressReadThaiIdData(progress: Float) {
+    func onProgressReadPassportData(progress: Float) {
         DispatchQueue.main.async {
             self.progressBar.setProgress(progress, animated: true)
         }
+        
     }
     
-    func onCompleteReadThaiIdData(data: ThaiIdModel) {
+    func onCompleteReadPassportData(data: PassportModel) {
         DispatchQueue.main.async {
-            self.performSegue(withIdentifier: "showThaiIdData", sender: nil)
+            self.performSegue(withIdentifier: "showPassportData", sender: nil)
         }
     }
     
@@ -51,12 +54,15 @@ class StartReadThaiIdViewController:UIViewController,ThaiIdControllerDelegate {
         }
     }
     
-    
+    @IBAction func pressRead(_ sender: UIButton) {
+        passport?.ReadRFIDData(mrz: mrz!, dg1: true, dg2: true, dg11: true)
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showThaiIdData" {
+        if segue.identifier == "showPassportData" {
             let controller = segue.destination as! PassportDataViewController
-            controller.thai = thai
+            controller.passport = passport
         }
     }
+    
 }

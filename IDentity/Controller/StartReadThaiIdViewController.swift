@@ -1,41 +1,40 @@
 //
-//  StartReadPassportController.swift
+//  StartReadThaiIdViewController.swift
 //  PassportLib
 //
-//  Created by Far-iz Lengha on 26/11/2567 BE.
+//  Created by Far-iz Lengha on 27/11/2567 BE.
 //
 
 import Foundation
 import UIKit
+import IDentityFramework
 
-class StartReadPassportController:UIViewController,PassportControllerDelegate {
+class StartReadThaiIdViewController:UIViewController,ThaiIdControllerDelegate {
     
     
-    var passportModel:PassportModel?
-    var passport:PassportController?
-    var mrz:String?
     
     @IBOutlet weak var progressBar: UIProgressView!
     
-    override func viewDidLoad() {
+    var thaiIdModel:ThaiIdModel?
+    var thai:ThaiIdController?
+    
+    override func viewDidLoad(){
         super.viewDidLoad()
         progressBar.progress = 0.0
-        //mrz = "AA1078870773063091803138"
-        passport?.ReadRFIDData(mrz: mrz!, dg1: true, dg2: true, dg11: true)
-        passport?.delegate = self
-        self.navigationController?.navigationBar.isHidden = true
-    }
-    
-    func onProgressReadPassportData(progress: Float) {
-        DispatchQueue.main.async {
-            self.progressBar.setProgress(progress, animated: true)
-        }
+        thai?.delegate = self
+        thai?.readThaiID(isImageRequire: true)
         
     }
     
-    func onCompleteReadPassportData(data: PassportModel) {
+    func onProgressReadThaiIdData(progress: Float) {
         DispatchQueue.main.async {
-            self.performSegue(withIdentifier: "showPassportData", sender: nil)
+            self.progressBar.setProgress(progress, animated: true)
+        }
+    }
+    
+    func onCompleteReadThaiIdData(data: ThaiIdModel) {
+        DispatchQueue.main.async {
+            self.performSegue(withIdentifier: "showThaiIdData", sender: nil)
         }
     }
     
@@ -53,15 +52,12 @@ class StartReadPassportController:UIViewController,PassportControllerDelegate {
         }
     }
     
-    @IBAction func pressRead(_ sender: UIButton) {
-        passport?.ReadRFIDData(mrz: mrz!, dg1: true, dg2: true, dg11: true)
-    }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showPassportData" {
+        if segue.identifier == "showThaiIdData" {
             let controller = segue.destination as! PassportDataViewController
-            controller.passport = passport
+            controller.thai = thai
         }
     }
-    
 }

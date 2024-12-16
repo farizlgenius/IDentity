@@ -6,27 +6,54 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXCopyFilesBuildPhase section */
+		4F88E7462D10771C00C21977 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		4F79124A2CDE2CF20016EED4 /* PassportLib.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PassportLib.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F79124A2CDE2CF20016EED4 /* IDentity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IDentity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		4F79125C2CDE2CF30016EED4 /* Exceptions for "PassportLib" folder in "PassportLib" target */ = {
+		4F79125C2CDE2CF30016EED4 /* Exceptions for "IDentity" folder in "IDentity" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 4F7912492CDE2CF20016EED4 /* PassportLib */;
+			target = 4F7912492CDE2CF20016EED4 /* IDentity */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		4F88E75C2D107B9300C21977 /* Exceptions for "IDentity" folder in "Embed Frameworks" phase from "IDentity" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			attributesByRelativePath = {
+				Lib/IDentityFramework.framework = (CodeSignOnCopy, RemoveHeadersOnCopy, );
+			};
+			buildPhase = 4F88E7462D10771C00C21977 /* Embed Frameworks */;
+			membershipExceptions = (
+				Lib/IDentityFramework.framework,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		4F79124C2CDE2CF20016EED4 /* PassportLib */ = {
+		4F79124C2CDE2CF20016EED4 /* IDentity */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				4F79125C2CDE2CF30016EED4 /* Exceptions for "PassportLib" folder in "PassportLib" target */,
+				4F79125C2CDE2CF30016EED4 /* Exceptions for "IDentity" folder in "IDentity" target */,
+				4F88E75C2D107B9300C21977 /* Exceptions for "IDentity" folder in "Embed Frameworks" phase from "IDentity" target */,
 			);
-			path = PassportLib;
+			path = IDentity;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -45,7 +72,7 @@
 		4F7912412CDE2CF20016EED4 = {
 			isa = PBXGroup;
 			children = (
-				4F79124C2CDE2CF20016EED4 /* PassportLib */,
+				4F79124C2CDE2CF20016EED4 /* IDentity */,
 				4F79124B2CDE2CF20016EED4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -53,7 +80,7 @@
 		4F79124B2CDE2CF20016EED4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4F79124A2CDE2CF20016EED4 /* PassportLib.app */,
+				4F79124A2CDE2CF20016EED4 /* IDentity.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,26 +88,27 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4F7912492CDE2CF20016EED4 /* PassportLib */ = {
+		4F7912492CDE2CF20016EED4 /* IDentity */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4F79125D2CDE2CF30016EED4 /* Build configuration list for PBXNativeTarget "PassportLib" */;
+			buildConfigurationList = 4F79125D2CDE2CF30016EED4 /* Build configuration list for PBXNativeTarget "IDentity" */;
 			buildPhases = (
 				4F7912462CDE2CF20016EED4 /* Sources */,
 				4F7912472CDE2CF20016EED4 /* Frameworks */,
 				4F7912482CDE2CF20016EED4 /* Resources */,
+				4F88E7462D10771C00C21977 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				4F79124C2CDE2CF20016EED4 /* PassportLib */,
+				4F79124C2CDE2CF20016EED4 /* IDentity */,
 			);
-			name = PassportLib;
+			name = IDentity;
 			packageProductDependencies = (
 			);
 			productName = PassportLib;
-			productReference = 4F79124A2CDE2CF20016EED4 /* PassportLib.app */;
+			productReference = 4F79124A2CDE2CF20016EED4 /* IDentity.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -98,7 +126,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 4F7912452CDE2CF20016EED4 /* Build configuration list for PBXProject "PassportLib" */;
+			buildConfigurationList = 4F7912452CDE2CF20016EED4 /* Build configuration list for PBXProject "IDentity" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -112,7 +140,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4F7912492CDE2CF20016EED4 /* PassportLib */,
+				4F7912492CDE2CF20016EED4 /* IDentity */,
 			);
 		};
 /* End PBXProject section */
@@ -146,6 +174,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D9CGJCQS39;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/PassportLib/Lib",
+					"$(PROJECT_DIR)/IDentity/Lib",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PassportLib/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow camera for passport";
@@ -175,6 +208,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D9CGJCQS39;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/PassportLib/Lib",
+					"$(PROJECT_DIR)/IDentity/Lib",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PassportLib/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow camera for passport";
@@ -318,7 +356,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4F7912452CDE2CF20016EED4 /* Build configuration list for PBXProject "PassportLib" */ = {
+		4F7912452CDE2CF20016EED4 /* Build configuration list for PBXProject "IDentity" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4F7912602CDE2CF30016EED4 /* Debug */,
@@ -327,7 +365,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4F79125D2CDE2CF30016EED4 /* Build configuration list for PBXNativeTarget "PassportLib" */ = {
+		4F79125D2CDE2CF30016EED4 /* Build configuration list for PBXNativeTarget "IDentity" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4F79125E2CDE2CF30016EED4 /* Debug */,
