@@ -7,24 +7,33 @@
 
 import Foundation
 import UIKit
-import IDentityFramework
+import PassportNFCProfessional
+import QKMRZScanner
 
 class StartReadPassportController:UIViewController,PassportControllerDelegate {
     
     
     var passportModel:PassportModel?
     var passport:PassportController?
-    var mrz:String?
+    var ocrResult:QKMRZScanResult?
     
     @IBOutlet weak var progressBar: UIProgressView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         progressBar.progress = 0.0
-        //mrz = "AA1078870773063091803138"
-        passport?.ReadRFIDData(mrz: mrz!, dg1: true, dg2: true, dg11: true)
+        print(ocrResult?.documentNumber)
+        print(dateToString((ocrResult?.birthdate)!))
+        print(dateToString((ocrResult?.expiryDate)!))
+        passport?.ReadRFIDData(documentNo:ocrResult!.documentNumber, dob: dateToString((ocrResult?.birthdate)!), doe: dateToString((ocrResult?.expiryDate)!), common: true, dg1: true, dg2: true, dg11: true)
         passport?.delegate = self
         self.navigationController?.navigationBar.isHidden = true
+    }
+    
+    func dateToString(_ date:Date)->String{
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YYMMdd"
+        return formatter.string(from: date)
     }
     
     func onProgressReadPassportData(progress: Float) {
@@ -49,19 +58,18 @@ class StartReadPassportController:UIViewController,PassportControllerDelegate {
     
     func onErrorOccur(errorMessage: String, isError: Bool) {
         if isError {
-            let overlay = AlertPopUpViewController(message: errorMessage)
-            overlay.appear(sender: self)
+            DispatchQueue.main.async {
+                let overlay = AlertPopUpViewController(message: errorMessage)
+                overlay.appear(sender: self)
+            }
         }
     }
     
-    @IBAction func pressRead(_ sender: UIButton) {
-        passport?.ReadRFIDData(mrz: mrz!, dg1: true, dg2: true, dg11: true)
-    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showPassportData" {
             let controller = segue.destination as! PassportDataViewController
-            controller.passport = passport
+            //controller.passport = passport
         }
     }
     

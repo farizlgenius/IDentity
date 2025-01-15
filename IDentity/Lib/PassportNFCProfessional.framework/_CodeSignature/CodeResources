@@ -4,99 +4,88 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>Headers/IDentityFramework.h</key>
+		<key>Headers/PassportNFCProfessional-Swift.h</key>
 		<data>
-		yb+dyrbXm+3MWCrnFfSD6Rj8ZKE=
+		fr6PZ+0izGezkKVQrBtnXVpdkXI=
+		</data>
+		<key>Headers/PassportNFCProfessional.h</key>
+		<data>
+		fui+B0VXP6rMjsKnGVabrD8u5CE=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		uC/HOrMSAj0a1uLrFOF3nY4cHmM=
+		+/IY9y8Y7Ia+diJwibEjwDwAnqg=
 		</data>
-		<key>Modules/IDentityFramework.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo</key>
+		<key>Modules/PassportNFCProfessional.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo</key>
 		<data>
-		KMHnBzpahfx5ek+IJGOycBccm6g=
+		uSBETX/EqE0ghNOCyqY6H9I4XkA=
 		</data>
-		<key>Modules/IDentityFramework.swiftmodule/arm64-apple-ios.abi.json</key>
+		<key>Modules/PassportNFCProfessional.swiftmodule/arm64-apple-ios.abi.json</key>
 		<data>
-		5rogxtCELwNuyzKFM+RQF3X4ERc=
+		gcwBsH4BgyFY4sVtNt+/xOKS3vY=
 		</data>
-		<key>Modules/IDentityFramework.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
+		<key>Modules/PassportNFCProfessional.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<data>
-		6KLiXsb4+SXrD3J0dXtYwLx+8iQ=
+		raC0IdESvNN+k0+Wp0o+d0iSKS0=
 		</data>
-		<key>Modules/IDentityFramework.swiftmodule/arm64-apple-ios.swiftdoc</key>
+		<key>Modules/PassportNFCProfessional.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		u904akgg4krAd7Dd1prAj2NfyKE=
-		</data>
-		<key>Modules/IDentityFramework.swiftmodule/arm64-apple-ios.swiftinterface</key>
-		<data>
-		6KLiXsb4+SXrD3J0dXtYwLx+8iQ=
-		</data>
-		<key>Modules/IDentityFramework.swiftmodule/arm64-apple-ios.swiftmodule</key>
-		<data>
-		uhqDwreN8VmNYNCWoRPR4AXjRTg=
+		ZqRTIAVp71izijsmq7VdK9WRMKs=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
-		9Bc6m6rMpOyoVsiuP0BFUgubl7U=
+		SAvsF4QDqsevajP9cuwhV+nZj1c=
 		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>Headers/IDentityFramework.h</key>
+		<key>Headers/PassportNFCProfessional-Swift.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			NKvaM0HT8pYw3sLFDyMed45hVUm8zvuZ4JezT7l8Yi8=
+			I+EH103wWlstHp9ClzbNTpfK9Dzdtq/Xsic9/YqydwY=
 			</data>
 		</dict>
-		<key>Modules/IDentityFramework.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo</key>
+		<key>Headers/PassportNFCProfessional.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			fuJ8RL5J5fOVu4cQrukplfKG0Kq8VBeeOFcRco0WUE8=
+			cu282Mbh4XITqw6mQgs7+gttMwyQjMkJ0vjUXCAChUY=
 			</data>
 		</dict>
-		<key>Modules/IDentityFramework.swiftmodule/arm64-apple-ios.abi.json</key>
+		<key>Modules/PassportNFCProfessional.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			DMckn8b1ZGugdgPs28DriQBDdhc1pc0cVQ6Qz6WhS2U=
+			6jmdBNbxizH1+Zd3GV4ha2QmZRvGJqrqKIRmtu92JEQ=
 			</data>
 		</dict>
-		<key>Modules/IDentityFramework.swiftmodule/arm64-apple-ios.private.swiftinterface</key>
+		<key>Modules/PassportNFCProfessional.swiftmodule/arm64-apple-ios.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			yUn4B8zp/zjdZiGEmOoJQo9jjVIeP9ZgjQtNivOzK64=
+			Qnesa0n4URGWAopawg9bGx36dUwkYV00BoCJ8LFzlyg=
 			</data>
 		</dict>
-		<key>Modules/IDentityFramework.swiftmodule/arm64-apple-ios.swiftdoc</key>
+		<key>Modules/PassportNFCProfessional.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			bMmWkqwp0DtTLwuz4eIB5u43Cd9OaP83Pmt7NAmhsAg=
+			/NtON4F7ZEnc7cnhkH+lG0RJ6WedGBPedH56Wo7qt2g=
 			</data>
 		</dict>
-		<key>Modules/IDentityFramework.swiftmodule/arm64-apple-ios.swiftinterface</key>
+		<key>Modules/PassportNFCProfessional.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			yUn4B8zp/zjdZiGEmOoJQo9jjVIeP9ZgjQtNivOzK64=
-			</data>
-		</dict>
-		<key>Modules/IDentityFramework.swiftmodule/arm64-apple-ios.swiftmodule</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			MEsHkaFuUnBOlXmU16LgaXkNJterh49/NkAzwF+iVFo=
+			7jTeRgNlihvVblDEm91O9Xbw8gjt3KRmlMZ6uwTqCz0=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			BGlZnZcaiYA9oVsIKByiq1PtfhVtzN6Y1NVsrUl4mIY=
+			ZmtxXKHASlTM7FEcP2+o3P9rr2Tlz7JgSep7HEx5NhM=
 			</data>
 		</dict>
 	</dict>

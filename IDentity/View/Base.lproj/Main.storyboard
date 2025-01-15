@@ -18,25 +18,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="820" height="1180"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pun-LP-0wf">
-                                <rect key="frame" x="231.5" y="629" width="357" height="109"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="357" id="ILE-nW-Ceu"/>
-                                    <constraint firstAttribute="height" constant="109" id="vPE-V2-pV4"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Thai ID" subtitle="Read data from Thai ID" imagePadding="10">
-                                    <imageReference key="image" image="person.text.rectangle" catalog="system" symbolScale="large"/>
-                                    <backgroundConfiguration key="background" cornerRadius="30">
-                                        <color key="backgroundColor" red="0.1176470518" green="0.20784312490000001" blue="0.2235293984" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                    </backgroundConfiguration>
-                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="35"/>
-                                    <fontDescription key="titleFontDescription" name="Helvetica" family="Helvetica" pointSize="25"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <segue destination="LKb-ei-gCa" kind="show" id="7IC-bB-hwt"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0cr-lO-ak9">
                                 <rect key="frame" x="231.5" y="435" width="357" height="109"/>
                                 <constraints>
@@ -61,10 +42,8 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="pun-LP-0wf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="YQB-Mk-jC5"/>
                             <constraint firstItem="0cr-lO-ak9" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-100.5" id="fAE-kv-UDD"/>
                             <constraint firstItem="0cr-lO-ak9" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="qnX-JO-PQC"/>
-                            <constraint firstItem="pun-LP-0wf" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="93.5" id="xTB-Mf-3Q6"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
@@ -78,16 +57,29 @@
         <!--Passport Capture View Controller-->
         <scene sceneID="iGD-nl-Vny">
             <objects>
-                <viewController id="72C-8N-LbE" customClass="PassportCaptureViewController" customModule="PassportLib" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="72C-8N-LbE" customClass="PassportCaptureViewController" customModule="IDentity" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="oio-UF-NhI">
                         <rect key="frame" x="0.0" y="0.0" width="820" height="1180"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FuH-9x-QoL" customClass="QKMRZScannerView" customModule="QKMRZScanner">
+                                <rect key="frame" x="0.0" y="74" width="820" height="1036"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="QFF-Bg-kxZ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="FuH-9x-QoL" firstAttribute="bottom" secondItem="QFF-Bg-kxZ" secondAttribute="bottom" id="GQj-XK-nmD"/>
+                            <constraint firstItem="FuH-9x-QoL" firstAttribute="trailing" secondItem="QFF-Bg-kxZ" secondAttribute="trailing" id="JPh-0C-sr1"/>
+                            <constraint firstItem="FuH-9x-QoL" firstAttribute="leading" secondItem="QFF-Bg-kxZ" secondAttribute="leading" id="M5a-6j-pgh"/>
+                            <constraint firstItem="FuH-9x-QoL" firstAttribute="top" secondItem="QFF-Bg-kxZ" secondAttribute="top" id="riV-u4-NZS"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Mie-dF-UOj"/>
                     <connections>
-                        <segue destination="XVj-sq-xFF" kind="show" identifier="startTextRecog" id="eey-lX-jUu"/>
+                        <outlet property="mrzScannerView" destination="FuH-9x-QoL" id="RxQ-B8-fHg"/>
+                        <segue destination="XVj-sq-xFF" kind="show" identifier="scanMRZFinish" id="eey-lX-jUu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aES-xw-CPp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -97,7 +89,7 @@
         <!--Read Passport View Controller-->
         <scene sceneID="mVK-sw-O4n">
             <objects>
-                <viewController id="XVj-sq-xFF" customClass="ReadPassportViewController" customModule="PassportLib" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="XVj-sq-xFF" customClass="ReadPassportViewController" customModule="IDentity" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="M3R-M9-4xV">
                         <rect key="frame" x="0.0" y="0.0" width="820" height="1180"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -198,130 +190,10 @@
             </objects>
             <point key="canvasLocation" x="2006.3414634146341" y="-504.40677966101697"/>
         </scene>
-        <!--Read Thai Id View Controller-->
-        <scene sceneID="LBz-4L-N4h">
-            <objects>
-                <viewController id="LKb-ei-gCa" customClass="ReadThaiIdViewController" customModule="PassportLib" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="su2-43-fIY">
-                        <rect key="frame" x="0.0" y="0.0" width="820" height="1180"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="insert" translatesAutoresizingMaskIntoConstraints="NO" id="Tfg-mF-J8Z">
-                                <rect key="frame" x="229.5" y="204" width="361" height="350"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="361" id="Gz7-Ae-Fdr"/>
-                                    <constraint firstAttribute="height" constant="350" id="xaG-SN-iL9"/>
-                                </constraints>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Insert Smart Card in the reader Click Read" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IRe-XN-Mi0">
-                                <rect key="frame" x="141.5" y="562" width="537.5" height="114"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="114" id="7d1-WB-fsG"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="396" id="Csl-45-ub7"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O3D-jg-Hr0">
-                                <rect key="frame" x="266" y="793" width="288" height="109"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="288" id="Iad-NO-eXX"/>
-                                    <constraint firstAttribute="height" constant="109" id="d1H-WQ-FdU"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Read Thai Id" subtitle="Read data from Thai Id" imagePadding="10">
-                                    <imageReference key="image" image="person.text.rectangle" catalog="system" symbolScale="large" variableValue="0.0"/>
-                                    <backgroundConfiguration key="background" cornerRadius="30">
-                                        <color key="backgroundColor" red="0.1176470518" green="0.20784312490000001" blue="0.2235293984" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                    </backgroundConfiguration>
-                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="35" scale="large" weight="regular"/>
-                                    <fontDescription key="titleFontDescription" name="Helvetica" family="Helvetica" pointSize="25"/>
-                                    <fontDescription key="subtitleFontDescription" name="Helvetica" family="Helvetica" pointSize="12"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="pressReadPassport:" destination="XVj-sq-xFF" eventType="touchUpInside" id="14P-Dl-FJ1"/>
-                                    <action selector="pressReadPassport:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jiJ-i0-GFR"/>
-                                    <action selector="pressReadThaiId:" destination="LKb-ei-gCa" eventType="touchUpInside" id="HMU-t3-3YX"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="tju-a0-KOq"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="IRe-XN-Mi0" firstAttribute="centerY" secondItem="su2-43-fIY" secondAttribute="centerY" constant="29" id="2dq-4l-Wkc"/>
-                            <constraint firstItem="Tfg-mF-J8Z" firstAttribute="centerY" secondItem="su2-43-fIY" secondAttribute="centerY" constant="-211" id="37Z-SM-nAo"/>
-                            <constraint firstItem="IRe-XN-Mi0" firstAttribute="centerX" secondItem="su2-43-fIY" secondAttribute="centerX" id="7iT-yf-ezH"/>
-                            <constraint firstItem="O3D-jg-Hr0" firstAttribute="centerX" secondItem="su2-43-fIY" secondAttribute="centerX" id="8AN-YC-VBa"/>
-                            <constraint firstItem="Tfg-mF-J8Z" firstAttribute="centerY" secondItem="su2-43-fIY" secondAttribute="centerY" constant="-211" id="FHi-ch-p7d"/>
-                            <constraint firstItem="O3D-jg-Hr0" firstAttribute="centerY" secondItem="su2-43-fIY" secondAttribute="centerY" constant="257.5" id="MV0-Jm-c5E"/>
-                            <constraint firstItem="Tfg-mF-J8Z" firstAttribute="centerX" secondItem="su2-43-fIY" secondAttribute="centerX" id="XFO-gm-JBo"/>
-                            <constraint firstItem="Tfg-mF-J8Z" firstAttribute="centerX" secondItem="su2-43-fIY" secondAttribute="centerX" id="wNA-G8-JAy"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="mlI-cS-2VV"/>
-                    <connections>
-                        <segue destination="mLR-4O-Uec" kind="show" identifier="startReadThaiId" id="La3-M7-Nl7"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ebQ-I3-uJj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2006.3414634146341" y="266.94915254237287"/>
-        </scene>
-        <!--Start Read Thai Id View Controller-->
-        <scene sceneID="9bC-8J-7cf">
-            <objects>
-                <viewController id="mLR-4O-Uec" customClass="StartReadThaiIdViewController" customModule="PassportLib" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="s2R-og-xC5">
-                        <rect key="frame" x="0.0" y="0.0" width="820" height="1180"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Processing . . ." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NA9-el-hu8">
-                                <rect key="frame" x="144" y="656" width="305" height="58"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="58" id="aVh-hZ-Ud8"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="305" id="d3O-fM-yBP"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="card" translatesAutoresizingMaskIntoConstraints="NO" id="Aps-1r-Nj8">
-                                <rect key="frame" x="250" y="285" width="320" height="322"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="322" id="isF-w7-0eg"/>
-                                    <constraint firstAttribute="width" constant="320" id="jgE-BQ-XbB"/>
-                                </constraints>
-                            </imageView>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="awM-1z-P1m">
-                                <rect key="frame" x="144" y="722" width="532" height="4"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="tintColor" red="0.1176470518" green="0.20784312490000001" blue="0.2235293984" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                            </progressView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="m6a-s4-Lpy"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="NA9-el-hu8" firstAttribute="centerX" secondItem="s2R-og-xC5" secondAttribute="centerX" constant="-113.5" id="Khr-h8-dKF"/>
-                            <constraint firstItem="Aps-1r-Nj8" firstAttribute="centerY" secondItem="s2R-og-xC5" secondAttribute="centerY" constant="-144" id="MPW-3k-J3d"/>
-                            <constraint firstItem="NA9-el-hu8" firstAttribute="centerY" secondItem="s2R-og-xC5" secondAttribute="centerY" constant="95" id="odn-nc-cdF"/>
-                            <constraint firstItem="Aps-1r-Nj8" firstAttribute="centerX" secondItem="s2R-og-xC5" secondAttribute="centerX" id="vPa-hB-vb9"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="P7t-R6-TKd"/>
-                    <connections>
-                        <outlet property="progressBar" destination="awM-1z-P1m" id="iup-o7-ClD"/>
-                        <segue destination="4Mr-Xp-lZm" kind="show" identifier="showThaiIdData" id="Z0P-qp-N4K"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="xDs-sC-tC7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3013.9024390243903" y="281.69491525423729"/>
-        </scene>
         <!--Start Read Passport Controller-->
         <scene sceneID="EV6-E0-jy9">
             <objects>
-                <viewController id="g3t-Hv-YBf" customClass="StartReadPassportController" customModule="PassportLib" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="g3t-Hv-YBf" customClass="StartReadPassportController" customModule="IDentity" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="qhX-q5-uoI">
                         <rect key="frame" x="0.0" y="0.0" width="820" height="1180"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -351,28 +223,6 @@
                                     <constraint firstAttribute="width" constant="424" id="lN8-zD-o4h"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Ex-d3-V9p">
-                                <rect key="frame" x="284" y="883" width="252.5" height="109"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="109" id="eIT-HJ-03a"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="44" id="khU-lI-695"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Read Passport" subtitle="Read data from Passport" imagePadding="10">
-                                    <imageReference key="image" image="arrow.up.left.and.down.right.magnifyingglass" catalog="system" symbolScale="large" variableValue="0.0"/>
-                                    <backgroundConfiguration key="background" cornerRadius="30">
-                                        <color key="backgroundColor" red="0.1176470518" green="0.20784312490000001" blue="0.2235293984" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                    </backgroundConfiguration>
-                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" configurationType="pointSize" pointSize="35" scale="large" weight="regular"/>
-                                    <fontDescription key="titleFontDescription" name="Helvetica" family="Helvetica" pointSize="25"/>
-                                    <fontDescription key="subtitleFontDescription" name="Helvetica" family="Helvetica" pointSize="12"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="pressRead:" destination="g3t-Hv-YBf" eventType="touchUpInside" id="W48-cS-tqt"/>
-                                    <action selector="pressReadPassport:" destination="XVj-sq-xFF" eventType="touchUpInside" id="5kp-ii-D8b"/>
-                                    <action selector="pressReadPassport:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dXz-rh-MEE"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="4Yy-d0-WJX"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -380,8 +230,6 @@
                             <constraint firstItem="Ma5-rc-Uxy" firstAttribute="centerY" secondItem="qhX-q5-uoI" secondAttribute="centerY" constant="-145.5" id="CnW-cD-tuB"/>
                             <constraint firstItem="Ma5-rc-Uxy" firstAttribute="centerX" secondItem="qhX-q5-uoI" secondAttribute="centerX" constant="20" id="JTI-np-gsO"/>
                             <constraint firstItem="sgj-IC-trY" firstAttribute="centerY" secondItem="qhX-q5-uoI" secondAttribute="centerY" constant="112" id="JrW-Gv-83g"/>
-                            <constraint firstItem="0Ex-d3-V9p" firstAttribute="centerY" secondItem="qhX-q5-uoI" secondAttribute="centerY" constant="347.5" id="LB7-dB-qKb"/>
-                            <constraint firstItem="0Ex-d3-V9p" firstAttribute="centerX" secondItem="qhX-q5-uoI" secondAttribute="centerX" id="Mvu-vj-FYC"/>
                             <constraint firstItem="w1w-Cy-Jeh" firstAttribute="centerY" secondItem="qhX-q5-uoI" secondAttribute="centerY" constant="151.5" id="PVP-OV-Lqv"/>
                             <constraint firstItem="w1w-Cy-Jeh" firstAttribute="centerX" secondItem="qhX-q5-uoI" secondAttribute="centerX" id="V7q-ZZ-3im"/>
                             <constraint firstItem="sgj-IC-trY" firstAttribute="centerX" secondItem="qhX-q5-uoI" secondAttribute="centerX" constant="-113.5" id="dEf-5t-y06"/>
@@ -400,7 +248,7 @@
         <!--Passport Data View Controller-->
         <scene sceneID="eGw-RG-V2g">
             <objects>
-                <viewController id="4Mr-Xp-lZm" customClass="PassportDataViewController" customModule="PassportLib" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="4Mr-Xp-lZm" customClass="PassportDataViewController" customModule="IDentity" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="91B-VO-rLk">
                         <rect key="frame" x="0.0" y="0.0" width="820" height="1180"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -501,17 +349,11 @@
             <point key="canvasLocation" x="131.70731707317074" y="-27.457627118644069"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="Z0P-qp-N4K"/>
-    </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.up.left.and.down.right.magnifyingglass" catalog="system" width="128" height="117"/>
-        <image name="card" width="225" height="225"/>
-        <image name="insert" width="612" height="612"/>
         <image name="passport" width="1000" height="360"/>
         <image name="passportreader" width="200" height="200"/>
         <image name="person.crop.square.filled.and.at.rectangle" catalog="system" width="128" height="93"/>
-        <image name="person.text.rectangle" catalog="system" width="128" height="93"/>
         <image name="readpassport" width="512" height="512"/>
         <image name="restart" catalog="system" width="117" height="128"/>
         <systemColor name="labelColor">

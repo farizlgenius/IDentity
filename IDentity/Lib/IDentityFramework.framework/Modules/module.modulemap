@@ -1,6 +1,0 @@
-framework module IDentityFramework {
-  umbrella header "IDentityFramework.h"
-  export *
-
-  module * { export * }
-}

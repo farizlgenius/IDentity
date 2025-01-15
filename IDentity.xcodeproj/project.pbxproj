@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		4F09C5792D37F4C30061EF6F /* QKMRZScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 4F09C5782D37F4C30061EF6F /* QKMRZScanner */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		4F88E7462D10771C00C21977 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -34,14 +38,14 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		4F88E75C2D107B9300C21977 /* Exceptions for "IDentity" folder in "Embed Frameworks" phase from "IDentity" target */ = {
+		4F09C5B02D38252F0061EF6F /* Exceptions for "IDentity" folder in "Embed Frameworks" phase from "IDentity" target */ = {
 			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
 			attributesByRelativePath = {
-				Lib/IDentityFramework.framework = (CodeSignOnCopy, RemoveHeadersOnCopy, );
+				Lib/PassportNFCProfessional.framework = (CodeSignOnCopy, RemoveHeadersOnCopy, );
 			};
 			buildPhase = 4F88E7462D10771C00C21977 /* Embed Frameworks */;
 			membershipExceptions = (
-				Lib/IDentityFramework.framework,
+				Lib/PassportNFCProfessional.framework,
 			);
 		};
 /* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
@@ -51,7 +55,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				4F79125C2CDE2CF30016EED4 /* Exceptions for "IDentity" folder in "IDentity" target */,
-				4F88E75C2D107B9300C21977 /* Exceptions for "IDentity" folder in "Embed Frameworks" phase from "IDentity" target */,
+				4F09C5B02D38252F0061EF6F /* Exceptions for "IDentity" folder in "Embed Frameworks" phase from "IDentity" target */,
 			);
 			path = IDentity;
 			sourceTree = "<group>";
@@ -63,6 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F09C5792D37F4C30061EF6F /* QKMRZScanner in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,6 +111,7 @@
 			);
 			name = IDentity;
 			packageProductDependencies = (
+				4F09C5782D37F4C30061EF6F /* QKMRZScanner */,
 			);
 			productName = PassportLib;
 			productReference = 4F79124A2CDE2CF20016EED4 /* IDentity.app */;
@@ -135,6 +141,9 @@
 			);
 			mainGroup = 4F7912412CDE2CF20016EED4;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				4F09C5772D37F4C30061EF6F /* XCRemoteSwiftPackageReference "QKMRZScanner" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 4F79124B2CDE2CF20016EED4 /* Products */;
 			projectDirPath = "";
@@ -180,20 +189,24 @@
 					"$(PROJECT_DIR)/IDentity/Lib",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = PassportLib/Info.plist;
+				INFOPLIST_FILE = IDentity/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow camera for passport";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.farizl.passportlib;
+				PRODUCT_BUNDLE_IDENTIFIER = com.farizl.identity;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -214,20 +227,24 @@
 					"$(PROJECT_DIR)/IDentity/Lib",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = PassportLib/Info.plist;
+				INFOPLIST_FILE = IDentity/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow camera for passport";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.farizl.passportlib;
+				PRODUCT_BUNDLE_IDENTIFIER = com.farizl.identity;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -375,6 +392,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4F09C5772D37F4C30061EF6F /* XCRemoteSwiftPackageReference "QKMRZScanner" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Mattijah/QKMRZScanner.git";
+			requirement = {
+				branch = "master-spm";
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4F09C5782D37F4C30061EF6F /* QKMRZScanner */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4F09C5772D37F4C30061EF6F /* XCRemoteSwiftPackageReference "QKMRZScanner" */;
+			productName = QKMRZScanner;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 4F7912422CDE2CF20016EED4 /* Project object */;
 }

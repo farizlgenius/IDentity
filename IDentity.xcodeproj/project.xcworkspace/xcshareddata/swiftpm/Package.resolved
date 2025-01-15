@@ -1,0 +1,42 @@
+{
+  "originHash" : "0949ec1fa4b4eca7f0fc3cb25bdc5f4928cd6064337f9678e98b010dc20b46f5",
+  "pins" : [
+    {
+      "identity" : "libtesseract",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftyTesseract/libtesseract.git",
+      "state" : {
+        "revision" : "214a36e04d740795d7ba2f07c6108944d0136f8a",
+        "version" : "0.2.0"
+      }
+    },
+    {
+      "identity" : "qkmrzparser",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Mattijah/QKMRZParser.git",
+      "state" : {
+        "revision" : "ef79fdfa691e6323e729e33c2f79bace10286f49",
+        "version" : "2.0.0"
+      }
+    },
+    {
+      "identity" : "qkmrzscanner",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Mattijah/QKMRZScanner.git",
+      "state" : {
+        "branch" : "master-spm",
+        "revision" : "34f882753ca95c3ef60e351eb9d2254db550b281"
+      }
+    },
+    {
+      "identity" : "swiftytesseract",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftyTesseract/SwiftyTesseract",
+      "state" : {
+        "revision" : "1393d15d0278673dd89f2ba21d3fb748f99e02ce",
+        "version" : "4.0.1"
+      }
+    }
+  ],
+  "version" : 3
+}
