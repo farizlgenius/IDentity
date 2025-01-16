@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/PassportNFCProfessional-Swift.h</key>
 		<data>
-		uXTYFSNKeS+34io0+jjUpyHioRA=
+		fr6PZ+0izGezkKVQrBtnXVpdkXI=
 		</data>
 		<key>Headers/PassportNFCProfessional.h</key>
 		<data>
@@ -14,11 +14,11 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		6UL48mBU29Gh38aVpr1AvSCTS5M=
+		+/IY9y8Y7Ia+diJwibEjwDwAnqg=
 		</data>
 		<key>Modules/PassportNFCProfessional.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo</key>
 		<data>
-		3ss0aLPUMZj88oBzB435SYd4w2g=
+		GEl5vTVJw63voRxbkKSTyXXBqMg=
 		</data>
 		<key>Modules/PassportNFCProfessional.swiftmodule/arm64-apple-ios.abi.json</key>
 		<data>
@@ -26,11 +26,11 @@
 		</data>
 		<key>Modules/PassportNFCProfessional.swiftmodule/arm64-apple-ios.swiftdoc</key>
 		<data>
-		2Ete2QEO17oa3XWsELlNQj35KpE=
+		raC0IdESvNN+k0+Wp0o+d0iSKS0=
 		</data>
 		<key>Modules/PassportNFCProfessional.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		QBdbReyVXJaoSrxx33sgKHQrFWw=
+		CtFAEGtT+jUxqjaUhn+Erg3ItDI=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -43,7 +43,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			/D3wH88V7p1rsk5TkSSDq3XijWUCYoyXrtDgsw55Wzk=
+			I+EH103wWlstHp9ClzbNTpfK9Dzdtq/Xsic9/YqydwY=
 			</data>
 		</dict>
 		<key>Headers/PassportNFCProfessional.h</key>
@@ -57,7 +57,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			HaSAeLM0WGAwMCp+jS7kKD89hwVeopO8dE0nrCPpb+0=
+			MuQwMP9Q7XWva7AI3z/jOAj6MM8m/B36fpjlp1vphxI=
 			</data>
 		</dict>
 		<key>Modules/PassportNFCProfessional.swiftmodule/arm64-apple-ios.abi.json</key>
@@ -71,14 +71,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			3sQ9Kquap+6CXsm3plE740ftMwvzfVIQ9Bn3x37FUFQ=
+			/NtON4F7ZEnc7cnhkH+lG0RJ6WedGBPedH56Wo7qt2g=
 			</data>
 		</dict>
 		<key>Modules/PassportNFCProfessional.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			hPHe7gT9Dx8DO/u3iG33Ad43fqouCQT0JGDtaSbnWuI=
+			GNBByyJL864D2XwVIYTixH4dLhD0Wv0YVsDNnYs/U1o=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

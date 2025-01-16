@@ -25,7 +25,7 @@ class StartReadPassportController:UIViewController,PassportControllerDelegate {
         print(ocrResult?.documentNumber)
         print(dateToString((ocrResult?.birthdate)!))
         print(dateToString((ocrResult?.expiryDate)!))
-        passport?.ReadRFIDData(documentNo:ocrResult!.documentNumber, dob: dateToString((ocrResult?.birthdate)!), doe: dateToString((ocrResult?.expiryDate)!))
+        passport?.ReadRFIDData(documentNo:ocrResult!.documentNumber, dob: dateToString((ocrResult?.birthdate)!), doe: dateToString((ocrResult?.expiryDate)!),dg1: true,dg2: true,dg11: true)
         passport?.delegate = self
         self.navigationController?.navigationBar.isHidden = true
     }

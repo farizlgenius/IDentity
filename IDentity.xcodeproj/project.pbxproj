@@ -38,7 +38,7 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		049B0DA62D38B5500064F82A /* Exceptions for "IDentity" folder in "Embed Frameworks" phase from "IDentity" target */ = {
+		4FAD6E922D396186001BFF80 /* Exceptions for "IDentity" folder in "Embed Frameworks" phase from "IDentity" target */ = {
 			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
 			attributesByRelativePath = {
 				Lib/PassportNFCProfessional.framework = (CodeSignOnCopy, RemoveHeadersOnCopy, );
@@ -55,7 +55,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				4F79125C2CDE2CF30016EED4 /* Exceptions for "IDentity" folder in "IDentity" target */,
-				049B0DA62D38B5500064F82A /* Exceptions for "IDentity" folder in "Embed Frameworks" phase from "IDentity" target */,
+				4FAD6E922D396186001BFF80 /* Exceptions for "IDentity" folder in "Embed Frameworks" phase from "IDentity" target */,
 			);
 			path = IDentity;
 			sourceTree = "<group>";
@@ -182,7 +182,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 55HSZZZYJ8;
+				DEVELOPMENT_TEAM = D9CGJCQS39;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/PassportLib/Lib",
@@ -201,7 +201,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.honorsupplying.IDentity;
+				PRODUCT_BUNDLE_IDENTIFIER = com.farizl.ipropassport;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -220,7 +220,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 55HSZZZYJ8;
+				DEVELOPMENT_TEAM = D9CGJCQS39;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/PassportLib/Lib",
@@ -239,7 +239,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.honorsupplying.IDentity;
+				PRODUCT_BUNDLE_IDENTIFIER = com.farizl.ipropassport;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
