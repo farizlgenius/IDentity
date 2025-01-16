@@ -13,7 +13,7 @@ import QKMRZScanner
 class StartReadPassportController:UIViewController,PassportControllerDelegate {
     
     
-    var passportModel:PassportModel?
+    var model:PassportModel?
     var passport:PassportController?
     var ocrResult:QKMRZScanResult?
     
@@ -25,7 +25,7 @@ class StartReadPassportController:UIViewController,PassportControllerDelegate {
         print(ocrResult?.documentNumber)
         print(dateToString((ocrResult?.birthdate)!))
         print(dateToString((ocrResult?.expiryDate)!))
-        passport?.ReadRFIDData(documentNo:ocrResult!.documentNumber, dob: dateToString((ocrResult?.birthdate)!), doe: dateToString((ocrResult?.expiryDate)!), common: true, dg1: true, dg2: true, dg11: true)
+        passport?.ReadRFIDData(documentNo:ocrResult!.documentNumber, dob: dateToString((ocrResult?.birthdate)!), doe: dateToString((ocrResult?.expiryDate)!))
         passport?.delegate = self
         self.navigationController?.navigationBar.isHidden = true
     }
@@ -45,6 +45,7 @@ class StartReadPassportController:UIViewController,PassportControllerDelegate {
     
     func onCompleteReadPassportData(data: PassportModel) {
         DispatchQueue.main.async {
+            self.model = data
             self.performSegue(withIdentifier: "showPassportData", sender: nil)
         }
     }
@@ -69,7 +70,7 @@ class StartReadPassportController:UIViewController,PassportControllerDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showPassportData" {
             let controller = segue.destination as! PassportDataViewController
-            //controller.passport = passport
+            controller.model = model
         }
     }
     
