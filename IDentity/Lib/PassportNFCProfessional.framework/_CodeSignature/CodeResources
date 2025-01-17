@@ -18,7 +18,7 @@
 		</data>
 		<key>Modules/PassportNFCProfessional.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo</key>
 		<data>
-		GEl5vTVJw63voRxbkKSTyXXBqMg=
+		cyxGF8zj+ztdPbfaq1hoTAVKXNY=
 		</data>
 		<key>Modules/PassportNFCProfessional.swiftmodule/arm64-apple-ios.abi.json</key>
 		<data>
@@ -30,7 +30,7 @@
 		</data>
 		<key>Modules/PassportNFCProfessional.swiftmodule/arm64-apple-ios.swiftmodule</key>
 		<data>
-		CtFAEGtT+jUxqjaUhn+Erg3ItDI=
+		5ffOOTDlHG4ahtM/BbNtUh3P6PQ=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -57,7 +57,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			MuQwMP9Q7XWva7AI3z/jOAj6MM8m/B36fpjlp1vphxI=
+			wlzjcV7Geq1pDfGNlWDkLW+P5yTOJh7/5RKFVNgz+Nc=
 			</data>
 		</dict>
 		<key>Modules/PassportNFCProfessional.swiftmodule/arm64-apple-ios.abi.json</key>
@@ -78,7 +78,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			GNBByyJL864D2XwVIYTixH4dLhD0Wv0YVsDNnYs/U1o=
+			gXs9y1BVHHTn7Z/wsfCxKFjjZSjmdCHOdsrN9s7QarI=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
