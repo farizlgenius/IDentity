@@ -38,7 +38,7 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		4F57855E2D3D1EF40028519D /* Exceptions for "IDentity" folder in "Embed Frameworks" phase from "IDentity" target */ = {
+		4F09818D2D3E910C0085E67B /* Exceptions for "IDentity" folder in "Embed Frameworks" phase from "IDentity" target */ = {
 			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
 			attributesByRelativePath = {
 				Lib/PassportNFCProfessional.framework = (CodeSignOnCopy, RemoveHeadersOnCopy, );
@@ -55,7 +55,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				4F79125C2CDE2CF30016EED4 /* Exceptions for "IDentity" folder in "IDentity" target */,
-				4F57855E2D3D1EF40028519D /* Exceptions for "IDentity" folder in "Embed Frameworks" phase from "IDentity" target */,
+				4F09818D2D3E910C0085E67B /* Exceptions for "IDentity" folder in "Embed Frameworks" phase from "IDentity" target */,
 			);
 			path = IDentity;
 			sourceTree = "<group>";
